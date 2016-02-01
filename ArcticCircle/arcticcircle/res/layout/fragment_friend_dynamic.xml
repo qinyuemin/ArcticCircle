@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/bg_main"
+        >
+
+    <com.common.android.lib.controls.view.pulltorefresh.PullToRefreshListView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/lst_friend"
+            android:clickable="false"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            android:divider="@color/bg_main"
+            android:dividerHeight="0dp"
+            android:fadingEdge="none"
+            android:scrollbars="none"
+            android:cacheColorHint="@color/white"
+    />
+
+</LinearLayout>

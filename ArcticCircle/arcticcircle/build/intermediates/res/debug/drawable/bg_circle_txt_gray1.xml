@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="@dimen/dimen_500_dip"/>
+    <solid android:color="#f4f4f4"/>
+    <stroke android:width="0dp"/>
+</shape><!-- From: file:/D:/E/Projet/ProjetPersonel/ForZeyu/ArcticCircle/arcticcircle/res/drawable/bg_circle_txt_gray1.xml -->

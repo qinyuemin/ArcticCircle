@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Emotion_Editor">
+        <attr name="Switch_Type">
+            <flag name="emotion" value="0" />
+            <flag name="plus" value="1" />
+            <flag name="voice" value="2" />
+            <flag name="keyboard" value="100" />
+        </attr>
+        <attr name="show_emotion" format="boolean" />
+        <attr name="show_takePhoto" format="boolean" />
+        <attr name="show_album" format="boolean" />
+        <attr name="show_burnAfterRead" format="boolean" />
+        <attr name="show_shotVideo" format="boolean" />
+        <attr name="show_tuYa" format="boolean" />
+        <attr name="show_location" format="boolean" />
+        <attr name="show_file" format="boolean" />
+        <attr name="show_empty" format="boolean" />
+    </declare-styleable>
+
+    <string-array name="emotionmessages">
+        <item msgid="smiley_0">"[/棒]"</item>
+        <item msgid="smiley_1">"[/鄙视]"</item>
+        <item msgid="smiley_2">"[/闭嘴]"</item>
+        <item msgid="smiley_3">"[/不开心]"</item>
+        <item msgid="smiley_4">"[/大哭]"</item>
+        <item msgid="smiley_5">"[/大笑]"</item>
+        <item msgid="smiley_6">"[/瞪眼]"</item>
+        <item msgid="smiley_7">"[/发飙]"</item>
+        <item msgid="smiley_8">"[/发呆]"</item>
+        <item msgid="smiley_9">"[/发怒]"</item>
+        <item msgid="smiley_10">"[/鼓掌]"</item>
+        <item msgid="smiley_11">"[/害羞]"</item>
+        <item msgid="smiley_12">"[/互粉]"</item>
+        <item msgid="smiley_13">"[/坏笑]"</item>
+        <item msgid="smiley_14">"[/开心]"</item>
+        <item msgid="smiley_15">"[/瞌睡]"</item>
+        <item msgid="smiley_16">"[/抠鼻]"</item>
+        <item msgid="smiley_17">"[/流泪]"</item>
+        <item msgid="smiley_18">"[/难过]"</item>
+        <item msgid="smiley_19">"[/亲亲]"</item>
+        <item msgid="smiley_20">"[/色]"</item>
+        <item msgid="smiley_21">"[/偷笑]"</item>
+        <item msgid="smiley_22">"[/威武]"</item>
+        <item msgid="smiley_23">"[/疑问]"</item>
+        <item msgid="smiley_24">"[/阴险]"</item>
+        <item msgid="smiley_25">"[/再见]"</item>
+        <item msgid="smiley_26">"[/抓狂]"</item>
+        <item msgid="smiley_27">"[/做鬼脸]"</item>
+    </string-array>
+</resources>

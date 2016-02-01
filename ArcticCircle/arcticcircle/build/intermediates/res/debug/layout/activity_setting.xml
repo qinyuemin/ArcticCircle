@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:item="http://schemas.android.com/apk/res/com.xiaoma.beiji"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/bg_color_gray"
+>
+
+    <include layout="@layout/include_title_bar"/>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_12_dip"
+            android:background="@drawable/bg_mine_item"
+            android:orientation="vertical">
+        <com.xiaoma.beiji.controls.view.SettingItemView android:layout_width="fill_parent"
+                                                        android:layout_height="@dimen/dimen_40_dip"
+                                                        item:label="他们看不到我朋友"
+                                                        android:id="@+id/stv_blacklist"
+                                                        item:subLabel=""
+                                                        item:subLabelVisibility="visible"
+
+        />
+
+        <com.xiaoma.beiji.controls.view.SettingItemView android:layout_width="fill_parent"
+                                                        android:layout_height="@dimen/dimen_40_dip"
+                                                        item:showTopDivider="true"
+                                                        item:label="我朋友看不到他们"
+                                                        android:id="@+id/stv_like"
+                                                        item:subLabel=""
+                                                        item:subLabelVisibility="visible"
+        />
+
+
+    </LinearLayout>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_12_dip"
+            android:background="@drawable/bg_mine_item"
+            android:orientation="vertical">
+        <com.xiaoma.beiji.controls.view.SettingItemView android:layout_width="fill_parent"
+                                                        android:layout_height="@dimen/dimen_40_dip"
+                                                        item:showTopDivider="true"
+                                                        item:label="我关注谁的实名动态"
+                                                        item:subLabel=""
+                                                        item:subLabelVisibility="visible"
+                                                        android:id="@+id/stv_attention1"
+        />
+
+        <com.xiaoma.beiji.controls.view.SettingItemView android:layout_width="fill_parent"
+                                                        android:layout_height="@dimen/dimen_40_dip"
+                                                        item:showTopDivider="true"
+                                                        item:showBottomDivider="true"
+                                                        item:label="我关注谁的求助"
+                                                        item:subLabel=""
+                                                        item:subLabelVisibility="visible"
+                                                        android:id="@+id/stv_attention2"
+        />
+        <com.xiaoma.beiji.controls.view.SettingItemView android:layout_width="fill_parent"
+                                                        android:layout_height="@dimen/dimen_40_dip"
+                                                        item:label="谁可以私聊我"
+                                                        item:subLabel=""
+                                                        item:subLabelVisibility="visible"
+                                                        android:id="@+id/stv_attention3"
+        />
+    </LinearLayout>
+</LinearLayout><!-- From: file:/D:/E/Projet/ProjetPersonel/ForZeyu/ArcticCircle/arcticcircle/res/layout/activity_setting.xml -->

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xiaoma.beiji.controls.view.chatting.KeyboardRelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#E7E9ED"
+        android:orientation="vertical">
+
+    <include
+            android:id="@+id/title_bar"
+            layout="@layout/include_title_bar"/>
+
+    <com.xiaoma.beiji.controls.view.InputCommentEditView
+            android:id="@+id/icev_content"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"/>
+
+    <com.common.android.lib.controls.view.pulltorefresh.PullToRefreshListView
+            xmlns:ptr="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/ptr_listview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@id/icev_content"
+            android:layout_below="@id/title_bar"
+            android:background="@null"
+            android:divider="@null"
+            android:listSelector="@android:color/transparent"
+            android:cacheColorHint="@color/white"
+            ptr:ptrMode="pullFromStart"/>
+
+    <LinearLayout
+            android:id="@+id/ll_net_bad"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title_bar"
+            android:background="#FEE7B3"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:visibility="gone">
+
+        <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_warn"/>
+
+        <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="当前网络不可用，请检查您的设备"
+                android:textColor="#545147"
+                android:textSize="14sp"/>
+
+        <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"/>
+
+        <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="10dp"
+                android:scaleType="center"
+                android:src="@drawable/icon_next_selector"/>
+    </LinearLayout>
+    <!--
+        <ImageView
+            android:id="@+id/img_listener"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignBottom="@id/ptr_listview"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_speaker"
+            android:visibility="gone" />
+     -->
+    <View
+            android:id="@+id/mengban"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@id/icev_content"
+            android:background="@null"
+            android:visibility="gone"/>
+
+    <View
+            android:id="@+id/emotionMengBan"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@null"
+            android:visibility="gone"/>
+</com.xiaoma.beiji.controls.view.chatting.KeyboardRelativeLayout>

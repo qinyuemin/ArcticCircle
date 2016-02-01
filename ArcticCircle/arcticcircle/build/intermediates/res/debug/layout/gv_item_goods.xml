@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:scaleType="center"
+              android:background="@drawable/border_goods"
+              android:orientation="vertical"
+>
+    <ImageView android:layout_width="fill_parent"
+               android:layout_height="@dimen/dimen_120_dip"
+               android:id="@+id/img"
+               android:scaleType="centerCrop"
+    />
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textSize="15sp"
+              android:textColor="@color/color_gray"
+              android:id="@+id/txt_name"
+              android:layout_margin="@dimen/dimen_5_dip"
+    />
+
+    <View android:layout_width="fill_parent"
+          android:layout_height="1px"
+          android:background="@color/color_line"
+          android:layout_marginLeft="@dimen/dimen_5_dip"
+          android:layout_marginRight="@dimen/dimen_5_dip"
+          android:layout_marginTop="@dimen/dimen_5_dip"
+    />
+
+    <TextView android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:textSize="15sp"
+              android:textColor="@color/color_gray2"
+              android:id="@+id/txt_tag"
+              android:text="22"
+              android:gravity="center"
+              android:padding="@dimen/dimen_5_dip"
+    />
+</LinearLayout>
+
+<!-- From: file:/D:/E/Projet/ProjetPersonel/ForZeyu/ArcticCircle/arcticcircle/res/layout/gv_item_goods.xml -->

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/bg_main"
+              xmlns:item="http://schemas.android.com/apk/res/com.xiaoma.beiji"
+>
+    <include layout="@layout/include_title_bar"/>
+
+    <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/dimen_10_dip"
+                    android:paddingTop="@dimen/dimen_10_dip"
+                    android:orientation="horizontal"
+
+    >
+        <!-- 他人文本消息，显示在左边  -->
+        <!-- 左边头像 -->
+
+        <com.xiaoma.beiji.controls.view.CircularImage
+                android:id="@+id/img_head"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="8dip"
+                android:src="@drawable/ic_def_header"
+                android:scaleType="centerCrop"/>
+
+        <!-- zuo边昵称 -->
+
+        <LinearLayout android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:background="@drawable/bg_chat_receive"
+                      android:layout_weight="1"
+                      android:orientation="vertical"
+                      android:paddingTop="@dimen/dimen_5_dip"
+                      android:paddingBottom="@dimen/dimen_5_dip"
+        >
+            <TextView
+                    android:id="@+id/txt_tip"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="15sp"
+                    android:text=""
+            />
+
+            <TextView
+                    android:textColor="#C7C7C7"
+                    android:padding="0dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="15dp"
+                    android:textSize="12sp"
+                    android:text="引荐原因"
+            />
+            <TextView
+                    android:id="@+id/txt_cause"
+                    android:textColor="#C7C7C7"
+                    android:padding="0dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:textSize="12sp"
+                    android:text=""
+            />
+            <TextView
+                    android:id="@+id/txt_time"
+                    android:textColor="#C7C7C7"
+                    android:padding="0dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="12sp"
+                    android:text=""
+                    android:layout_marginTop="5dp"
+            />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_18_dip"
+            android:layout_marginLeft="@dimen/dimen_15_dip"
+            android:layout_marginRight="@dimen/dimen_15_dip"
+            android:paddingTop="@dimen/dimen_12_dip"
+            android:paddingBottom="@dimen/dimen_12_dip"
+            android:text="同意引荐"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:background="@drawable/sl_btn_blue"
+    />
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_12_dip"
+            android:background="@drawable/bg_mine_item"
+            android:orientation="vertical">
+
+        <RadioGroup android:layout_width="fill_parent"
+                    android:layout_height="@dimen/dimen_40_dip"
+                    android:orientation="horizontal"
+                    android:layout_below="@+id/view_line"
+                    android:id="@+id/rg_1"
+                    android:gravity="center"
+                    android:layout_marginLeft="@dimen/dimen_10_dip"
+                    android:layout_marginRight="@dimen/dimen_10_dip"
+        >
+            <RadioButton android:layout_width="fill_parent"
+                         android:layout_height="fill_parent"
+                         android:text="我跟TA不熟"
+                         android:textSize="16sp"
+                         android:textColor="@color/black"
+                         android:layout_weight="1"
+                         android:id="@+id/rb_1"
+                         android:button="@drawable/sl_checkbox"
+                         android:paddingTop="5dp"
+                         android:paddingBottom="5dp"
+                         android:drawablePadding="5dp"
+                         android:checked="true"
+            />
+            <RadioButton android:layout_width="fill_parent"
+                         android:layout_height="fill_parent"
+                         android:text="不太方便"
+                         android:textSize="16sp"
+                         android:textColor="@color/black"
+                         android:layout_weight="1"
+                         android:id="@+id/rb_2"
+                         android:button="@drawable/sl_checkbox"
+                         android:paddingTop="5dp"
+                         android:paddingBottom="5dp"
+                         android:drawablePadding="5dp"
+            />
+        </RadioGroup>
+
+        <View android:layout_width="fill_parent"
+              android:layout_height="1px"
+        android:layout_marginLeft="@dimen/dimen_10_dip"
+              android:background="@color/color_line"
+        />
+
+        <LinearLayout android:layout_width="fill_parent"
+                      android:layout_height="@dimen/dimen_40_dip"
+                      android:background="@color/white"
+                      android:gravity="center_vertical"
+        >
+
+            <TextView
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textSize="15sp"
+                android:text="其他原因"
+        />
+
+            <EditText
+                    android:textColor="@color/black"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@color/white"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="15sp"
+                    android:hint="请输入理由"
+                    android:layout_weight="1"
+                    android:id="@+id/edt_content"
+            />
+
+            <Button
+                    android:id="@+id/btn_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dimen_35_dip"
+                    android:layout_marginLeft="@dimen/dimen_5_dip"
+                    android:layout_marginRight="@dimen/dimen_5_dip"
+                    android:paddingLeft="@dimen/dimen_10_dip"
+                    android:paddingRight="@dimen/dimen_10_dip"
+                    android:text="提交"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:background="@drawable/sl_btn_blue"
+            />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

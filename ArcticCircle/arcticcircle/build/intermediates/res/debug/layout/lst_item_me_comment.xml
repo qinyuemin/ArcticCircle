@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+>
+
+    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+               android:src="@drawable/ic_comment1"
+               android:layout_marginLeft="@dimen/dimen_10_dip"
+               android:layout_marginTop="@dimen/dimen_15_dip"
+    />
+    <LinearLayout android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:orientation="vertical"
+                  android:layout_margin="@dimen/dimen_10_dip"
+    >
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="刚刚"
+                  android:id="@+id/txt_time"
+                  android:background="@drawable/bg_circle_txt_gray1"
+                  android:textColor="@color/color_gray"
+                  android:textSize="14sp"
+                  android:padding="5dp"
+        />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="sfsefsef"
+                  android:id="@+id/txt_tip"
+                  android:textColor="@color/color_gray2"
+                  android:textSize="14sp"
+                  android:layout_marginTop="@dimen/dimen_5_dip"
+        />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="sesfesfesf"
+                  android:id="@+id/txt_content"
+                  android:textColor="@color/color_gray2"
+                  android:textSize="14sp"
+                  android:layout_marginTop="@dimen/dimen_5_dip"
+        />
+    </LinearLayout>
+
+</LinearLayout><!-- From: file:/D:/E/Projet/ProjetPersonel/ForZeyu/ArcticCircle/arcticcircle/res/layout/lst_item_me_comment.xml -->

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list  xmlns:android="http://schemas.android.com/apk/res/android"
+                 android:oneshot="false">
+    <item android:drawable="@drawable/ic_wifi_refresh_2" android:duration="200"/>
+    <item android:drawable="@drawable/ic_wifi_refresh_3" android:duration="200"/>
+    <item android:drawable="@drawable/ic_wifi_refresh_4" android:duration="200"/>
+    <item android:drawable="@drawable/ic_wifi_refresh_5" android:duration="200"/>
+    <item android:drawable="@drawable/ic_wifi_refresh_4" android:duration="200"/>
+    <item android:drawable="@drawable/ic_wifi_refresh_2" android:duration="200"/>
+    <item android:drawable="@drawable/ic_wifi_refresh_2" android:duration="200"/>
+
+</animation-list>
+<!-- From: file:/D:/E/Projet/ProjetPersonel/ForZeyu/ArcticCircle/commomlib/res/drawable-xhdpi/anim_wifi_loading.xml --><!-- From: file:/D:/E/Projet/ProjetPersonel/ForZeyu/ArcticCircle/commomlib/build/intermediates/bundles/debug/res/drawable-xhdpi/anim_wifi_loading.xml -->

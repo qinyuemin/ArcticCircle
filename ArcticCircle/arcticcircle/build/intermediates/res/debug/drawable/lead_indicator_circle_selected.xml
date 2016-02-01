@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+    <solid android:color="@color/white"/>
+    <size android:width="@dimen/dimen_6_dip" android:height="@dimen/dimen_6_dip"/>
+    <corners android:radius="@dimen/dimen_3_dip"/>
+
+</shape>
+<!-- From: file:/D:/E/Projet/ProjetPersonel/ForZeyu/ArcticCircle/arcticcircle/res/drawable/lead_indicator_circle_selected.xml -->

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+
+>
+    <android.support.v4.view.ViewPager
+            android:id="@+id/ad_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_120_dip"/>
+    <com.common.android.lib.controls.view.indicator.IconPageIndicator
+            android:id="@+id/ad_indicator"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_alignBottom="@id/ad_viewpager"
+            android:layout_centerHorizontal="true"
+            android:paddingLeft="5dp"
+            android:layout_marginBottom="10dp"/>
+</RelativeLayout>
+<!-- From: file:/D:/E/Projet/ProjetPersonel/ForZeyu/ArcticCircle/arcticcircle/res/layout/view_img_pager.xml -->

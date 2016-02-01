@@ -1,0 +1,64 @@
+AppID:
+EulRitTvEC9mFlu2E15Pe5
+AppKey：
+ogpNyvoL6rARkKYNbP0Zu9
+AppSecret：
+8sDZUS9koiA6U5v0WPdpi2
+MasterSecret：
+59MwMJVIsa8juAFpUmoPr6
+
+
+AppID:
+SX3zdItu6h650dUk0MTPJ6
+AppKey：
+ggHz1X3FWj8dJzszZO2we9
+AppSecret：
+3YWU0BAgno5SX5mW2FWJp8
+MasterSecret：
+egyxnr1Ax98bMikkNal554
+
+
+微信签名:644ac86239b7be363b657a92cdc22582
+
+
+ArcticSystemMessage* message = _messageList[indexPath.row];
+    NSDictionary* body = [message.body JSONObject];
+    if ([message.type isEqualToString:kChatTypeDynamicPraise]
+        || [message.type isEqualToString:kChatTypeDynamicCollection]
+        || [message.type isEqualToString:kChatTypeDynamicComment]
+        || [message.type isEqualToString:kChatTypeDynamicReply])
+    {
+        NSInteger releaseId = [body[@"release_id"] integerValue];
+        if (releaseId > 0)
+        {
+            TrendsFriendDetailVC* vc = [[TrendsFriendDetailVC alloc] init];
+            vc.trendsId = releaseId;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }
+    else if ([message.type isEqualToString:kChatTypeHelpComment]
+             || [message.type isEqualToString:kChatTypeHelpReply]
+             || [message.type isEqualToString:kChatTypeHelp])
+    {
+        NSInteger releaseId = [body[@"release_id"] integerValue];
+        if (releaseId > 0)
+        {
+            SeekHelpDetailVC* vc = [[SeekHelpDetailVC alloc] init];
+            vc.trendsId = releaseId;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }
+    else if ([message.type isEqualToString:kChatTypeRecommendResult])
+    {
+        WaitMeRecommendVC* vc = [[WaitMeRecommendVC alloc] init];
+        vc.messageBody = message.body;
+        @weakify(self);
+        [vc setRecommendSubmitBlock:^{
+            @strongify(self);
+            [message MR_deleteEntityInContext:[NSManagedObjectContext MR_defaultContext]];
+            [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+            [self.messageList removeObject:message];
+            [self.table reloadData];
+        }];
+        [self.navigationController pushViewController:vc animated:YES];
+    }

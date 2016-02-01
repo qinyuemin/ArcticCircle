@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:paddingBottom="@dimen/dimen_10_dip"
+                android:paddingTop="@dimen/dimen_10_dip">
+    <!-- 他人文本消息，显示在左边  -->
+    <!-- 左边头像 -->
+    <TextView
+            android:id="@+id/tv_send_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:paddingLeft="@dimen/dimen_7_dip"
+            android:paddingRight="@dimen/dimen_7_dip"
+            android:paddingTop="@dimen/dimen_3_dip"
+            android:paddingBottom="@dimen/dimen_3_dip"
+            android:layout_marginBottom="@dimen/dimen_10_dip"
+            android:background="@drawable/bg_chat_time"
+            android:layout_alignParentTop="true"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            />
+
+    <com.xiaoma.beiji.controls.view.CircularImage
+            android:id="@+id/img_chat_avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/tv_send_time"
+            android:layout_marginLeft="8dip"
+            android:src="@drawable/ic_def_header"
+            android:scaleType="centerCrop"/>
+
+    <!-- zuo边昵称 -->
+
+    <TextView
+            android:id="@+id/tv_nick_name"
+            android:visibility="invisible"
+            android:textColor="#C7C7C7"
+            android:padding="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/img_chat_avatar"
+            android:layout_toRightOf="@id/img_chat_avatar"
+            android:layout_marginLeft="20dp"
+            android:textSize="12sp"/>
+    <!-- 昵称右边发送时间 android:layout_marginLeft="20dp" android:layout_toRightOf="@id/tv_nick_name" -->
+
+
+    <!-- 头像右边，昵称下面的内容区域 -->
+
+    <com.xiaoma.beiji.controls.view.chatting.EmotionsTextView
+            android:id="@+id/tv_content"
+            android:gravity="center_vertical"
+            android:textColor="#111111"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_nick_name"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="5dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/bg_chat_receive"
+            android:layout_toRightOf="@id/img_chat_avatar"/>
+
+</RelativeLayout>

@@ -1,0 +1,9 @@
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_rounded_translucent_black"
+    android:textSize="14sp"
+    android:gravity="center_vertical"
+    android:includeFontPadding="false"
+    android:textColor="#e5e5e5" /><!-- From: file:/D:/E/Projet/ProjetPersonel/ForZeyu/ArcticCircle/arcticcircle/res/layout/view_toast_layout.xml -->

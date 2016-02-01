@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/D:/E/Projet/ProjetPersonel/ForZeyu/ArcticCircle/arcticcircle/build/intermediates/exploded-aar/ArcticCircle/commomlib/unspecified/res/values-hdpi-v4/values-hdpi-v4.xml -->
+    <eat-comment/>
+    <dimen name="batteryView_contentHeight">183.0px</dimen>
+    <dimen name="batteryView_contentPaddingLeft">11.0px</dimen>
+    <dimen name="batteryView_contentPaddingTop">11.0px</dimen>
+    <dimen name="batteryView_contentWidth">92.0px</dimen>
+    <dimen name="batteryView_layout_height">205.0px</dimen>
+    <dimen name="batteryView_layout_marginLeft">0.0px</dimen>
+    <dimen name="batteryView_layout_marginRight">46.0px</dimen>
+    <dimen name="batteryView_layout_marginTop">20.0px</dimen>
+    <dimen name="batteryView_layout_width">115.0px</dimen>
+    <dimen name="main_activity_middle_report_row_list_height">280.0px</dimen>
+    <dimen name="main_activity_month_expense_ly_marginTop">11.0px</dimen>
+    <dimen name="main_activity_top_month_report_bg_height">250.0px</dimen>
+    <dimen name="piechartView_layout_height">718.0px</dimen>
+    <dimen name="piechartView_layout_width">480.0px</dimen>
+    <dimen name="report_activity_date_range_btn_height">72.0px</dimen>
+    <dimen name="report_activity_date_range_btn_width">54.0px</dimen>
+    <dimen name="report_activity_go_trans_list_btn_height">85.0px</dimen>
+    <dimen name="report_activity_go_trans_list_btn_marginLeft">374.0px</dimen>
+    <dimen name="report_activity_go_trans_list_btn_marginTop">583.0px</dimen>
+    <dimen name="report_activity_go_trans_list_btn_width">85.0px</dimen>
+    <integer name="piechartView_amountLabelTextSize">30</integer>
+    <integer name="piechartView_categoryOfSectorLabelDrawInY">620</integer>
+    <integer name="piechartView_categoryOfSectorLabelTextSize">25</integer>
+    <integer name="piechartView_displayOfSectorDrawInY">645</integer>
+    <integer name="piechartView_displayOfSectorLabelTextSize">23</integer>
+    <integer name="piechartView_indicationCenterInX">415</integer>
+    <integer name="piechartView_indicationCenterInY">630</integer>
+    <integer name="piechartView_indicationCircleRadius">17</integer>
+    <integer name="piechartView_pieCircleMarginTop">121</integer>
+    <integer name="piechartView_pieCircleRadius">220</integer>
+    <integer name="piechartView_totalLabelDrawInY">318</integer>
+    <integer name="piechartView_totalLableTextSize">25</integer>
+    <string name="dimension">values-hdpi</string>
+</resources>

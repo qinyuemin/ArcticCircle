@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+        >
+    <include layout="@layout/include_title_bar"/>
+
+    <RelativeLayout android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+            >
+
+        <EditText android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="right"
+                  android:textSize="15sp"
+                  android:textColor="@color/color_gray1"
+                  android:hint="昵称，二度以上朋友显示"
+                  android:layout_marginLeft="@dimen/dimen_40_dip"
+                  android:layout_marginRight="@dimen/dimen_15_dip"
+                  android:layout_marginTop="@dimen/dimen_10_dip"
+                  android:background="@color/white"
+                  android:id="@+id/edt_nickname"
+                  android:paddingTop="@dimen/dimen_8_dip"
+                  android:paddingBottom="@dimen/dimen_8_dip"
+                  android:paddingLeft="@dimen/dimen_5_dip"
+                  android:paddingRight="@dimen/dimen_5_dip"
+                />
+        <View android:layout_width="fill_parent" android:layout_height="@dimen/base_line_height"
+              android:background="@color/color_line"
+              android:layout_below="@+id/edt_nickname"
+              android:layout_marginLeft="@dimen/dimen_38_dip"
+              android:layout_marginTop="@dimen/dimen_5_dip"
+              android:id="@+id/view_line"
+                />
+
+        <RadioGroup android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="@dimen/dimen_40_dip"
+                    android:layout_marginTop="@dimen/dimen_8_dip"
+                    android:layout_below="@+id/view_line"
+                    android:id="@+id/rg_sex"
+                >
+            <RadioButton android:layout_width="fill_parent"
+                         android:layout_height="wrap_content"
+                         android:text="帅哥"
+                         android:textSize="16sp"
+                         android:textColor="@color/black"
+                         android:layout_weight="1"
+                         android:id="@+id/rb_male"
+                         android:button="@drawable/sl_checkbox"
+                         android:paddingTop="5dp"
+                         android:paddingBottom="5dp"
+                         android:drawablePadding="5dp"
+                    />
+            <RadioButton android:layout_width="fill_parent"
+                         android:layout_height="wrap_content"
+                         android:text="美女"
+                         android:textSize="16sp"
+                         android:textColor="@color/black"
+                         android:layout_weight="1"
+                         android:id="@+id/rb_female"
+                         android:checked="true"
+                         android:button="@drawable/sl_checkbox"
+                         android:paddingTop="5dp"
+                         android:paddingBottom="5dp"
+                         android:drawablePadding="5dp"
+            />
+        </RadioGroup>
+        <View android:layout_width="fill_parent" android:layout_height="@dimen/base_line_height"
+              android:background="@color/color_line"
+              android:layout_below="@+id/rg_sex"
+              android:layout_marginTop="@dimen/dimen_10_dip"
+              android:id="@+id/view_line1"
+                />
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="right"
+                  android:textSize="16sp"
+                  android:textColor="@color/color_gray"
+                  android:text="注册会员即表示你同意《北极圈服务条款》"
+                  android:layout_marginTop="@dimen/dimen_20_dip"
+                  android:id="@+id/txt_clause"
+                  android:layout_below="@+id/view_line1"
+                  android:layout_centerHorizontal="true"
+                />
+
+        <Button
+                android:id="@+id/btn_next"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_12_dip"
+                android:paddingTop="@dimen/dimen_12_dip"
+                android:paddingBottom="@dimen/dimen_12_dip"
+                android:layout_marginLeft="@dimen/dimen_15_dip"
+                android:layout_marginRight="@dimen/dimen_15_dip"
+                android:text="下一步"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:background="@drawable/sl_btn_blue"
+                android:layout_below="@+id/txt_clause"
+                />
+
+    </RelativeLayout>
+
+</LinearLayout><!-- From: file:/D:/E/Projet/ProjetPersonel/ForZeyu/ArcticCircle/arcticcircle/res/layout/activity_register_info.xml -->

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/D:/E/Projet/ProjetPersonel/ForZeyu/ArcticCircle/commomlib/res/values-ldpi-400x240-v4/dimens.xml -->
+    <eat-comment/>
+    <dimen name="batteryView_contentHeight">106.0px</dimen>
+    <dimen name="batteryView_contentPaddingLeft">5.0px</dimen>
+    <dimen name="batteryView_contentPaddingTop">5.0px</dimen>
+    <dimen name="batteryView_contentWidth">46.0px</dimen>
+    <dimen name="batteryView_layout_height">115.0px</dimen>
+    <dimen name="batteryView_layout_marginLeft">0.0dip</dimen>
+    <dimen name="batteryView_layout_marginRight">10.0dip</dimen>
+    <dimen name="batteryView_layout_marginTop">1.0dip</dimen>
+    <dimen name="batteryView_layout_width">57.0px</dimen>
+    <dimen name="dimen_h_102">85.0px</dimen>
+    <dimen name="dimen_h_2">1.6666565px</dimen>
+    <dimen name="dimen_h_20">16.666656px</dimen>
+    <dimen name="dimen_h_28">23.333313px</dimen>
+    <dimen name="dimen_h_3">2.5px</dimen>
+    <dimen name="dimen_h_32">26.666656px</dimen>
+    <dimen name="dimen_h_343">285.82812px</dimen>
+    <dimen name="dimen_h_37">30.833313px</dimen>
+    <dimen name="dimen_h_395">329.16406px</dimen>
+    <dimen name="dimen_h_4">3.333313px</dimen>
+    <dimen name="dimen_h_400">333.32812px</dimen>
+    <dimen name="dimen_h_45">37.5px</dimen>
+    <dimen name="dimen_h_5">4.1666565px</dimen>
+    <dimen name="dimen_h_80">66.66666px</dimen>
+    <dimen name="main_activity_middle_report_row_list_height">125.0px</dimen>
+    <dimen name="main_activity_top_month_report_bg_height">140.0px</dimen>
+    <dimen name="piechartView_layout_height">280.0px</dimen>
+    <dimen name="piechartView_layout_width">240.0px</dimen>
+    <dimen name="report_activity_go_trans_list_btn_height">55.0px</dimen>
+    <dimen name="report_activity_go_trans_list_btn_marginLeft">165.0px</dimen>
+    <dimen name="report_activity_go_trans_list_btn_marginTop">220.0px</dimen>
+    <dimen name="report_activity_go_trans_list_btn_width">55.0px</dimen>
+    <!-- From: file:/D:/E/Projet/ProjetPersonel/ForZeyu/ArcticCircle/commomlib/res/values-ldpi-400x240-v4/integers.xml -->
+    <eat-comment/>
+    <integer name="piechartView_amountLabelTextSize">14</integer>
+    <integer name="piechartView_categoryOfSectorLabelDrawInY">245</integer>
+    <integer name="piechartView_categoryOfSectorLabelTextSize">13</integer>
+    <integer name="piechartView_displayOfSectorDrawInY">260</integer>
+    <integer name="piechartView_displayOfSectorLabelTextSize">11</integer>
+    <integer name="piechartView_indicationCenterInX">195</integer>
+    <integer name="piechartView_indicationCenterInY">248</integer>
+    <integer name="piechartView_indicationCircleRadius">8</integer>
+    <integer name="piechartView_pieCircleMarginTop">21</integer>
+    <integer name="piechartView_pieCircleRadius">100</integer>
+    <integer name="piechartView_totalLabelDrawInY">116</integer>
+    <integer name="piechartView_totalLableTextSize">15</integer>
+    <!-- From: file:/D:/E/Projet/ProjetPersonel/ForZeyu/ArcticCircle/commomlib/res/values-ldpi-400x240-v4/strings.xml -->
+    <eat-comment/>
+    <string name="dimension">values-ldpi-400x240</string>
+</resources>

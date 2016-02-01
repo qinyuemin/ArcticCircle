@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:gravity="bottom"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<ListView
+		android:id="@+id/lvContent"
+		android:layout_gravity="center"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/bg_alert_dialog"
+        android:paddingTop="2dp"
+        android:divider="#E4E3E8"
+        android:dividerHeight="0.5dp"
+        android:listSelector="@drawable/sl_default"
+        android:drawSelectorOnTop="true"
+		android:cacheColorHint="@color/white"
+/>
+</LinearLayout><!-- From: file:/D:/E/Projet/ProjetPersonel/ForZeyu/ArcticCircle/arcticcircle/res/layout/layout_alert_util_list.xml -->

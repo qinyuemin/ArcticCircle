@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg_main">#f0eff5</color>
+    <color name="white">#ffffff</color>
+    <color name="bg_title_bar">#ffcc6dff</color>
+    <color name="color_gray">#a0aab3</color><!-- 灰色字体颜色 -->
+    <color name="color_main_text">#ffffff</color><!-- 正文颜色 -->
+    <color name="color_line">#d7d7d7</color>
+    <color name="red">#ffe6364e</color>
+    <color name="eyah_color_gray">#a0aab3</color><!-- 灰色字体颜色 -->
+    <!-- 线条颜色 -->
+    <color name="bg_color_gray">#f0eff5</color><!-- 灰色字体颜色 -->
+
+
+    <color name="color_blue">#19b5f1</color>
+    <color name="color_blue1">#36d7b7</color>
+    <color name="color_red">#ff6666</color>
+    <color name="color_yellow">#f7ca18</color>
+    <color name="color_orange">#f9690e</color>
+    <color name="color_gray1">#b3b3b3</color>
+    <color name="color_gray2">#959595</color>
+    <color name="color_black">#2a2b2b</color>
+    <color name="F2F2F2_color">#F2F2F2</color>
+    <color name="color_gray_line">#d7d7d7</color>
+</resources>

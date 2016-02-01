@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/bg_main"
+>
+    <include layout="@layout/include_title_bar"/>
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:text=""
+              android:textSize="14sp"
+              android:textColor="#969693"
+              android:layout_marginTop="@dimen/dimen_20_dip"
+              android:layout_marginRight="@dimen/dimen_20_dip"
+              android:layout_marginLeft="@dimen/dimen_20_dip"
+              android:id="@+id/txt_tip"
+    />
+
+    <EditText android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:minLines="6"
+              android:hint="引荐原因"
+              android:textSize="16sp"
+              android:background="@drawable/border_edt_referral"
+              android:gravity="left|top"
+              android:layout_marginTop="@dimen/dimen_10_dip"
+              android:layout_marginRight="@dimen/dimen_20_dip"
+              android:layout_marginLeft="@dimen/dimen_20_dip"
+              android:padding="@dimen/dimen_10_dip"
+              android:id="@+id/edt_content"
+    />
+
+    <Button
+            android:id="@+id/btn_send"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_18_dip"
+            android:layout_marginLeft="@dimen/dimen_20_dip"
+            android:layout_marginRight="@dimen/dimen_20_dip"
+            android:paddingTop="@dimen/dimen_12_dip"
+            android:paddingBottom="@dimen/dimen_12_dip"
+            android:text="请求引荐"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:background="@drawable/sl_btn_blue"
+    />
+
+</LinearLayout>

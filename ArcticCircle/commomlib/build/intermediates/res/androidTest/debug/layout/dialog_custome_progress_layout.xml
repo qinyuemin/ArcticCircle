@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/bg_rounded_translucent_black"
+    android:gravity="center">
+    <ImageView
+        android:id="@+id/rotateImageView"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:src="@drawable/icon_custome_progress_circle" />
+    <TextView
+        android:id="@+id/messageTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:textSize="14sp"
+        android:textColor="#FFFFFF"
+        android:visibility="gone"/>
+</LinearLayout><!-- From: file:/D:/E/Projet/ProjetPersonel/ForZeyu/ArcticCircle/commomlib/res/layout/dialog_custome_progress_layout.xml --><!-- From: file:/D:/E/Projet/ProjetPersonel/ForZeyu/ArcticCircle/commomlib/build/intermediates/bundles/debug/res/layout/dialog_custome_progress_layout.xml -->

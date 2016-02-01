@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:descendantFocusability="blocksDescendants"
+>
+
+
+    <!--用户信息-->
+    <RelativeLayout android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/dimen_15_dip"
+                    android:paddingRight="@dimen/dimen_15_dip"
+                    android:paddingTop="@dimen/dimen_15_dip"
+                    android:paddingBottom="@dimen/dimen_10_dip"
+                    android:id="@+id/rl_info"
+    >
+
+        <com.xiaoma.beiji.controls.view.CircularImage android:layout_width="@dimen/dimen_40_dip"
+                                                      android:layout_height="@dimen/dimen_40_dip"
+                                                      android:scaleType="centerCrop"
+                                                      android:layout_centerVertical="true"
+                                                      android:id="@+id/img_head"
+                                                      android:src="@drawable/ic_logo"
+        />
+
+        <ImageView android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:src="@drawable/ic_friend_dynamic_setting"
+                   android:layout_alignParentRight="true"
+                   android:layout_centerVertical="true"
+                   android:padding="@dimen/dimen_10_dip"
+                   android:id="@+id/img_chatting"/>
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="韩静"
+                  android:textSize="16sp"
+                  android:textColor="@color/color_black"
+                  android:layout_toRightOf="@+id/img_head"
+                  android:layout_marginLeft="@dimen/dimen_10_dip"
+                  android:id="@+id/txt_name"
+        />
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="New!"
+                  android:textSize="14sp"
+                  android:textColor="@color/white"
+                  android:layout_toRightOf="@+id/txt_name"
+                  android:layout_marginLeft="@dimen/dimen_10_dip"
+                  android:background="@drawable/bg_circle_txt_red1"
+                  android:paddingTop="@dimen/dimen_3_dip"
+                  android:paddingBottom="@dimen/dimen_3_dip"
+                  android:paddingLeft="@dimen/dimen_8_dip"
+                  android:paddingRight="@dimen/dimen_8_dip"
+                  android:id="@+id/txt_tag_major"
+        />
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="10分钟前 推荐了店铺"
+                  android:textSize="14sp"
+                  android:textColor="#b2b2b2"
+                  android:layout_marginLeft="@dimen/dimen_10_dip"
+                  android:paddingTop="@dimen/dimen_3_dip"
+                  android:paddingBottom="@dimen/dimen_3_dip"
+                  android:paddingLeft="@dimen/dimen_8_dip"
+                  android:paddingRight="@dimen/dimen_8_dip"
+                  android:id="@+id/txt_time"
+                  android:background="@drawable/bg_circle_txt_gray1"
+                  android:layout_below="@+id/txt_name"
+                  android:layout_toRightOf="@+id/img_head"
+                  android:layout_marginTop="@dimen/dimen_6_dip"
+        />
+
+
+    </RelativeLayout>
+
+    <View android:layout_width="fill_parent" android:layout_height="0.5dp"
+          android:background="#dededf"
+    />
+    <View android:layout_width="fill_parent" android:layout_height="@dimen/dimen_10_dip"
+          android:background="#f0eff5"
+    />
+    <View android:layout_width="fill_parent" android:layout_height="0.5dp"
+          android:background="#dededf"
+    />
+</LinearLayout>
+<!-- From: file:/D:/E/Projet/ProjetPersonel/ForZeyu/ArcticCircle/arcticcircle/res/layout/lst_item_friend_dynamic5.xml -->

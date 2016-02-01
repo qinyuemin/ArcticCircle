@@ -1,0 +1,29 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/bg_main"
+>
+    <include layout="@layout/include_title_bar"
+             android:id="@+id/title_bar"
+    />
+
+    <GridView
+            android:id="@+id/images_gv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:horizontalSpacing="@dimen/spacing_medium"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="3"
+            android:padding="@dimen/padding_small"
+            android:stretchMode="columnWidth"
+            android:fadingEdge="none"
+            android:verticalSpacing="@dimen/spacing_medium"
+            android:layout_below="@+id/title_bar"
+            android:cacheColorHint="@color/white"
+    >
+    </GridView>
+
+    <include layout="@layout/image_chooser_loading_layout"/>
+
+</RelativeLayout><!-- From: file:/D:/E/Projet/ProjetPersonel/ForZeyu/ArcticCircle/arcticcircle/res/layout/activity_image_chooser_list.xml -->

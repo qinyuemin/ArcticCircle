@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#000000</color>
+    <color name="blue">#FF00FFFF</color>
+    <color name="no_color">#00000000</color>
+    <color name="title_bar_bg_color">#434D57</color>
+    
+    <color name="edit_border">#D4D4D4</color>
+    
+    
+    <color name="dropbar_text_color">#ff434343</color>
+    
+    <color name="dialog_listitem_press">#ffd0dce4</color>
+    
+    <color name="text_color">#ff434343</color>
+    
+    <color name="dialog_divider">#ffbfcbd3</color>
+    
+    <color name="transparent">#00000000</color>
+    
+    <color name="gray_3">#ededed</color>
+    
+    <color name="dark_slate_gray">#2F4F4F</color>
+	<color name="gray_2">#AFAFAF</color>
+	<color name="gray_1">#C0C0C0</color>
+	<color name="push_title_gray">#d2d2d2</color>
+    <color name="lianlian_color_wifi_header">#00aaaf</color>
+
+</resources>

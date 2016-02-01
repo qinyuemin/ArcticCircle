@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="simple">
+        <attr name="isCheckable" format="boolean" />
+        <attr name="isChecked" format="boolean" />
+        <attr name="showTopDivider" format="boolean" />
+        <attr name="showBottomDivider" format="boolean" />
+        <attr name="showRedPoint" format="boolean" />
+        <attr name="hideNextView" format="boolean" />
+        <attr name="icon" format="reference" />
+        <attr name="nextIcon" format="reference" />
+        <attr name="label" format="string" />
+        <attr name="xlabel" format="string" />
+        <attr name="subLabel" format="string" />
+        <attr name="subLabelSize" format="dimension" />
+        <attr name="subLabelColor" format="reference|color" />
+        <attr name="subLabelVisibility">
+            <enum name="visible" value="0x00000000" />
+            <enum name="invisible" value="0x00000004" />
+            <enum name="gone" value="0x00000008" />
+        </attr>
+    </declare-styleable>
+</resources>

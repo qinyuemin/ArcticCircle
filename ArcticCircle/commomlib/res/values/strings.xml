@@ -1,0 +1,7 @@
+<resources>
+
+    <string name="app_name">SimpleApp</string>
+    <string name="network_not_reachable_prompt">当前网络不可用，请检查您的设备</string>
+    <string name="dlg_ok">确定</string>
+
+</resources>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/bg_main"
+>
+    <LinearLayout android:layout_width="fill_parent"
+                  android:layout_height="@dimen/title_bar_height"
+                  android:background="@color/color_blue"
+    >
+        <ImageView
+                android:id="@+id/title_bar_left_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingLeft="5dp"
+                android:src="@drawable/title_back_click"/>
+
+        <EditText android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:id="@+id/edt_search"
+                  android:background="@drawable/border_edt_search"
+                  android:layout_marginTop="@dimen/dimen_5_dip"
+                  android:layout_marginBottom="@dimen/dimen_5_dip"
+                  android:layout_marginLeft="@dimen/dimen_10_dip"
+                  android:layout_marginRight="@dimen/dimen_10_dip"
+                  android:hint="请输入搜索内容"
+                  android:paddingLeft="@dimen/dimen_10_dip"
+                  android:paddingRight="@dimen/dimen_10_dip"
+                  android:textSize="16sp"
+                  android:textColor="@color/color_black"
+                  android:imeOptions="actionSearch"
+                  android:singleLine="true"
+        />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="50.0dip"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:background="@color/white"
+    >
+
+
+
+        <LinearLayout android:layout_width="fill_parent"
+                      android:layout_height="fill_parent"
+                      android:orientation="vertical"
+                      android:gravity="center"
+                      android:layout_weight="1"
+                      android:id="@+id/ll_dynamic"
+        >
+            <TextView
+                    android:id="@+id/txt_dynamic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="找动态"
+                    android:textSize="16sp"
+                    android:textColor="@color/color_gray"
+            />
+            <View android:layout_width="fill_parent"
+                  android:layout_height="3dp"
+                  android:background="@color/white"
+                  android:id="@+id/line1"
+            />
+            <View android:layout_width="fill_parent"
+                  android:layout_height="0.5dp"
+                  android:background="#dedee0"/>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="fill_parent"
+                      android:layout_height="fill_parent"
+                      android:orientation="vertical"
+                      android:gravity="center"
+                      android:layout_weight="1"
+                      android:id="@+id/ll_shop"
+        >
+            <TextView
+                    android:id="@+id/txt_shop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="找店铺"
+                    android:textSize="16sp"
+                    android:textColor="@color/color_gray"
+            />
+            <View android:layout_width="fill_parent"
+                  android:layout_height="3dp"
+                  android:background="@color/white"
+                  android:id="@+id/line2"
+            />
+            <View android:layout_width="fill_parent"
+                  android:layout_height="0.5dp"
+                  android:background="#dedee0"/>
+        </LinearLayout>
+
+
+        <LinearLayout android:layout_width="fill_parent"
+                      android:layout_height="fill_parent"
+                      android:orientation="vertical"
+                      android:gravity="center"
+                      android:layout_weight="1"
+                      android:id="@+id/ll_friend"
+        >
+            <TextView
+                    android:id="@+id/txt_friend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="找朋友"
+                    android:textSize="16sp"
+                    android:textColor="@color/color_gray"
+
+            />
+            <View android:layout_width="fill_parent" android:layout_height="3dp"
+                  android:background="@color/white"
+                  android:id="@+id/line3"/>
+            <View android:layout_width="fill_parent"
+                  android:layout_height="0.5dp"
+                  android:background="#dedee0"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lst_friend"
+        android:clickable="false"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:divider="@color/bg_main"
+        android:dividerHeight="0.5dp"
+        android:fadingEdge="none"
+        android:layout_marginTop="@dimen/dimen_8_dip"
+        android:cacheColorHint="@color/white"
+        android:background="@color/white"
+/>
+
+    <ListView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lst_dynamic"
+            android:clickable="false"
+            android:footerDividersEnabled="false"
+            android:cacheColorHint="@color/white"
+            android:headerDividersEnabled="false"
+            android:divider="@color/bg_main"
+            android:dividerHeight="0.5dp"
+            android:fadingEdge="none"
+            android:layout_marginTop="@dimen/dimen_8_dip"
+            android:background="@color/white"
+            android:visibility="gone"
+    />
+
+    <ListView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lst_shop"
+            android:clickable="false"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            android:divider="@color/bg_main"
+            android:dividerHeight="0.5dp"
+            android:cacheColorHint="@color/white"
+            android:fadingEdge="none"
+            android:layout_marginTop="@dimen/dimen_8_dip"
+            android:background="@color/white"
+            android:visibility="gone"
+    />
+
+</LinearLayout>

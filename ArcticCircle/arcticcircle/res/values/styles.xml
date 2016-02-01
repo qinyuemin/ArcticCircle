@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="base_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@color/no_color</item>
+        <item name="android:windowBackground">@color/no_color</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <style name="CheckBox_Default" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:layout_width">16dp</item>
+        <item name="android:layout_height">16dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+    </style>
+
+    <style name="EyahTranslucent">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="AlertListDialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
+    <style name="AlertListDialogAnimationStyle" parent="android:Animation">
+        <item name="@android:windowEnterAnimation">@anim/anim_in_from_bottom</item>
+        <!-- 进入时的动画 -->
+        <item name="@android:windowExitAnimation">@anim/anim_out_to_bottom</item>
+        <!-- 退出时的动画 -->
+    </style>
+
+    <style name="setting_list_icon_size">
+        <item name="android:layout_width">@dimen/dimen_25_dip</item>
+        <item name="android:layout_height">@dimen/dimen_25_dip</item>
+    </style>
+
+    <style name="setting_list_divider_line_left_margin">
+        <item name="android:layout_marginLeft">@dimen/dimen_55_dip</item>
+    </style>
+
+    <style name="simpleTranslucent">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+</resources>

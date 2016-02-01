@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <View android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="10dp"
+        android:background="#E4E3E8" />
+    <TextView
+        android:id="@+id/tvTxt"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="15dp"
+		android:paddingBottom="15dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:background="#FFFFFF" />
+</LinearLayout><!-- From: file:/D:/E/Projet/ProjetPersonel/ForZeyu/ArcticCircle/arcticcircle/res/layout/lv_item_alert_util_list_cancel.xml -->

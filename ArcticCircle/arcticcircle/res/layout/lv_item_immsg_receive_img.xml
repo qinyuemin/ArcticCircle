@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:paddingBottom="@dimen/dimen_10_dip"
+    android:paddingTop="@dimen/dimen_10_dip" >
+    
+	 <TextView
+        android:id="@+id/tv_send_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="@dimen/dimen_7_dip"
+        android:paddingRight="@dimen/dimen_7_dip"
+        android:paddingTop="@dimen/dimen_3_dip"
+        android:paddingBottom="@dimen/dimen_3_dip"
+        android:layout_marginBottom="@dimen/dimen_10_dip"
+        android:background="@drawable/bg_chat_time"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
+    <!-- 他人文本消息，显示在左边 -->
+    <!-- 左边头像 -->
+
+    <com.lianlian.controls.view.CircleImageView
+        android:id="@+id/img_chat_avatar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/tv_send_time"
+        android:layout_marginLeft="8dip"
+         android:background="#E7E9ED"
+        android:scaleType="centerCrop" />
+
+    <!-- 右边昵称 -->
+
+    <TextView
+        android:id="@+id/tv_nick_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/img_chat_avatar"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@id/img_chat_avatar"
+        android:padding="0dp"
+        android:textColor="#C7C7C7"
+        android:textSize="12sp"
+        android:visibility="invisible" />
+    <!--
+         昵称右边发送时间   android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@id/tv_nick_name"
+    -->
+
+   
+    <!--
+    头像右边，昵称下面的内容区域 
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_nick_name"
+        android:layout_marginRight="40dp"
+        android:layout_toRightOf="@id/img_chat_avatar" />
+    -->
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_nick_name"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="40dp"
+        android:layout_toRightOf="@id/img_chat_avatar"
+        android:padding="1dp" >
+
+        <!--
+        <LinearLayout
+            android:id="@+id/ll_loading"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ProgressBar
+                android:id="@+id/progress"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tip_chat_loading_img" />
+                
+                
+                
+        </LinearLayout>
+        -->
+        <!-- size will be caculate in code, max width is 0.5 screenWidth,height will be caculate by the bitmap's width and height -->
+
+        <ImageView
+            android:id="@+id/img_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#74EA60"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_chat_time" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/img_content"
+            android:layout_alignLeft="@id/img_content"
+            android:layout_alignRight="@id/img_content"
+            android:layout_alignTop="@id/img_content"
+            android:background="@drawable/bg_chat_receive" />
+
+        <TextView
+            android:id="@+id/tv_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:paddingBottom="10dp"
+            android:textColor="#5fb951"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+</RelativeLayout>
