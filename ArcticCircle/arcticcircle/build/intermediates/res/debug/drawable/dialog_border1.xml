@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/bg_main"/>
-    <corners android:topLeftRadius="0dp" android:topRightRadius="0dp"
-             android:bottomRightRadius="8dp" android:bottomLeftRadius="8dp"/>
-    <stroke android:width="0dp" android:color="@color/color_line"/>
-</shape><!-- From: file:/D:/E/Projet/ProjetPersonel/ForZeyu/ArcticCircle/arcticcircle/res/drawable/dialog_border1.xml -->

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android" 
-    android:shape="oval"
-    >
-    <solid android:color="#434d57"/>
-    <size android:width="@dimen/dimen_7_dip" android:height="@dimen/dimen_7_dip"/>
-
-</shape>
-<!-- From: file:/D:/E/Projet/ProjetPersonel/ForZeyu/ArcticCircle/arcticcircle/res/drawable/ic_circle_indicator_selected.xml -->
