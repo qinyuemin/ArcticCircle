@@ -42,7 +42,13 @@ public class IMChatService extends Service {
     public void onCreate() {
         super.onCreate();
         imXmppManager = IMXmppManager.getInstance();
-        imXmppManager.xmppConnect();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                imXmppManager.xmppConnect();
+            }
+        }).start();
+
     }
 
     @Override

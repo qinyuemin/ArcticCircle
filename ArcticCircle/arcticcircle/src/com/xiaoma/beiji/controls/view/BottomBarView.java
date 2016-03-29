@@ -60,6 +60,7 @@ public class BottomBarView extends LinearLayout implements OnClickListener {
     private void initAllPage() {
         mAllPage = new ArrayList<PageItem>();
         mAllPage.add(PageItem.INDEX);
+        mAllPage.add(PageItem.FIND);
         mAllPage.add(PageItem.STATISTICS);
         mAllPage.add(PageItem.MINE);
     }
@@ -102,8 +103,9 @@ public class BottomBarView extends LinearLayout implements OnClickListener {
 
     public static enum PageItem {
         INDEX(0, R.drawable.toolbar_circle, R.drawable.toolbar_circle_press),
-        STATISTICS(1, R.drawable.toolbar_chat, R.drawable.toolbar_chat_press),
-        MINE(2, R.drawable.toolbar_mine, R.drawable.toolbar_mine_press);
+        FIND(1, R.drawable.toolbar_chat, R.drawable.toolbar_chat_press),
+        STATISTICS(2, R.drawable.toolbar_chat, R.drawable.toolbar_chat_press),
+        MINE(3, R.drawable.toolbar_mine, R.drawable.toolbar_mine_press);
         private int resId;
         private int selectedResId;
         private int order;

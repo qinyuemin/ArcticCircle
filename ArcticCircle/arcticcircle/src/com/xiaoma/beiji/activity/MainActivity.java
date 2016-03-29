@@ -223,6 +223,12 @@ public class MainActivity extends SimpleBaseActivity implements BottomBarView.On
                 }
                 fragment = indexFragment;
                 break;
+            case FIND:
+                if(indexFragment == null){
+                    indexFragment = Fragment.instantiate(this, CircleFragment.class.getName(), null);
+                }
+                fragment = indexFragment;
+                break;
             case STATISTICS:
                 if(statisticsFragment == null){
                     statisticsFragment = Fragment.instantiate(this, ChatFragment.class.getName(), null);
