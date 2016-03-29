@@ -7,7 +7,7 @@
         <attr name="showBottomDivider" format="boolean" />
         <attr name="showRedPoint" format="boolean" />
         <attr name="hideNextView" format="boolean" />
-        <attr name="icon" format="reference" />
+        <attr name="settingicon" format="reference" />
         <attr name="nextIcon" format="reference" />
         <attr name="label" format="string" />
         <attr name="xlabel" format="string" />

@@ -5,4 +5,10 @@
     <dimen name="global_layout_margin">@dimen/dimen_15_dip</dimen>
 
     <dimen name="base_line_height">1px</dimen>
+
+    <dimen name="text_size_26px">18dp</dimen>
+    <dimen name="text_size_18px">12dp</dimen>
+    <dimen name="text_size_20px">14dp</dimen>
+    <dimen name="text_size_36px">25dp</dimen>
+    <dimen name="text_size_24px">16dp</dimen>
 </resources>

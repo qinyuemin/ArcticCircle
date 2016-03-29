@@ -4,10 +4,10 @@
     <declare-styleable name="SearchEditLayout">
         <attr name="editText" format="string" />
         <attr name="buttonText" format="string" />
-        <attr name="editTextColor" format="reference|color" />
+        <attr name="seracheditTextColor" format="reference|color" />
         <attr name="buttonTextColor" format="reference|color" />
         <attr name="editTextHint" format="string" />
-        <attr name="background" format="reference|color" />
+        <attr name="seachbackground" format="reference|color" />
         <attr name="button_background" format="reference|color" />
     </declare-styleable>
     <declare-styleable name="PullToRefresh">
@@ -112,5 +112,5 @@
         <attr name="selectorEnabled" format="boolean" />
         <attr name="selectorDrawable" format="reference" />
     </declare-styleable>
-    
+
 </resources>

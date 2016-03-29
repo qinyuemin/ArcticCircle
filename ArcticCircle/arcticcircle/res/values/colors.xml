@@ -22,4 +22,8 @@
     <color name="color_black">#2a2b2b</color>
     <color name="F2F2F2_color">#F2F2F2</color>
     <color name="color_gray_line">#d7d7d7</color>
+
+    <color name="gray_light">#c0c3c9</color>
+    <color name="gray_title">#707785</color>
+    <color name="gray_divider">#e7e7e7</color>
 </resources>

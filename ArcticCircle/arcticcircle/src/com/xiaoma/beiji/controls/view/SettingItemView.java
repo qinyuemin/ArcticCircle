@@ -106,7 +106,7 @@ public class SettingItemView extends RelativeLayout implements OnCheckedChangeLi
             for (int i = 0; i < n; i++) {
                 int attr = a.getIndex(i);
                 switch (attr) {
-                case R.styleable.simple_icon:
+                case R.styleable.simple_settingicon:
                     iconRes = a.getResourceId(attr, -1);        
                     break;
                 case R.styleable.simple_isCheckable:

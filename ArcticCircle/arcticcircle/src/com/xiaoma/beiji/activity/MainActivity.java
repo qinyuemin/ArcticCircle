@@ -21,8 +21,10 @@ import com.xiaoma.beiji.controls.view.VersionView;
 import com.xiaoma.beiji.database.TableMetadataDef;
 import com.xiaoma.beiji.entity.XmppUserEntity;
 import com.xiaoma.beiji.fragment.CircleFragment;
+import com.xiaoma.beiji.fragment.FindFragment;
 import com.xiaoma.beiji.fragment.MineFragment;
 import com.xiaoma.beiji.fragment.ChatFragment;
+import com.xiaoma.beiji.fragment.MyProfileFragment;
 import com.xiaoma.beiji.manager.ContactManager;
 import com.xiaoma.beiji.manager.chatting.IMXmppManager;
 import com.xiaoma.beiji.network.AbsHttpResultHandler;
@@ -53,6 +55,7 @@ public class MainActivity extends SimpleBaseActivity implements BottomBarView.On
     private BottomBarView bbv;
 
     private Fragment indexFragment;
+    private Fragment findFragment;
     private Fragment statisticsFragment;
     private Fragment mineFragment;
     private FragmentManager mFragmentManager;
@@ -224,10 +227,10 @@ public class MainActivity extends SimpleBaseActivity implements BottomBarView.On
                 fragment = indexFragment;
                 break;
             case FIND:
-                if(indexFragment == null){
-                    indexFragment = Fragment.instantiate(this, CircleFragment.class.getName(), null);
+                if(findFragment == null){
+                    findFragment = Fragment.instantiate(this, FindFragment.class.getName(), null);
                 }
-                fragment = indexFragment;
+                fragment = findFragment;
                 break;
             case STATISTICS:
                 if(statisticsFragment == null){
@@ -237,7 +240,7 @@ public class MainActivity extends SimpleBaseActivity implements BottomBarView.On
                 break;
             case MINE:
                 if(mineFragment == null){
-                    mineFragment = Fragment.instantiate(this, MineFragment.class.getName(), null);
+                    mineFragment = Fragment.instantiate(this, MyProfileFragment.class.getName(), null);
                 }
                 fragment = mineFragment;
                 break;
@@ -255,6 +258,7 @@ public class MainActivity extends SimpleBaseActivity implements BottomBarView.On
         }
 
         hideFragment(ft,indexFragment,fragment);
+        hideFragment(ft,findFragment,fragment);
         hideFragment(ft,statisticsFragment,fragment);
         hideFragment(ft, mineFragment, fragment);
 
