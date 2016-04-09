@@ -75,7 +75,7 @@ public class FriendDynamicFragment extends SimpleFragment implements AdapterView
             }
         });
 
-        releaseUserId = getArguments().getString("releaseUserId");
+//        releaseUserId = getArguments().getString("releaseUserId");
     }
 
     @Override

@@ -9,14 +9,17 @@ package com.xiaoma.beiji.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import com.makeapp.android.util.ViewUtil;
 import com.xiaoma.beiji.R;
+import com.xiaoma.beiji.adapter.FragmentAdapter;
 import com.xiaoma.beiji.base.SimpleFragment;
 import com.xiaoma.beiji.common.Global;
 import com.xiaoma.beiji.controls.view.zxing.CaptureActivity;
@@ -40,12 +43,10 @@ import java.util.List;
  */
 public class CircleFragment extends SimpleFragment implements View.OnClickListener, ViewPager.OnPageChangeListener {
     private ViewPager mViewPager;
-    private TextView mMsgSystemTextView;
-    private TextView mMsgPrivateTextView;
-    private View line1,line2;
-
-    private FragmentPagerAdapter adapter;
-    private FriendDynamicFragment friendTrendsFragment;
+//    private TextView mMsgSystemTextView;
+//    private TextView mMsgPrivateTextView;
+    private TabLayout mTableLayout;
+    private FragmentAdapter adapter;
     private int currentPosition = 0;
     private List<String> CONTENT = new ArrayList<>();
 
@@ -63,18 +64,31 @@ public class CircleFragment extends SimpleFragment implements View.OnClickListen
         CONTENT.add("朋友求助");
         CONTENT.add("朋友动态");
 
-        adapter = new MessageCenterAdapter(getFragmentActivity().getSupportFragmentManager());
-        mMsgSystemTextView = (TextView) v.findViewById(R.id.message_system_txt);
-        mMsgPrivateTextView = (TextView) v.findViewById(R.id.message_private_txt);
-        line1 = v.findViewById(R.id.line1);
-        line2 = v.findViewById(R.id.line2);
-
+//        adapter = new MessageCenterAdapter(getFragmentActivity().getSupportFragmentManager());
+//        mMsgSystemTextView = (TextView) v.findViewById(R.id.message_system_txt);
+//        mMsgPrivateTextView = (TextView) v.findViewById(R.id.message_private_txt);
+        mTableLayout = (TabLayout) v.findViewById(R.id.title_tab_layout);
+        List<String> titles = new ArrayList<>();
+        titles.add("点评");
+        titles.add("问问");
+        //初始化TabLayout的title
+        mTableLayout.addTab(mTableLayout.newTab().setText(titles.get(0)));
+        mTableLayout.addTab(mTableLayout.newTab().setText(titles.get(1)));
+        //初始化ViewPager的数据集
+        List<Fragment> fragments = new ArrayList<>();
+        fragments.add(new FriendDynamicFragment());
+        fragments.add(new FriendHelpFragment());
+        //创建ViewPager的adapter
+        adapter = new FragmentAdapter(getActivity().getSupportFragmentManager(), fragments, titles);
         mViewPager = (ViewPager) v.findViewById(R.id.vPager);
         mViewPager.setAdapter(adapter);
+        mTableLayout.setupWithViewPager(mViewPager);
+        mTableLayout.setTabsFromPagerAdapter(adapter);
+
         mViewPager.setOnPageChangeListener(this);
 
-        mMsgSystemTextView.setOnClickListener(this);
-        mMsgPrivateTextView.setOnClickListener(this);
+//        mMsgSystemTextView.setOnClickListener(this);
+//        mMsgPrivateTextView.setOnClickListener(this);
 
         ViewUtil.setViewOnClickListener(v, R.id.img_publish, new View.OnClickListener() {
             @Override
@@ -119,36 +133,6 @@ public class CircleFragment extends SimpleFragment implements View.OnClickListen
     protected void loadData() {
     }
 
-    class MessageCenterAdapter extends FragmentPagerAdapter {
-        public MessageCenterAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            Bundle bundle = new Bundle();
-//            bundle.putString("releaseUserId", ""+Global.getUserId());
-            switch (position) {
-                case 0:
-                    friendTrendsFragment = new FriendDynamicFragment();
-                    friendTrendsFragment.setArguments(bundle);
-                    return friendTrendsFragment;
-                case 1:
-                    return FriendHelpFragment.newInstance(bundle);
-            }
-            return friendTrendsFragment = new FriendDynamicFragment();
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return CONTENT.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return CONTENT.size();
-        }
-    }
 
     @Override
     public void onPageScrollStateChanged(int position) {
@@ -156,30 +140,12 @@ public class CircleFragment extends SimpleFragment implements View.OnClickListen
 
     @Override
     public void onPageScrolled(int position, float arg1, int arg2) {
-        setTabColor(position);
         currentPosition = position;
         String rightTitleText = "";
         switch (currentPosition) {
             case 0:
                 break;
             case 1:
-                break;
-        }
-    }
-
-    private void setTabColor(int position) {
-        switch (position) {
-            case 0:
-                mMsgSystemTextView.setTextColor(getResources().getColor(R.color.white));
-                mMsgPrivateTextView.setTextColor(getResources().getColor(R.color.white));
-                line1.setVisibility(View.VISIBLE);
-                line2.setVisibility(View.INVISIBLE);
-                break;
-            case 1:
-                mMsgPrivateTextView.setTextColor(getResources().getColor(R.color.white));
-                mMsgSystemTextView.setTextColor(getResources().getColor(R.color.white));
-                line1.setVisibility(View.INVISIBLE);
-                line2.setVisibility(View.VISIBLE);
                 break;
         }
     }

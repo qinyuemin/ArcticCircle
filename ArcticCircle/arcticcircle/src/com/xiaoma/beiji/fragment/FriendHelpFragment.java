@@ -67,7 +67,7 @@ public class FriendHelpFragment extends SimpleFragment implements AdapterView.On
             }
         });
 
-        releaseUserId = getArguments().getString("releaseUserId");
+//        releaseUserId = getArguments().getString("releaseUserId");
     }
 
     @Override
