@@ -70,7 +70,7 @@ public class PublishActivity extends SimpleBaseActivity implements View.OnClickL
 
     @Override
     protected String getActivityTitle() {
-        return releaseType == 1? "发布实名动态":"发布朋友求助";
+        return releaseType == 0? "点评":"求助";
     }
 
     @Override

@@ -171,6 +171,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/item_layout_setting"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         android:visibility="gone"
         android:orientation="vertical">
         <LinearLayout

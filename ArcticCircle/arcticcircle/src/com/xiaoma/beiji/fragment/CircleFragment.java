@@ -14,7 +14,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.PopupWindow;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import com.makeapp.android.util.ViewUtil;
@@ -24,6 +27,7 @@ import com.xiaoma.beiji.base.SimpleFragment;
 import com.xiaoma.beiji.common.Global;
 import com.xiaoma.beiji.controls.view.zxing.CaptureActivity;
 import com.xiaoma.beiji.manager.chatting.IMXmppManager;
+import com.xiaoma.beiji.util.DisplayUtils;
 import com.xiaoma.beiji.util.IntentUtil;
 import com.xiaoma.beiji.util.ToastUtil;
 import org.jivesoftware.smack.XMPPException;
@@ -93,16 +97,29 @@ public class CircleFragment extends SimpleFragment implements View.OnClickListen
         ViewUtil.setViewOnClickListener(v, R.id.img_publish, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                IntentUtil.goTrendsPublishActivity(getFragmentActivity(),currentPosition+1);
+//                IntentUtil.goTrendsPublishActivity(getFragmentActivity(),currentPosition+1);
+                PopupWindow popupWindow = new MainPublishPopView(getFragmentActivity(), ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT, true);
+                popupWindow.setFocusable(true);
+                popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_emotion));
+                popupWindow.setOutsideTouchable(true);
+                popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        ViewUtil.setViewBackgroundResource(v, R.id.img_publish, R.drawable.ic_edit);
+                    }
+                });
+                popupWindow.showAsDropDown(ViewUtil.findViewById(v, R.id.img_publish), -DisplayUtils.dp2px(getContext(),20f),0);
+                ViewUtil.setViewBackgroundResource(v,R.id.img_publish,R.drawable.ic_scanning);
             }
         });
 
-        ViewUtil.setViewOnClickListener(v, R.id.img_scanning, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                IntentUtil.goScanActivity(CircleFragment.this);
-            }
-        });
+//        ViewUtil.setViewOnClickListener(v, R.id.img_scanning, new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                IntentUtil.goScanActivity(CircleFragment.this);
+//            }
+//        });
 
         ViewUtil.setViewOnClickListener(v, R.id.img_search, new View.OnClickListener() {
             @Override
