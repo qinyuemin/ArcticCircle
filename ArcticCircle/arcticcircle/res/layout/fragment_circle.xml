@@ -9,7 +9,7 @@
     <LinearLayout
             android:id="@+id/linearLayout1"
             android:layout_width="fill_parent"
-            android:layout_height="35.0dip"
+            android:layout_height="@dimen/title_bar_height"
             android:gravity="center_vertical"
             android:background="@color/bg_main"
             android:orientation="horizontal">

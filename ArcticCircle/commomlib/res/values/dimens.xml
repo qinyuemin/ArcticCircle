@@ -553,5 +553,5 @@
     <dimen name="dimen_h_343">343.0dip</dimen>
 
     
-    <dimen name="title_bar_height">@dimen/dimen_42_dip</dimen>
+    <dimen name="title_bar_height">@dimen/dimen_35_dip</dimen>
 </resources>
