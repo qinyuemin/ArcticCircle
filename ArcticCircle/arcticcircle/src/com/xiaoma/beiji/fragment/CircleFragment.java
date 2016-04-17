@@ -25,6 +25,7 @@ import com.xiaoma.beiji.R;
 import com.xiaoma.beiji.adapter.FragmentAdapter;
 import com.xiaoma.beiji.base.SimpleFragment;
 import com.xiaoma.beiji.common.Global;
+import com.xiaoma.beiji.controls.view.PagerSlidingTabStrip;
 import com.xiaoma.beiji.controls.view.zxing.CaptureActivity;
 import com.xiaoma.beiji.manager.chatting.IMXmppManager;
 import com.xiaoma.beiji.util.DisplayUtils;
@@ -49,7 +50,8 @@ public class CircleFragment extends SimpleFragment implements View.OnClickListen
     private ViewPager mViewPager;
 //    private TextView mMsgSystemTextView;
 //    private TextView mMsgPrivateTextView;
-    private TabLayout mTableLayout;
+//    private TabLayout mTableLayout;
+    private PagerSlidingTabStrip mTableLayout;
     private FragmentAdapter adapter;
     private int currentPosition = 0;
     private List<String> CONTENT = new ArrayList<>();
@@ -71,13 +73,13 @@ public class CircleFragment extends SimpleFragment implements View.OnClickListen
 //        adapter = new MessageCenterAdapter(getFragmentActivity().getSupportFragmentManager());
 //        mMsgSystemTextView = (TextView) v.findViewById(R.id.message_system_txt);
 //        mMsgPrivateTextView = (TextView) v.findViewById(R.id.message_private_txt);
-        mTableLayout = (TabLayout) v.findViewById(R.id.title_tab_layout);
+        mTableLayout = (PagerSlidingTabStrip) v.findViewById(R.id.title_tab_layout);
         List<String> titles = new ArrayList<>();
         titles.add("点评");
         titles.add("问问");
         //初始化TabLayout的title
-        mTableLayout.addTab(mTableLayout.newTab().setText(titles.get(0)));
-        mTableLayout.addTab(mTableLayout.newTab().setText(titles.get(1)));
+//        mTableLayout.addTab(mTableLayout.newTab().setText(titles.get(0)));
+//        mTableLayout.addTab(mTableLayout.newTab().setText(titles.get(1)));
         //初始化ViewPager的数据集
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(new FriendDynamicFragment());
@@ -86,8 +88,9 @@ public class CircleFragment extends SimpleFragment implements View.OnClickListen
         adapter = new FragmentAdapter(getActivity().getSupportFragmentManager(), fragments, titles);
         mViewPager = (ViewPager) v.findViewById(R.id.vPager);
         mViewPager.setAdapter(adapter);
-        mTableLayout.setupWithViewPager(mViewPager);
-        mTableLayout.setTabsFromPagerAdapter(adapter);
+        mTableLayout.setViewPager(mViewPager);
+//        mTableLayout.setupWithViewPager(mViewPager);
+//        mTableLayout.setTabsFromPagerAdapter(adapter);
 
         mViewPager.setOnPageChangeListener(this);
 

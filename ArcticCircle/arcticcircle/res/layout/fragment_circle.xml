@@ -23,16 +23,18 @@
                    android:id="@+id/img_search"
         />
 
-        <android.support.design.widget.TabLayout
+        <com.xiaoma.beiji.controls.view.PagerSlidingTabStrip
             android:id="@+id/title_tab_layout"
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            app:tabSelectedTextColor="@color/blue"
-            app:tabTextColor="#C0C3C9"
-            app:tabMode="fixed"
-            app:tabIndicatorHeight="2dp"
-            app:tabIndicatorColor="@color/blue"
             android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="@dimen/text_size_24px"
+            app:pstsTabTextColor="#C0C3C9"
+            app:pstsTabSelectTextColor="@color/blue"
+            app:pstsIndicatorHeight="2dp"
+            app:pstsIndicatorColor="@color/blue"
+            app:pstsIndicatorWidth="25dp"
+            app:pstsShouldExpand="true"
             android:background="#00ffffff"/>
 
         <ImageView android:layout_width="wrap_content"
