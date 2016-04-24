@@ -11,10 +11,14 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.ImageSpan;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -56,11 +60,18 @@ public class PublishActivity extends SimpleBaseActivity implements View.OnClickL
     private static final int INTENT_REQUEST_CODE_GET_IMAGE_ACTIVITY = 6;
     private static final int INTENT_REQUEST_CODE_CROP = 4;
 
+    public static final int PUBLISH_DIANPING = 0;
+    public static final int PUBLISH_WENWEN = 1;
+    public static final int PUBLISH_CHANGWEN = 2;
+
+
     private GetImageActivity.GetImageConfig getImageConfig = null;
     private String mTempImagePath;
     private String mTempCropImagePath;// 裁剪图的缓存路径
 
     private EditText edtContent;
+    private EditText edtShopName;
+    private EditText edtShopPrice;
     private GridView gvPic;
     private List<FileUploadResultEntity> entities;
     private List<FileUploadResultEntity> uploadFialedEntities;
@@ -70,7 +81,19 @@ public class PublishActivity extends SimpleBaseActivity implements View.OnClickL
 
     @Override
     protected String getActivityTitle() {
-        return releaseType == 0? "点评":"求助";
+        String title = "";
+        switch (releaseType){
+            case PUBLISH_DIANPING:
+                title = "点评";
+                break;
+            case PUBLISH_WENWEN:
+                title = "求助";
+                break;
+            case PUBLISH_CHANGWEN:
+                title = "长文";
+                break;
+        }
+        return title;
     }
 
     @Override
@@ -103,17 +126,33 @@ public class PublishActivity extends SimpleBaseActivity implements View.OnClickL
         setTitleControlsInfo();
         uploadFialedEntities = new ArrayList<>();
         int screenWidth = CommUtil.getScreenWidth(this);
-        int dip5 = CommUtil.dip2px(getApplicationContext(), 5);
-        int imageSize = (screenWidth - (dip5 * 4)) / 3;
+        int dip15 = CommUtil.dip2px(getApplicationContext(), 15);
+        int imageSize = (screenWidth - (dip15 * 4)) / 3;
         adapter = new PublishImageListAdapter(this, entities, imageSize, MAX_IMAGE_SIZE);
 
         edtContent = (EditText) findViewById(R.id.edt_content);
+        edtShopName = (EditText) findViewById(R.id.edt_shopname);
+        edtShopPrice = (EditText) findViewById(R.id.edt_shopprice);
         gvPic = (GridView) findViewById(R.id.gv_pic);
         entities = new ArrayList<>();
 
         gvPic.setAdapter(adapter);
         gvPic.setOnItemClickListener(this);
 
+        switch (releaseType){
+            case PUBLISH_DIANPING:
+                findViewById(R.id.layout_shop_name).setVisibility(View.VISIBLE);
+                findViewById(R.id.layout_shop_price).setVisibility(View.VISIBLE);
+                break;
+            case PUBLISH_WENWEN:
+                findViewById(R.id.layout_shop_name).setVisibility(View.GONE);
+                findViewById(R.id.layout_shop_price).setVisibility(View.GONE);
+                break;
+            case PUBLISH_CHANGWEN:
+                findViewById(R.id.layout_shop_name).setVisibility(View.GONE);
+                findViewById(R.id.layout_shop_price).setVisibility(View.GONE);
+                break;
+        }
     }
 
     @Override
@@ -124,13 +163,24 @@ public class PublishActivity extends SimpleBaseActivity implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.title_bar_right_layout:
-                submitContent();
+                switch (releaseType){
+                    case PUBLISH_DIANPING:
+                        fabuPinglun();
+                        break;
+                    case PUBLISH_WENWEN:
+                        publishAsk();
+                        break;
+                    case PUBLISH_CHANGWEN:
+                        break;
+                }
                 break;
         }
     }
 
-    private void submitContent() {
+    private void fabuPinglun() {
         final String content = String.valueOf(edtContent.getText());
+        String shopName = String.valueOf(edtShopName.getText());
+        String price = String.valueOf(edtShopPrice.getText());
 
         if (TextUtils.isEmpty(content)) {
             ToastUtil.showToast(this, "请输入发布内容!");
@@ -139,15 +189,58 @@ public class PublishActivity extends SimpleBaseActivity implements View.OnClickL
 
         final List<FileUploadResultEntity> imagePathList = adapter.getDataList();
 
-        if (imagePathList.size() == 0) {
-            ToastUtil.showToast(this, "请添加图片");
+        List<String> pics = new ArrayList<>();
+        for(FileUploadResultEntity entity : imagePathList){
+            if(entity.isUpload){
+                pics.add(entity.getUploadPath());
+            }else{
+                ToastUtil.showToast(this, "图片还未上传完成");
+                return;
+            }
+
         }
+        if(pics.size() == 0){
+            ToastUtil.showToast(this, "请加入图片分享心得吧");
+            return;
+        }
+
+        HttpClientUtil.Dynamic.dynamicReleaseDynamicV2(content, "", shopName,"",price,"", pics, new AbsHttpResultHandler() {
+            @Override
+            public void onSuccess(int resultCode, String desc, Object data) {
+                ToastUtil.showToast(PublishActivity.this, "发布成功");
+                PublishActivity.this.finish();
+            }
+
+            @Override
+            public void onFailure(int resultCode, String desc) {
+                ToastUtil.showToast(PublishActivity.this, "发布失败:" + desc);
+            }
+        });
+
+
+    }
+
+    private void publishAsk() {
+        final String content = String.valueOf(edtContent.getText());
+
+        if (TextUtils.isEmpty(content)) {
+            ToastUtil.showToast(this, "请输入内容!");
+            return;
+        }
+
+        final List<FileUploadResultEntity> imagePathList = adapter.getDataList();
 
         List<String> pics = new ArrayList<>();
         for(FileUploadResultEntity entity : imagePathList){
-            pics.add(entity.getUploadPath());
+            if(entity.isUpload){
+                pics.add(entity.getUploadPath());
+            }else{
+                ToastUtil.showToast(this, "图片还未上传完成");
+                return;
+            }
+
         }
-        HttpClientUtil.Dynamic.dynamicReleaseDynamic(releaseType,content, pics, new AbsHttpResultHandler() {
+        HttpClientUtil.Dynamic.dynamicReleaseSeekHelp(content, pics, new AbsHttpResultHandler() {
             @Override
             public void onSuccess(int resultCode, String desc, Object data) {
                 ToastUtil.showToast(PublishActivity.this, "发布成功");
@@ -193,6 +286,7 @@ public class PublishActivity extends SimpleBaseActivity implements View.OnClickL
 
                                 @Override
                                 public void onFailure(int resultCode, String desc) {
+                                    ToastUtil.showToast(PublishActivity.this, desc);
                                     uploadFialedEntities.add(entity);
                                 }
                             });

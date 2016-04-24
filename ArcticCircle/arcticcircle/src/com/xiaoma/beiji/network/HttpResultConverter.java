@@ -90,20 +90,32 @@ public class HttpResultConverter<T> extends BaseJsonHttpResponseHandler {
                 List<T> objList = null;
                 if (jsonObject.containsKey(RESPONSE_DATA)) {
                     Object object = jsonObject.get(RESPONSE_DATA);
-                    try {
-                        JSONObject json = (JSONObject) object;
+                    if(object instanceof  JSONArray){
+                        JSONArray array = (JSONArray)object;
+                        objList = JSON.parseArray(array.toJSONString(), clazz);
+                        handler.onSuccess(errorCode, message, objList);
+                    }else if(object instanceof  JSONObject){
+                        JSONObject json = (JSONObject)object;
                         obj = JSON.toJavaObject(json, clazz);
-                    } catch (Exception e) {
-//                    e.printStackTrace();
-                        try {
-                            JSONArray json = (JSONArray) object;
-                            objList = JSON.parseArray(json.toJSONString(), clazz);
-                        } catch (Exception e1) {
-                            e1.printStackTrace();
-                        }
+                        handler.onSuccess(errorCode, message, obj);
+                    }else{
+//                        obj = clazz.newInstance();
+                        handler.onSuccess(errorCode, message, object);
                     }
-                    handler.onSuccess(errorCode, message, obj);
-                    handler.onSuccess(errorCode, message, objList);
+//                    try {
+//                        JSONObject json = (JSONObject) object;
+//                        obj = JSON.toJavaObject(json, clazz);
+//                    } catch (Exception e) {
+////                    e.printStackTrace();
+//                        try {
+//                            JSONArray json = (JSONArray) object;
+//                            objList = JSON.parseArray(json.toJSONString(), clazz);
+//                        } catch (Exception e1) {
+//                            e1.printStackTrace();
+//                        }
+//                    }
+
+
                 }
             } else {
                 handler.onFailure(errorCode, message);

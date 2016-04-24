@@ -564,16 +564,44 @@ public class HttpClientUtil {
         }
 
         /**
+         * 发布评论 第二版
+         * @param dynamicContent            # 动态内容
+         * @param shopId                    # 店铺ID
+         * @param shopName                  # 店铺名称
+         * @param area                       # 地点
+         * @param price                      # 消费金额
+         * @param description               # 转发描述
+         * @param picList                   # 图片列表（图片数组，图片路径）
+         * @param handler                   # 回调处理
+         */
+        public static void dynamicReleaseDynamicV2(String dynamicContent, String shopId, String shopName, String area,
+                                                   String price, String description,List<String> picList, AbsHttpResultHandler handler) {
+            Map<String, Object> params = new HashMap<>();
+            params.put("user_id", Global.getUserId());
+            params.put("user_session", Global.getUserSession());
+            params.put("area", area);
+            params.put("content", dynamicContent);
+            params.put("associated_shop_name", shopName);
+            params.put("associated_shop_id", shopId);
+            params.put("description", description);
+            params.put("associated_price", price);
+            params.put("pic_list", picList);
+            params.put("dynamic_type", 1);
+            executeAction(UrlConstants.DYNAMIC_RELEASE_DYNAMICV2, null, params, handler);
+        }
+
+        /**
          * 发布求助
          */
         public static void dynamicReleaseSeekHelp(String dynamicContent, List<String> picList, AbsHttpResultHandler handler) {
             Map<String, Object> params = new HashMap<>();
             params.put("user_id", Global.getUserId());
             params.put("user_session", Global.getUserSession());
+            params.put("dynamic_type", 2);
             params.put("area", "");// 放入地址
-            params.put("dynamic_content", dynamicContent);
+            params.put("content", dynamicContent);
             params.put("pic_list", picList);//todo 须检查特殊处理
-            executeAction(UrlConstants.DYNAMIC_RELEASE_SEEK_HELP, null, params, handler);
+            executeAction(UrlConstants.DYNAMIC_RELEASE_SEEK_HELPV2, null, params, handler);
         }
 
     }

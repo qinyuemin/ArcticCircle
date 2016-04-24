@@ -24,7 +24,7 @@ package com.common.android.lib.common;
  *
  */
 public class LibConstant {
-    public static final UrlType BASE_URL_TYPE = UrlType.RELEASE;
+    public static final UrlType BASE_URL_TYPE = UrlType.INTERNAL;
     
     
     public static enum UrlType {

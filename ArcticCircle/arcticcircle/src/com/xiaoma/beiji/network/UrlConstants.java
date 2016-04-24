@@ -36,21 +36,12 @@ public class UrlConstants {
             BASE_URL = "http://bjqapi.xiaomakeji.com.cn/rest";
             XMPP_SERVER = "121.41.33.187";
             XMPP_PORT = 5222;
-
-            SHARE_URL = "http://testbjqshop.xiaomakeji.com.cn/download";
-        } else if (LibConstant.BASE_URL_TYPE == LibConstant.UrlType.PRE_PUBLISH) {
-            //预测试环境地址
-            BASE_URL = "";
-            XMPP_SERVER = "";
-            XMPP_PORT = -1;
-
-            SHARE_URL = "http://bjqshop.xiaomakeji.com.cn/download";
+            SHARE_URL = "http://bjq2shop.xiaomakeji.com.cn/download";
         } else {
             //测试环境地址
-            BASE_URL = "http://testbjqapi.xiaomakeji.com.cn/rest";
+            BASE_URL = "http://testbjq2api.xiaomakeji.com.cn/rest";
             XMPP_SERVER = "121.40.189.143";
             XMPP_PORT = 5222;
-
             SHARE_URL = "http://testbjqshop.xiaomakeji.com.cn/download";
         }
     }
@@ -87,6 +78,8 @@ public class UrlConstants {
     public static final String DYNAMIC_DO_COMMENT = "Dynamic.do_comment";
     public static final String DYNAMIC_RELEASE_DYNAMIC = "Dynamic.release_dynamic";
     public static final String DYNAMIC_RELEASE_SEEK_HELP = "Dynamic.release_seek_help";
+    public static final String DYNAMIC_RELEASE_SEEK_HELPV2 = "Dynamic.release_ask";
+    public static final String DYNAMIC_RELEASE_DYNAMICV2 = "Dynamic.release_moment";
 
     // Shop
     public static final String SHOP_GET = "Shop.get";

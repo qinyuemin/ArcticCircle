@@ -11,6 +11,8 @@
     <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
                   android:background="@color/white"
                   android:orientation="vertical"
+                    android:paddingLeft="@dimen/dimen_15_dip"
+                android:paddingRight="@dimen/dimen_15_dip"
     >
 
         <EditText android:layout_width="fill_parent" android:layout_height="wrap_content"
@@ -41,9 +43,68 @@
                 android:cacheColorHint="@color/white"
         />
     </LinearLayout>
-    <View android:layout_width="fill_parent"
-          android:layout_height="1dp"
-    android:background="@color/color_line"
-    />
 
+
+    <LinearLayout
+        android:id="@+id/layout_shop_name"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/dimen_15_dip"
+        android:paddingRight="@dimen/dimen_15_dip"
+        android:layout_marginTop="@dimen/dimen_10_dip">
+        <TextView
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_20px"
+        android:text="店铺名"/>
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_publish_shop"/>
+        <EditText
+            android:id="@+id/edt_shopname"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:layout_marginLeft="15dp"
+            android:singleLine="true"
+            android:textSize="@dimen/text_size_20px"
+            android:hint="请输入店铺名称"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layout_shop_price"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/dimen_15_dip"
+        android:paddingRight="@dimen/dimen_15_dip"
+        android:layout_marginTop="@dimen/dimen_10_dip">
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_20px"
+            android:text="价格"/>
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_publish_rmb"/>
+        <EditText
+            android:id="@+id/edt_shopprice"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:layout_marginLeft="15dp"
+            android:singleLine="true"
+            android:textSize="@dimen/text_size_20px"
+            android:hint="请输入消费金额"/>
+    </LinearLayout>
 </LinearLayout>
