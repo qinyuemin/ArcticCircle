@@ -8,12 +8,13 @@
     <LinearLayout android:layout_width="fill_parent"
         android:layout_height="@dimen/title_bar_height"
         android:background="@color/white"
+        android:gravity="center_vertical"
         android:layout_gravity="center_vertical"
         android:orientation="horizontal"
         >
 
-        <LinearLayout android:layout_width="fill_parent"
-            android:layout_height="@dimen/title_bar_height"
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_30_dip"
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
@@ -24,6 +25,7 @@
                 android:id="@+id/spinner_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_18px"
                 android:entries="@array/spingarr_seach"
                 android:background="@null"
                 android:layout_gravity="center_vertical"/>
@@ -38,18 +40,19 @@
                   android:hint="请输入搜索内容"
                   android:paddingLeft="@dimen/dimen_10_dip"
                   android:paddingRight="@dimen/dimen_10_dip"
-                  android:textSize="16sp"
+                  android:textSize="@dimen/text_size_18px"
                   android:textColor="@color/color_black"
                   android:imeOptions="actionSearch"
                   android:singleLine="true"
             />
 
         </LinearLayout>
-        <Button
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btn_search"
-            android:text="确定"/>
+            android:layout_marginRight="15dp"
+            android:text="取消"/>
     </LinearLayout>
     <FrameLayout
         android:layout_width="match_parent"

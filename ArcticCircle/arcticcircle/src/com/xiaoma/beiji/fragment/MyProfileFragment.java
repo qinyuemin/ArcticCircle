@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.makeapp.android.util.ImageViewUtil;
 import com.makeapp.android.util.TextViewUtil;
@@ -21,6 +23,7 @@ import com.xiaoma.beiji.adapter.FragmentAdapter;
 import com.xiaoma.beiji.adapter.RecyclerView1Adapter;
 import com.xiaoma.beiji.base.SimpleFragment;
 import com.xiaoma.beiji.common.Global;
+import com.xiaoma.beiji.controls.view.MyTabLayoutItem;
 import com.xiaoma.beiji.entity.UserInfoEntity;
 import com.xiaoma.beiji.util.CommUtil;
 
@@ -38,7 +41,12 @@ public class MyProfileFragment extends Fragment{
     private ImageButton hideSettingBtn;
     private LinearLayout settingLayout;
 
+    private TextView leftLabel;
+    private TextView rightLabel;
+
     private View rootView;
+
+    MyTabLayoutItem[] tabs;
 
     @Nullable
     @Override
@@ -55,6 +63,12 @@ public class MyProfileFragment extends Fragment{
         permissionSetting.setVisibility(View.GONE);
         View commomFriends = rootView.findViewById(R.id.layout_commom_friends);
         commomFriends.setVisibility(View.GONE);
+        leftLabel = (TextView) rootView.findViewById(R.id.text_left_label);
+        rightLabel = (TextView) rootView.findViewById(R.id.text_right_label);
+        leftLabel.setCompoundDrawables(null,null,null,null);
+        rightLabel.setCompoundDrawables(null,null,null,null);
+        leftLabel.setText("我关注的人");
+        rightLabel.setText("关注我的人");
 //        settingLayout = (LinearLayout) rootView.findViewById(R.id.layout_setting);
 //        hideSettingBtn = (ImageButton) rootView.findViewById(R.id.btn_hide_setting);
 //        hideSettingBtn.setOnClickListener(new View.OnClickListener() {
@@ -71,9 +85,9 @@ public class MyProfileFragment extends Fragment{
         mViewPager = (ViewPager) rootView.findViewById(R.id.view_pager);
         //初始化TabLayout的title数据集
         List<String> titles = new ArrayList<>();
-        titles.add("details");
-        titles.add("share");
-        titles.add("agenda");
+        titles.add("动态");
+        titles.add("求助");
+        titles.add("收藏");
         //初始化TabLayout的title
         mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(0)));
         mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(1)));
@@ -87,7 +101,40 @@ public class MyProfileFragment extends Fragment{
         FragmentAdapter adapter = new FragmentAdapter(getActivity().getSupportFragmentManager(), fragments, titles);
         mViewPager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mViewPager);
-        mTabLayout.setTabsFromPagerAdapter(adapter);
+//        mTabLayout.setTabsFromPagerAdapter(adapter);
+        rootView.findViewById(R.id.layout_other_users).setVisibility(View.GONE);
+
+        tabs = new MyTabLayoutItem[mTabLayout.getTabCount()];
+
+        for (int i = 0; i < mTabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = mTabLayout.getTabAt(i);
+            tabs[i] = new MyTabLayoutItem(getContext());
+            tab.setCustomView(tabs[i].getTabView(i+"",titles.get(i)));
+        }
+        tabs[0].setSelected(true);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                for (int i = 0; i < mTabLayout.getTabCount(); i++) {
+                    MyTabLayoutItem item = tabs[i];
+                    if(position == i){
+                        item.setSelected(true);
+                    }else{
+                        item.setSelected(false);
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
 //        recyclerView = (RecyclerView) rootView.findViewById(R.id.freinds_recycler_view);
 //        LinearLayoutManager manager = new LinearLayoutManager(getContext());
@@ -105,4 +152,5 @@ public class MyProfileFragment extends Fragment{
         TextViewUtil.setText(rootView, R.id.text_user_id, "北极圈号:" + entity.getUserId());
         ImageViewUtil.setImageSrcUrl(rootView,R.id.img_user_head,entity.getAvatar());
     }
+
 }

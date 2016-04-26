@@ -13,7 +13,7 @@
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/ic_def_header"/>
+            android:background="@drawable/icon_pop_publish_dianping"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/ic_def_header"/>
+            android:background="@drawable/icon_pop_publish_changwen"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/ic_def_header"/>
+            android:background="@drawable/icon_pop_publish_wenwen"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

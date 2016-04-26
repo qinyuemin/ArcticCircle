@@ -16,6 +16,7 @@
         android:orientation="horizontal"
         android:paddingLeft="@dimen/dimen_15_dip"
         android:paddingRight="@dimen/dimen_15_dip"
+        android:layout_marginBottom="@dimen/dimen_15_dip"
         android:layout_marginTop="@dimen/dimen_10_dip">
 
         <EditText

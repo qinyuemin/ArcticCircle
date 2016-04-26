@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.xiaoma.beiji.R;
+import com.xiaoma.beiji.activity.PublishActivity;
 import com.xiaoma.beiji.util.IntentUtil;
 import com.xiaoma.beiji.util.ToastUtil;
 
@@ -33,13 +34,14 @@ public class MainPublishPopView extends PopupWindow implements View.OnClickListe
         dismiss();
         switch (v.getId()){
             case R.id.publish_changwen:
-                ToastUtil.showToast(context,"敬请期待");
+//                ToastUtil.showToast(context,"敬请期待");
+                IntentUtil.goTrendsPublishActivity((Activity) context, PublishActivity.PUBLISH_CHANGWEN);
                 break;
             case R.id.publish_dianping:
-                IntentUtil.goTrendsPublishActivity((Activity) context, 0);
+                IntentUtil.goTrendsPublishActivity((Activity) context,  PublishActivity.PUBLISH_DIANPING);
                 break;
             case R.id.publish_qiuzu:
-                IntentUtil.goTrendsPublishActivity((Activity) context,1);
+                IntentUtil.goTrendsPublishActivity((Activity) context, PublishActivity.PUBLISH_WENWEN);
                 break;
 
         }
