@@ -109,11 +109,11 @@ public class CircleFragment extends SimpleFragment implements View.OnClickListen
                 popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
                     @Override
                     public void onDismiss() {
-                        ViewUtil.setViewBackgroundResource(v, R.id.img_publish, R.drawable.ic_edit);
+                        ViewUtil.setViewBackgroundResource(v, R.id.img_publish, R.drawable.ic_publish);
                     }
                 });
                 popupWindow.showAsDropDown(ViewUtil.findViewById(v, R.id.img_publish), -DisplayUtils.dp2px(getContext(),20f),0);
-                ViewUtil.setViewBackgroundResource(v,R.id.img_publish,R.drawable.ic_scanning);
+                ViewUtil.setViewBackgroundResource(v,R.id.img_publish,R.drawable.ic_publish);
             }
         });
 

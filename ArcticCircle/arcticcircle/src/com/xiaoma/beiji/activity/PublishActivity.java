@@ -141,16 +141,20 @@ public class PublishActivity extends SimpleBaseActivity implements View.OnClickL
 
         switch (releaseType){
             case PUBLISH_DIANPING:
+                findViewById(R.id.layout_article_title).setVisibility(View.GONE);
                 findViewById(R.id.layout_shop_name).setVisibility(View.VISIBLE);
                 findViewById(R.id.layout_shop_price).setVisibility(View.VISIBLE);
                 break;
             case PUBLISH_WENWEN:
+                findViewById(R.id.layout_article_title).setVisibility(View.GONE);
                 findViewById(R.id.layout_shop_name).setVisibility(View.GONE);
                 findViewById(R.id.layout_shop_price).setVisibility(View.GONE);
                 break;
             case PUBLISH_CHANGWEN:
+                findViewById(R.id.layout_article_title).setVisibility(View.VISIBLE);
                 findViewById(R.id.layout_shop_name).setVisibility(View.GONE);
                 findViewById(R.id.layout_shop_price).setVisibility(View.GONE);
+                gvPic.setVisibility(View.GONE);
                 break;
         }
     }
@@ -216,6 +220,50 @@ public class PublishActivity extends SimpleBaseActivity implements View.OnClickL
                 ToastUtil.showToast(PublishActivity.this, "发布失败:" + desc);
             }
         });
+
+
+    }
+
+    private void publishArticle() {
+        EditText titleEdite = (EditText) findViewById(R.id.edt_article_title);
+        String title = String.valueOf(titleEdite.getText());
+        final String content = String.valueOf(edtContent.getText());
+
+        if (TextUtils.isEmpty(content)) {
+            ToastUtil.showToast(this, "请输入标题");
+            return;
+        }
+
+        if (TextUtils.isEmpty(content)) {
+            ToastUtil.showToast(this, "请输入内容");
+            return;
+        }
+
+        final List<FileUploadResultEntity> imagePathList = adapter.getDataList();
+
+        List<String> pics = new ArrayList<>();
+        for(FileUploadResultEntity entity : imagePathList){
+            if(entity.isUpload){
+                pics.add(entity.getUploadPath());
+            }else{
+                ToastUtil.showToast(this, "图片还未上传完成");
+                return;
+            }
+
+        }
+
+//        HttpClientUtil.Dynamic.dynamicReleaseDynamicV2(content, "", shopName,"",price,"", pics, new AbsHttpResultHandler() {
+//            @Override
+//            public void onSuccess(int resultCode, String desc, Object data) {
+//                ToastUtil.showToast(PublishActivity.this, "发布成功");
+//                PublishActivity.this.finish();
+//            }
+//
+//            @Override
+//            public void onFailure(int resultCode, String desc) {
+//                ToastUtil.showToast(PublishActivity.this, "发布失败:" + desc);
+//            }
+//        });
 
 
     }

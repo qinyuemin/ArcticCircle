@@ -80,6 +80,7 @@ public class UrlConstants {
     public static final String DYNAMIC_RELEASE_SEEK_HELP = "Dynamic.release_seek_help";
     public static final String DYNAMIC_RELEASE_SEEK_HELPV2 = "Dynamic.release_ask";
     public static final String DYNAMIC_RELEASE_DYNAMICV2 = "Dynamic.release_moment";
+    public static final String DYNAMIC_RELEASE_DYNAMIC_LONG_TEXTV2 = "Dynamic.release_long_text";
 
     // Shop
     public static final String SHOP_GET = "Shop.get";

@@ -9,7 +9,7 @@
             android:id="@+id/bottomBar"
             android:layout_width="fill_parent"
             android:gravity="center_vertical"
-            android:layout_height="@dimen/dimen_50_dip"
+            android:layout_height="@dimen/dimen_45_dip"
             android:layout_alignParentBottom="true"
     />
     <View android:layout_width="fill_parent"

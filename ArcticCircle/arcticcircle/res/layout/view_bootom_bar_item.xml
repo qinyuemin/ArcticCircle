@@ -4,21 +4,34 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
-    <ImageView
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_centerInParent="true">
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/img"
-            android:layout_centerInParent="true"
             android:src="@drawable/ic_logo"
             />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/text"
+            android:textColor="@color/white"
+            android:layout_marginTop="2dp"
+            android:textSize="@dimen/text_size_18px"/>
+    </LinearLayout>
 
     <ImageView
             android:layout_width="@dimen/dimen_8_dip"
             android:layout_height="@dimen/dimen_8_dip"
             android:id="@+id/img_point"
-            android:layout_alignTop="@id/img"
-            android:layout_alignRight="@id/img"
+            android:layout_alignTop="@id/content"
+            android:layout_alignRight="@id/content"
             android:visibility="gone"
             android:layout_marginRight="8dp"
             />

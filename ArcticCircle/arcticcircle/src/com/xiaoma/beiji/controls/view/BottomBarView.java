@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.TextView;
+
 import com.xiaoma.beiji.R;
 
 import java.util.ArrayList;
@@ -42,10 +44,12 @@ public class BottomBarView extends LinearLayout implements OnClickListener {
             view = from.inflate(R.layout.view_bootom_bar_item, null);
             ImageView iv = (ImageView) view.findViewById(R.id.img);//new ImageView(context);
             ImageView imgPoint = (ImageView) view.findViewById(R.id.img_point);//new ImageView(context);
+            TextView textView = (TextView) view.findViewById(R.id.text);
             if (pageItem == PageItem.MINE) {
             }
             iv.setScaleType(ScaleType.CENTER_INSIDE);
             iv.setImageResource(pageItem.getResId());
+            textView.setText(pageItem.getStr());
             view.setTag(pageItem);
             view.setOnClickListener(this);
             this.addView(view, lp);
@@ -53,7 +57,7 @@ public class BottomBarView extends LinearLayout implements OnClickListener {
 
         setWeightSum(mAllPage.size());
 
-        setBackgroundColor(getResources().getColor(R.color.white));
+        setBackgroundColor(getResources().getColor(R.color.blue));
 //        setBackgroundResource(R.drawable.toolbar_bg);
     }
 
@@ -102,18 +106,28 @@ public class BottomBarView extends LinearLayout implements OnClickListener {
     }
 
     public static enum PageItem {
-        INDEX(0, R.drawable.toolbar_circle, R.drawable.toolbar_circle_press),
-        FIND(1, R.drawable.toolbar_chat, R.drawable.toolbar_chat_press),
-        STATISTICS(2, R.drawable.toolbar_chat, R.drawable.toolbar_chat_press),
-        MINE(3, R.drawable.toolbar_mine, R.drawable.toolbar_mine_press);
+        INDEX(0, R.drawable.toolbar_circle, R.drawable.toolbar_circle_press,"圈子"),
+        FIND(1, R.drawable.toolbar_find, R.drawable.toolbar_find_press,"发现"),
+        STATISTICS(2, R.drawable.toolbar_chat, R.drawable.toolbar_chat_press,"私聊"),
+        MINE(3, R.drawable.toolbar_mine, R.drawable.toolbar_mine_press,"我的");
         private int resId;
         private int selectedResId;
         private int order;
+        private String str;
 
-        private PageItem(int order, int resId, int selectedResId) {
+        private PageItem(int order, int resId, int selectedResId,String str) {
             this.order = order;
             this.resId = resId;
             this.selectedResId = selectedResId;
+            this.str = str;
+        }
+
+        public String getStr() {
+            return str;
+        }
+
+        public void setStr(String str) {
+            this.str = str;
         }
 
         public int getResId() {

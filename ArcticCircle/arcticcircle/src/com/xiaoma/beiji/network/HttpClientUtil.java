@@ -600,10 +600,23 @@ public class HttpClientUtil {
             params.put("dynamic_type", 2);
             params.put("area", "");// 放入地址
             params.put("content", dynamicContent);
-            params.put("pic_list", picList);//todo 须检查特殊处理
+            params.put("pic_list", picList);
             executeAction(UrlConstants.DYNAMIC_RELEASE_SEEK_HELPV2, null, params, handler);
         }
 
+        /**
+         * 发布长文
+         */
+        public static void dynamicReleasLongText(String title,String content, List<String> picList, AbsHttpResultHandler handler) {
+//            Map<String, Object> params = new HashMap<>();
+//            params.put("user_id", Global.getUserId());
+//            params.put("user_session", Global.getUserSession());
+//            params.put("dynamic_type", 2);
+//            params.put("area", "");// 放入地址
+//            params.put("content", dynamicContent);
+//            params.put("pic_list", picList);//todo 须检查特殊处理
+//            executeAction(UrlConstants.DYNAMIC_RELEASE_SEEK_HELPV2, null, params, handler);
+        }
     }
 
     public static class Shop {
