@@ -40,7 +40,7 @@
                     android:textSize="@dimen/text_size_24px"
                     android:textColor="@color/gray_title"
                     android:paddingRight="@dimen/text_size_20px"
-                    android:minWidth="@dimen/dimen_80_dip"
+                    android:minWidth="@dimen/dimen_60_dip"
                     android:text="朗朗茫啊啊啊"/>
                 <ImageView
                     android:layout_width="12dp"
