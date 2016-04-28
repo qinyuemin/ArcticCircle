@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/btn_search"
             android:layout_marginRight="15dp"
-            android:text="取消"/>
+            android:text="确定"/>
     </LinearLayout>
     <FrameLayout
         android:layout_width="match_parent"

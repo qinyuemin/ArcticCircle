@@ -327,6 +327,14 @@ public class HttpClientUtil {
             executeAction(UrlConstants.USER_GET_DYNAMIC_COMMENTS, JSONObject.class, params, handler);
         }
 
+        public static void userHomeDynamic( AbsHttpResultHandler handler) {
+            Map<String, Object> params = new HashMap<>();
+            params.put("user_id", Global.getUserId());
+            params.put("user_session", Global.getUserSession());
+            params.put("release_type", 1);
+            executeAction(UrlConstants.USER_HOME_DYNAMIC, UserInfoEntity.class, params, handler);
+        }
+
         public static void userGetShopComments(String bottomCommentId, AbsHttpResultHandler handler) {
             Map<String, Object> params = new HashMap<>();
             params.put("user_id", Global.getUserId());
@@ -873,6 +881,26 @@ public class HttpClientUtil {
         }
     }
 
+    public static class Search{
+
+        public static void searchDynamic(String searchContent, AbsHttpResultHandler handler){
+            Map<String, Object> params = new HashMap<>();
+            params.put("user_id", Global.getUserId());
+            params.put("user_session", Global.getUserSession());
+            params.put("key_words", searchContent);
+            executeAction(UrlConstants.SEARCH_DYNAMIC, FriendDynamicEntity.class, params, handler);
+        }
+
+        public static void searchFriends(String searchContent, AbsHttpResultHandler handler){
+            Map<String, Object> params = new HashMap<>();
+            params.put("user_id", Global.getUserId());
+            params.put("user_session", Global.getUserSession());
+            params.put("key_words", searchContent);
+            executeAction(UrlConstants.SEARCH_USER, UserInfoEntity.class, params, handler);
+        }
+
+    }
+
     /**
      * 上传图片
      * user_id, user_session, userfile[文件上传name]
@@ -891,14 +919,6 @@ public class HttpClientUtil {
         }
 
         executeActionForm(UrlConstants.IMAGES_UPLOAD, FileUploadResultEntity.class, params, handler);
-    }
-
-    public static void searchGetList(String searchContent, AbsHttpResultHandler handler) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("user_id", Global.getUserId());
-        params.put("user_session", Global.getUserSession());
-        params.put("search_text", searchContent);
-        executeAction(UrlConstants.SEARCH_GET_LIST, SearchEntity.class, params, handler);
     }
 
     public static void vCardChange(List<ContactEntity> entities,AbsHttpResultHandler handler){

@@ -10,18 +10,21 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.makeapp.android.util.ViewUtil;
 import com.xiaoma.beiji.R;
 import com.xiaoma.beiji.base.SimpleBaseActivity;
+import com.xiaoma.beiji.entity.FriendDynamicEntity;
 import com.xiaoma.beiji.entity.HotShop;
 import com.xiaoma.beiji.entity.ShopEntity;
 import com.xiaoma.beiji.entity.Title;
+import com.xiaoma.beiji.entity.UserInfoEntity;
 import com.xiaoma.beiji.fragment.InfoDetailsFragment;
 import com.xiaoma.beiji.fragment.SearchFriendFragment;
 import com.xiaoma.beiji.fragment.SearchShopFragment;
+import com.xiaoma.beiji.network.AbsHttpResultHandler;
+import com.xiaoma.beiji.network.HttpClientUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +46,8 @@ public class SearchActivity extends SimpleBaseActivity implements View.OnClickLi
     private SearchFriendFragment searchFriendFragment;
     private InfoDetailsFragment infoDetailsFragment;
 
+    private EditText searchEdit;
+
     private List<Object> list = new ArrayList<>();
 
     private Spinner spinner;
@@ -62,6 +67,7 @@ public class SearchActivity extends SimpleBaseActivity implements View.OnClickLi
     @Override
     protected void initComponents() {
         spinner = (Spinner) findViewById(R.id.spinner_search);
+        searchEdit = (EditText) findViewById(R.id.edt_search);
         findViewById(R.id.btn_search).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,7 +94,10 @@ public class SearchActivity extends SimpleBaseActivity implements View.OnClickLi
             shopEntity.setShowName("收藏"+i);
             list.add(shopEntity);
         }
+
     }
+
+
 
     @Override
     protected void loadData() {
@@ -102,11 +111,14 @@ public class SearchActivity extends SimpleBaseActivity implements View.OnClickLi
             case HAOYOU:
                 searchShopFragment.setList(list);
                 fragment = searchShopFragment;
+                searchUser();
                 break;
             case DONGTAI:
                 fragment =infoDetailsFragment;
+                searchDynamic();
                 break;
         }
+        HttpClientUtil.logger(fragment.getClass().getSimpleName());
         if(fragment!=null){
             fmt = fragmentManager.beginTransaction();
             if (!fragment.isAdded()) {
@@ -116,6 +128,55 @@ public class SearchActivity extends SimpleBaseActivity implements View.OnClickLi
             }
             fmt.commitAllowingStateLoss();
         }
+    }
+
+    private void searchDynamic(){
+        String keywords = searchEdit.getText().toString().trim();
+        HttpClientUtil.Search.searchDynamic(keywords, new AbsHttpResultHandler<FriendDynamicEntity>() {
+
+
+            @Override
+            public void onSuccess(int resultCode, String desc, FriendDynamicEntity data) {
+
+            }
+
+            @Override
+            public void onSuccess(int resultCode, String desc, List<FriendDynamicEntity> list) {
+//                for(FriendDynamicEntity entity: list){
+//                    HttpClientUtil.logger(entity.toString());
+//                }
+                infoDetailsFragment.setList(list);
+            }
+
+            @Override
+            public void onFailure(int resultCode, String desc) {
+
+            }
+        });
+    }
+
+    private void searchUser(){
+        String keywords = searchEdit.getText().toString().trim();
+        HttpClientUtil.Search.searchFriends(keywords, new AbsHttpResultHandler<UserInfoEntity>() {
+
+
+            @Override
+            public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
+
+            }
+
+            @Override
+            public void onSuccess(int resultCode, String desc, List<UserInfoEntity> list) {
+                for(UserInfoEntity entity: list){
+                    HttpClientUtil.logger(entity.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(int resultCode, String desc) {
+
+            }
+        });
     }
 
     @Override

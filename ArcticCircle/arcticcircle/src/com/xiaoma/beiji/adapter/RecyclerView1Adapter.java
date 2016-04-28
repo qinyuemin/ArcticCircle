@@ -38,7 +38,7 @@ public class RecyclerView1Adapter extends RecyclerView.Adapter<RecyclerView1Adap
 
     @Override
     public void onBindViewHolder(RecyclerView1Adapter.ViewHolder holder, int position) {
-//        holder.mTextView.setBackgroundColor(mContext.getResources().getColor(colors[position%(colors.length)]));
+//        holder.titleTextView.setBackgroundColor(mContext.getResources().getColor(colors[position%(colors.length)]));
         String  str = strings.get(position);
         holder.mTextView.setImageResource(R.drawable.ic_def_header);
     }

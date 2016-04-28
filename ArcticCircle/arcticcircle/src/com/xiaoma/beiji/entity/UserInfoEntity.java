@@ -9,6 +9,7 @@ package com.xiaoma.beiji.entity;
 import com.alibaba.fastjson.annotation.JSONField;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  *
@@ -57,6 +58,182 @@ public class UserInfoEntity implements Serializable{
     private String isEnabled;
     @JSONField (name = "create_time")
     private String createTime;
+
+    @JSONField (name = "address")
+    private String address;
+
+    @JSONField (name = "profile")
+    private String profile;
+
+    @JSONField (name = "label")
+    private String label;
+
+    @JSONField (name = "favorite_num")
+    private String favorite_num;
+
+    @JSONField (name = "dynamic_num")
+    private String dynamic_num;
+
+    @JSONField (name = "attention_user_num")
+    private String attention_user_num;
+
+    @JSONField (name = "attention_friend_num")
+    private String attention_friend_num;
+
+    @JSONField (name = "attention_num")
+    private String attention_num;
+
+    @JSONField (name = "is_register")
+    private String is_register;
+
+    @JSONField (name = "is_attention")
+    private String is_attention;
+
+    @JSONField (name = "last_dynamic_content")
+    private String last_dynamic_content;
+
+    @JSONField (name = "is_talent")
+    private String is_talent;
+
+    @JSONField (name = "cant_see_me")
+    private String cant_see_me;
+
+    @JSONField (name = "my_friend_cant_see_his")
+    private String my_friend_cant_see_his;
+
+    @JSONField (name = "dynamic_list")
+    private List<FriendDynamicEntity> release_data;
+
+    @JSONField (name = "common_friends")
+    private CommonFriends common_friends;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public String getFavorite_num() {
+        return favorite_num;
+    }
+
+    public void setFavorite_num(String favorite_num) {
+        this.favorite_num = favorite_num;
+    }
+
+    public String getDynamic_num() {
+        return dynamic_num;
+    }
+
+    public void setDynamic_num(String dynamic_num) {
+        this.dynamic_num = dynamic_num;
+    }
+
+    public String getAttention_user_num() {
+        return attention_user_num;
+    }
+
+    public void setAttention_user_num(String attention_user_num) {
+        this.attention_user_num = attention_user_num;
+    }
+
+    public String getAttention_friend_num() {
+        return attention_friend_num;
+    }
+
+    public void setAttention_friend_num(String attention_friend_num) {
+        this.attention_friend_num = attention_friend_num;
+    }
+
+    public String getAttention_num() {
+        return attention_num;
+    }
+
+    public void setAttention_num(String attention_num) {
+        this.attention_num = attention_num;
+    }
+
+    public String getIs_register() {
+        return is_register;
+    }
+
+    public void setIs_register(String is_register) {
+        this.is_register = is_register;
+    }
+
+    public String getIs_attention() {
+        return is_attention;
+    }
+
+    public void setIs_attention(String is_attention) {
+        this.is_attention = is_attention;
+    }
+
+    public String getLast_dynamic_content() {
+        return last_dynamic_content;
+    }
+
+    public void setLast_dynamic_content(String last_dynamic_content) {
+        this.last_dynamic_content = last_dynamic_content;
+    }
+
+    public String getIs_talent() {
+        return is_talent;
+    }
+
+    public void setIs_talent(String is_talent) {
+        this.is_talent = is_talent;
+    }
+
+    public String getCant_see_me() {
+        return cant_see_me;
+    }
+
+    public void setCant_see_me(String cant_see_me) {
+        this.cant_see_me = cant_see_me;
+    }
+
+    public String getMy_friend_cant_see_his() {
+        return my_friend_cant_see_his;
+    }
+
+    public void setMy_friend_cant_see_his(String my_friend_cant_see_his) {
+        this.my_friend_cant_see_his = my_friend_cant_see_his;
+    }
+
+    public List<FriendDynamicEntity> getRelease_data() {
+        return release_data;
+    }
+
+    public void setRelease_data(List<FriendDynamicEntity> release_data) {
+        this.release_data = release_data;
+    }
+
+    public CommonFriends getCommon_friends() {
+        return common_friends;
+    }
+
+    public void setCommon_friends(CommonFriends common_friends) {
+        this.common_friends = common_friends;
+    }
 
     public int getUserId() {
         return userId;
@@ -144,5 +321,38 @@ public class UserInfoEntity implements Serializable{
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    @Override
+    public String toString() {
+        return "UserInfoEntity{" +
+                "userId=" + userId +
+                ", userPhone='" + userPhone + '\'' +
+                ", userPwd='" + userPwd + '\'' +
+                ", userSession='" + userSession + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", gender='" + gender + '\'' +
+                ", lastLoginTime='" + lastLoginTime + '\'' +
+                ", sessionExpireTime='" + sessionExpireTime + '\'' +
+                ", isEnabled='" + isEnabled + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", address='" + address + '\'' +
+                ", profile='" + profile + '\'' +
+                ", label='" + label + '\'' +
+                ", favorite_num='" + favorite_num + '\'' +
+                ", dynamic_num='" + dynamic_num + '\'' +
+                ", attention_user_num='" + attention_user_num + '\'' +
+                ", attention_friend_num='" + attention_friend_num + '\'' +
+                ", attention_num='" + attention_num + '\'' +
+                ", is_register='" + is_register + '\'' +
+                ", is_attention='" + is_attention + '\'' +
+                ", last_dynamic_content='" + last_dynamic_content + '\'' +
+                ", is_talent='" + is_talent + '\'' +
+                ", cant_see_me='" + cant_see_me + '\'' +
+                ", my_friend_cant_see_his='" + my_friend_cant_see_his + '\'' +
+                ", release_data=" + release_data +
+                ", common_friends=" + common_friends +
+                '}';
     }
 }

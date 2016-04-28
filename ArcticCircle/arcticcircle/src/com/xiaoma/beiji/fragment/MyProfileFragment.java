@@ -25,6 +25,8 @@ import com.xiaoma.beiji.base.SimpleFragment;
 import com.xiaoma.beiji.common.Global;
 import com.xiaoma.beiji.controls.view.MyTabLayoutItem;
 import com.xiaoma.beiji.entity.UserInfoEntity;
+import com.xiaoma.beiji.network.AbsHttpResultHandler;
+import com.xiaoma.beiji.network.HttpClientUtil;
 import com.xiaoma.beiji.util.CommUtil;
 
 import java.util.ArrayList;
@@ -35,11 +37,16 @@ import java.util.List;
  */
 public class MyProfileFragment extends Fragment{
     private static final String TAG = MyProfileFragment.class.getSimpleName();
+
+    private UserInfoEntity userInfoEntity;
+
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private RecyclerView recyclerView;
     private ImageButton hideSettingBtn;
     private LinearLayout settingLayout;
+
+    private InfoDetailsFragment infoDetailsFragment;
 
     private TextView leftLabel;
     private TextView rightLabel;
@@ -53,7 +60,9 @@ public class MyProfileFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_layout_profile,null);
         initComponents(rootView);
-        initInfo(Global.getUserInfo());
+        userInfoEntity = Global.getUserInfo();
+        initInfo();
+        loadMyDynamic();
         return  rootView;
     }
 
@@ -94,7 +103,8 @@ public class MyProfileFragment extends Fragment{
         mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(2)));
         //初始化ViewPager的数据集
         List<Fragment> fragments = new ArrayList<>();
-        fragments.add(new InfoDetailsFragment());
+        infoDetailsFragment = new InfoDetailsFragment();
+        fragments.add(infoDetailsFragment);
         fragments.add(new InfoDetailsFragment());
         fragments.add(new InfoDetailsFragment());
         //创建ViewPager的adapter
@@ -147,10 +157,29 @@ public class MyProfileFragment extends Fragment{
 //        recyclerView.setAdapter(new RecyclerView1Adapter(getContext(),items));
     }
 
-    private void initInfo(UserInfoEntity entity) {
-        TextViewUtil.setText(rootView, R.id.text_user_name, entity.getNickname());
-        TextViewUtil.setText(rootView, R.id.text_user_id, "北极圈号:" + entity.getUserId());
-        ImageViewUtil.setImageSrcUrl(rootView,R.id.img_user_head,entity.getAvatar());
+    private void bindDataToView(){
+        initInfo();
+        infoDetailsFragment.setList(userInfoEntity.getRelease_data());
+    }
+
+    private void loadMyDynamic(){
+        HttpClientUtil.User.userHomeDynamic(new AbsHttpResultHandler<UserInfoEntity>() {
+            @Override
+            public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
+                    userInfoEntity = data;
+                    bindDataToView();
+            }
+
+            @Override
+            public void onFailure(int resultCode, String desc) {
+
+            }
+        });
+    }
+    private void initInfo() {
+        TextViewUtil.setText(rootView, R.id.text_user_name, userInfoEntity.getNickname());
+        TextViewUtil.setText(rootView, R.id.text_user_id, "北极圈号:" + userInfoEntity.getUserId());
+        ImageViewUtil.setImageSrcUrl(rootView,R.id.img_user_head,userInfoEntity.getAvatar());
     }
 
 }

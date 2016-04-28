@@ -61,6 +61,7 @@ public class UrlConstants {
     public static final String USER_GET_FRIEND_INFO = "User.get_friend_info";
     public static final String USER_GET_DYNAMIC_COMMENTS = "User.get_dynamic_comments";
     public static final String USER_GET_SHOP_COMMENTS = "User.get_shop_comments";
+    public static final String USER_HOME_DYNAMIC = "User.home_dynamic";
 
     // app
     public static final String APP_ADD = "App.add";// 接口应用添加
@@ -124,6 +125,8 @@ public class UrlConstants {
     public static final String IMAGES_UPLOAD = "/upload_image";
 
     public static final String SEARCH_GET_LIST = "Search.get_list";// 搜索
+    public static final String SEARCH_DYNAMIC = "Search.dynamic";// 搜索动态
+    public static final String SEARCH_USER = "Search.user";// 搜索用户
 
     public static final String V_CARD_CHANGE = "Vcard.change"; // 更新联系人
 }

@@ -165,29 +165,29 @@ public class SearchActivity_Bak extends SimpleBaseActivity implements View.OnCli
             return;
         }
 
-        HttpClientUtil.searchGetList(searchContent, new AbsHttpResultHandler<SearchEntity>() {
-            @Override
-            public void onSuccess(int resultCode, String desc, SearchEntity data) {
-                friendEntities.clear();
-                friendEntities.addAll(data.getUserEntities());
-                friendAdapter.notifyDataSetChanged();
-
-                dynamicEntities.clear();
-                dynamicEntities.addAll(data.getReleaseDynamic());
-                dynamicAdapter.notifyDataSetChanged();
-
-                shopEntities.clear();
-                shopEntities.addAll(data.getShopEntities());
-                shopAdapter.notifyDataSetChanged();
-
-                setTabColor(currentPosition);
-            }
-
-            @Override
-            public void onFailure(int resultCode, String desc) {
-
-            }
-        });
+//        HttpClientUtil.searchGetList(searchContent, new AbsHttpResultHandler<SearchEntity>() {
+//            @Override
+//            public void onSuccess(int resultCode, String desc, SearchEntity data) {
+//                friendEntities.clear();
+//                friendEntities.addAll(data.getUserEntities());
+//                friendAdapter.notifyDataSetChanged();
+//
+//                dynamicEntities.clear();
+//                dynamicEntities.addAll(data.getReleaseDynamic());
+//                dynamicAdapter.notifyDataSetChanged();
+//
+//                shopEntities.clear();
+//                shopEntities.addAll(data.getShopEntities());
+//                shopAdapter.notifyDataSetChanged();
+//
+//                setTabColor(currentPosition);
+//            }
+//
+//            @Override
+//            public void onFailure(int resultCode, String desc) {
+//
+//            }
+//        });
     }
 
     @Override

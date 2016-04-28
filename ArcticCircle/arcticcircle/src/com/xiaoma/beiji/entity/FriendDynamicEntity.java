@@ -113,6 +113,112 @@ public class FriendDynamicEntity {
     @JSONField(name = "favorite_num")
     private String favoriteNum;
 
+    @JSONField(name = "praise_avatar_user")
+    private List<String> praise_avatar_user;
+
+    @JSONField(name = "share_user_nickname")
+    private List<String> share_user_nickname;
+
+    @JSONField(name = "title")
+    private String title;
+
+    @JSONField(name = "associated_price")
+    private String associated_price;
+
+    @JSONField(name = "primary_business")
+    private String primary_business;
+
+    @JSONField(name = "original_user_data")
+    private UserInfoEntity original_user_data;
+
+    @JSONField(name = "release_favorite_id")
+    private int release_favorite_id;
+
+    @JSONField(name = "showAll1")
+    private boolean showAll1;
+
+    @JSONField(name = "showAll2")
+    private boolean showAll2;
+
+    public void setIsHaveFavorite(boolean isHaveFavorite) {
+        this.isHaveFavorite = isHaveFavorite;
+    }
+
+    public void setIsHavePraise(boolean isHavePraise) {
+        this.isHavePraise = isHavePraise;
+    }
+
+    public List<String> getPraise_avatar_user() {
+        return praise_avatar_user;
+    }
+
+    public void setPraise_avatar_user(List<String> praise_avatar_user) {
+        this.praise_avatar_user = praise_avatar_user;
+    }
+
+    public List<String> getShare_user_nickname() {
+        return share_user_nickname;
+    }
+
+    public void setShare_user_nickname(List<String> share_user_nickname) {
+        this.share_user_nickname = share_user_nickname;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAssociated_price() {
+        return associated_price;
+    }
+
+    public void setAssociated_price(String associated_price) {
+        this.associated_price = associated_price;
+    }
+
+    public String getPrimary_business() {
+        return primary_business;
+    }
+
+    public void setPrimary_business(String primary_business) {
+        this.primary_business = primary_business;
+    }
+
+    public UserInfoEntity getOriginal_user_data() {
+        return original_user_data;
+    }
+
+    public void setOriginal_user_data(UserInfoEntity original_user_data) {
+        this.original_user_data = original_user_data;
+    }
+
+    public int getRelease_favorite_id() {
+        return release_favorite_id;
+    }
+
+    public void setRelease_favorite_id(int release_favorite_id) {
+        this.release_favorite_id = release_favorite_id;
+    }
+
+    public boolean isShowAll1() {
+        return showAll1;
+    }
+
+    public void setShowAll1(boolean showAll1) {
+        this.showAll1 = showAll1;
+    }
+
+    public boolean isShowAll2() {
+        return showAll2;
+    }
+
+    public void setShowAll2(boolean showAll2) {
+        this.showAll2 = showAll2;
+    }
 
     public String getLatitude() {
         return latitude;
@@ -352,5 +458,50 @@ public class FriendDynamicEntity {
 
     public void setFavoriteNum(String favoriteNum) {
         this.favoriteNum = favoriteNum;
+    }
+
+    @Override
+    public String toString() {
+        return "FriendDynamicEntity{" +
+                "releaseId='" + releaseId + '\'' +
+                ", releaseType=" + releaseType +
+                ", dynamicId='" + dynamicId + '\'' +
+                ", area='" + area + '\'' +
+                ", userId='" + userId + '\'' +
+                ", description='" + description + '\'' +
+                ", shopId='" + shopId + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", createTimeTitle='" + createTimeTitle + '\'' +
+                ", releaseTypeTitle='" + releaseTypeTitle + '\'' +
+                ", loginUserId='" + loginUserId + '\'' +
+                ", comment=" + comment +
+                ", nickName='" + nickName + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", gender=" + gender +
+                ", genderTitle='" + genderTitle + '\'' +
+                ", relationalGrade='" + relationalGrade + '\'' +
+                ", isHaveFavorite=" + isHaveFavorite +
+                ", isHavePraise=" + isHavePraise +
+                ", content='" + content + '\'' +
+                ", pic=" + pic +
+                ", praiseNum='" + praiseNum + '\'' +
+                ", pageId='" + pageId + '\'' +
+                ", shopName='" + shopName + '\'' +
+                ", shopPic=" + shopPic +
+                ", shopPraise='" + shopPraise + '\'' +
+                ", latitude='" + latitude + '\'' +
+                ", longitude='" + longitude + '\'' +
+                ", commentNum='" + commentNum + '\'' +
+                ", favoriteNum='" + favoriteNum + '\'' +
+                ", praise_avatar_user=" + praise_avatar_user +
+                ", share_user_nickname=" + share_user_nickname +
+                ", title='" + title + '\'' +
+                ", associated_price='" + associated_price + '\'' +
+                ", primary_business='" + primary_business + '\'' +
+                ", original_user_data=" + original_user_data +
+                ", release_favorite_id=" + release_favorite_id +
+                ", showAll1=" + showAll1 +
+                ", showAll2=" + showAll2 +
+                '}';
     }
 }
