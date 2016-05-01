@@ -14,8 +14,8 @@ import com.xiaoma.beiji.entity.Thing;
 import java.util.List;
 
 /**
- * Author       : yanbo
- * Date         : 2015-06-02
+ * Author       : zhangqibo
+ * Date         : 2016-04-02
  * Time         : 09:47
  * Description  :
  */
