@@ -39,6 +39,12 @@
         <activity android:name=".activity.LoginActivity"
                   android:screenOrientation="portrait"
         />
+        <activity android:name=".activity.AccountSettingActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".activity.AccountSafeActivity"
+            android:screenOrientation="portrait"
+            />
         <activity android:name=".activity.StartActivity"
                   android:screenOrientation="portrait"
         />

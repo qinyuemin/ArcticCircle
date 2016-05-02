@@ -102,4 +102,10 @@
                 android:textColor="@color/color_main_text"
                 android:visibility="gone"/>
     </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/gray_divider"/>
 </RelativeLayout>

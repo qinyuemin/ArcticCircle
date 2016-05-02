@@ -81,7 +81,7 @@ public class IntentUtil {
     public static void goMainActivity(Activity from, BottomBarView.PageItem item) {
         Intent intent = new Intent();
         intent.setClass(from, MainActivity.class);
-        intent.putExtra("item",item);
+        intent.putExtra("item", item);
         from.startActivity(intent);
     }
 
@@ -251,6 +251,16 @@ public class IntentUtil {
 
     public static void goUserPwdChangeActivity(Activity activity) {
         Intent intent = new Intent(activity, UserPwdChangeActivity.class);
+        activity.startActivity(intent);
+    }
+
+    public static void goAccountSafeActivity(Activity activity) {
+        Intent intent = new Intent(activity, AccountSafeActivity.class);
+        activity.startActivity(intent);
+    }
+
+    public static void goAccountSettingActivity(Activity activity) {
+        Intent intent = new Intent(activity, AccountSettingActivity.class);
         activity.startActivity(intent);
     }
 

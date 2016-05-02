@@ -188,8 +188,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }else {
                     contentBuffer.append("、@").append(shareUsers.get(i));
                 }
-                contentBuffer.append("推荐");
             }
+            contentBuffer.append("推荐");
             holder.shareUsers.setText(contentBuffer);
             holder.shareUsers.setVisibility(View.VISIBLE);
         }else {
@@ -250,8 +250,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }else {
                     contentBuffer.append("、@").append(shareUsers.get(i));
                 }
-                contentBuffer.append("推荐");
             }
+            contentBuffer.append("推荐");
             holder.shareUsers.setText(contentBuffer);
             holder.shareUsers.setVisibility(View.VISIBLE);
         }else {

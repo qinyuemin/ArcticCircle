@@ -28,6 +28,7 @@ import com.xiaoma.beiji.entity.UserInfoEntity;
 import com.xiaoma.beiji.network.AbsHttpResultHandler;
 import com.xiaoma.beiji.network.HttpClientUtil;
 import com.xiaoma.beiji.util.CommUtil;
+import com.xiaoma.beiji.util.IntentUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +79,12 @@ public class MyProfileFragment extends Fragment{
         rightLabel.setCompoundDrawables(null,null,null,null);
         leftLabel.setText("我关注的人");
         rightLabel.setText("关注我的人");
+        rootView.findViewById(R.id.btn_account_setting).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentUtil.goAccountSettingActivity(getActivity());
+            }
+        });
 //        settingLayout = (LinearLayout) rootView.findViewById(R.id.layout_setting);
 //        hideSettingBtn = (ImageButton) rootView.findViewById(R.id.btn_hide_setting);
 //        hideSettingBtn.setOnClickListener(new View.OnClickListener() {

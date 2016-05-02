@@ -44,6 +44,7 @@
                         android:layout_gravity="right"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="@dimen/dimen_5_dip"
+                        android:id="@+id/btn_account_setting"
                         android:background="@drawable/ic_setting"/>
                     <RelativeLayout
                         android:layout_width="match_parent"
