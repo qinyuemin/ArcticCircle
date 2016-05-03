@@ -17,6 +17,7 @@ import com.xiaoma.beiji.entity.CommentEntity;
 import com.xiaoma.beiji.entity.FriendDynamicEntity;
 import com.xiaoma.beiji.entity.PicEntity;
 import com.xiaoma.beiji.entity.UserInfoEntity;
+import com.xiaoma.beiji.util.IntentUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,15 +33,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private Context mContext;
 
-    private static final int TYPE_DIANPING = 0;
-    private static final int TYPE_WENWEN = 1;
-    private static final int TYPE_CHANGWEN = 2;
-    private static final int TYPE_ZHUANFA_DIANPING = 3;
-    private static final int TYPE_ZHUANFA_WENWEN = 4;
-    private static final int TYPE_ZHUANFA_CHANGWEN  = 5;
-    private static final int TYPE_GUANGGAO  = 6;
-    private static final int TYPE_TUIJIAN_PINGLUN  = 7;
-    private static final int TYPE_FRIEND_JOIN  = 8;
+    //1 用户动态 2 用户求助  3 用户推荐店铺 4 店铺推广 5 朋友加入 6 转发点评 7长文 8转发长文
+
+    private static final int TYPE_DIANPING = 1;
+    private static final int TYPE_WENWEN = 2;
+    private static final int TYPE_TUIJIAN_SHOP = 3;
+    private static final int TYPE_GUANGGAO  = 4;
+    private static final int TYPE_FRIEND_JOIN  = 5;
+    private static final int TYPE_ZHUANFA_DIANPING = 6;
+    private static final int TYPE_CHANGWEN = 7;
+    private static final int TYPE_ZHUANFA_CHANGWEN  = 8;
+
+//    private static final int TYPE_TUIJIAN_PINGLUN  = 7;
+
 
     public RecyclerViewAdapter(Context mContext,List things) {
         this.mContext = mContext;
@@ -60,33 +65,29 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_dynamic, null, false);
                 holder = new DynamicViewHolder(view);
                 break;
-            case TYPE_CHANGWEN:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_article, null, false);
-                holder = new ArticleViewHolder(view);
-                break;
-            case TYPE_ZHUANFA_DIANPING:
+            case TYPE_TUIJIAN_SHOP:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_dynamic, null, false);
                 holder = new DynamicViewHolder(view);
-                break;
-            case TYPE_ZHUANFA_WENWEN:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_dynamic, null, false);
-                holder = new DynamicViewHolder(view);
-                break;
-            case TYPE_ZHUANFA_CHANGWEN:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_article, null, false);
-                holder = new ArticleViewHolder(view);
                 break;
             case TYPE_GUANGGAO:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_dynamic, null, false);
-                holder = new DynamicViewHolder(view);
-                break;
-            case TYPE_TUIJIAN_PINGLUN:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_dynamic, null, false);
                 holder = new DynamicViewHolder(view);
                 break;
             case TYPE_FRIEND_JOIN:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_dynamic, null, false);
                 holder = new DynamicViewHolder(view);
+                break;
+            case TYPE_ZHUANFA_DIANPING:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_dynamic, null, false);
+                holder = new DynamicViewHolder(view);
+                break;
+            case TYPE_CHANGWEN:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_article, null, false);
+                holder = new ArticleViewHolder(view);
+                break;
+            case TYPE_ZHUANFA_CHANGWEN:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_article, null, false);
+                holder = new ArticleViewHolder(view);
                 break;
             default:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_dynamic, null, false);
@@ -103,20 +104,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         int type = TYPE_DIANPING;
         if(object instanceof FriendDynamicEntity){
             FriendDynamicEntity friendDynamicEntity = (FriendDynamicEntity) object;
-            switch (friendDynamicEntity.getReleaseType()){
-                case 6: //转发点评
-                    type = TYPE_ZHUANFA_DIANPING;
-                    break;
-                case 7: //长文
-                    type = TYPE_CHANGWEN;
-                    break;
-                case 8: //转发长文
-                    type = TYPE_ZHUANFA_CHANGWEN;
-                    break;
-                default:
-                    type = TYPE_DIANPING;
-                    break;
-            }
+            //1 用户动态 2 用户求助  3 用户推荐店铺 4 店铺推广 5 朋友加入 6 转发点评 7长文 8转发长文
+            return friendDynamicEntity.getReleaseType();
         }
         return  type;
     }
@@ -197,7 +186,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    private void initDynamicViewHolder(final DynamicViewHolder holder,FriendDynamicEntity entity){
+    private void initDynamicViewHolder(final DynamicViewHolder holder,final FriendDynamicEntity entity){
         ImageLoader.getInstance().displayImage(entity.getAvatar(), holder.headImage);
         List<PicEntity> picLists = entity.getPic();
         List<String> picStrings = new ArrayList<>();
@@ -243,7 +232,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         List<String> shareUsers = entity.getShare_user_nickname()!= null ? entity.getShare_user_nickname() : new ArrayList<String>();
         if(shareUsers.size()>0){
             StringBuffer contentBuffer = new StringBuffer();
-            contentBuffer.append("已有");
+            contentBuffer.append("已有 ");
             for(int i= 0; i< shareUsers.size(); i++){
                 if(i== 0){
                     contentBuffer.append("@").append(shareUsers.get(i));
@@ -251,12 +240,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     contentBuffer.append("、@").append(shareUsers.get(i));
                 }
             }
-            contentBuffer.append("推荐");
+            contentBuffer.append(" 推荐");
             holder.shareUsers.setText(contentBuffer);
             holder.shareUsers.setVisibility(View.VISIBLE);
         }else {
-            holder.shareUsers.setVisibility(View.GONE);
+//            holder.shareUsers.setVisibility(View.GONE);
+            holder.shareUsers.setText("暂无人推荐");
         }
+
+        holder.rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentUtil.goFriendDynamicDetailActivity(mContext, entity.getReleaseId());
+            }
+        });
     }
 
     @Override
@@ -269,6 +266,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public static class DynamicViewHolder extends RecyclerView.ViewHolder {
+        public View rootView;
         public CircularImage headImage;
         public ImgPagerView imgPagerView;
         public TextView nameTextView;
@@ -285,6 +283,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         public DynamicViewHolder(View view) {
             super(view);
+            rootView = view;
             titleTextView = (TextView) view.findViewById(R.id.text_photo_title);
             contentTextView = (TextView) view.findViewById(R.id.text_photo_content);
             mRecyclerView = (RecyclerView) view.findViewById(R.id.item_recyclerView_lick);

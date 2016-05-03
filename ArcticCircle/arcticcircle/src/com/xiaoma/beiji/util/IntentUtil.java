@@ -128,7 +128,7 @@ public class IntentUtil {
     }
 
     //店铺详情
-    public static void goFriendDynamicDetailActivity(Activity activity, String releaseId) {
+    public static void goFriendDynamicDetailActivity(Context activity, String releaseId) {
         Intent intent = new Intent();
         intent.setClass(activity, FriendDynamicDetailActivity.class);
         intent.putExtra("releaseId", releaseId);

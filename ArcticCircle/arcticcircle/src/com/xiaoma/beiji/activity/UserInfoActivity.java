@@ -8,6 +8,7 @@ package com.xiaoma.beiji.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -68,58 +69,60 @@ public class UserInfoActivity extends SimpleBaseActivity {
         setTitleControlsInfo();
         activity = this;
         infoEntity = Global.getUserInfo();
-        TextViewUtil.setText(this, R.id.txt_phone, CommUtil.getPhoneEncrypt(infoEntity.getUserPhone()));
-        EditTextUtil.setText(this, R.id.edt_name, infoEntity.getNickname());
+        EditTextUtil.setText(this, R.id.edit_nikename, infoEntity.getNickname());
         rgSex = (RadioGroup) findViewById(R.id.rg_sex);
         final int gender = DataUtil.getInt(infoEntity.getGender(), 0);
+        String genderText = "";
         if (gender == 1) {
-            ((RadioButton) findViewById(R.id.rb_male)).setChecked(true);
+//            ((RadioButton) findViewById(R.id.rb_male)).setChecked(true);
+            genderText = "男";
         } else {
-            ((RadioButton) findViewById(R.id.rb_male)).setChecked(false);
+            genderText = "女";
+//            ((RadioButton) findViewById(R.id.rb_male)).setChecked(false);
         }
+        TextViewUtil.setText(this,R.id.text_gender,genderText);
+//        ViewUtil.setViewOnClickListener(this, R.id.txt_update_pwd, new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                IntentUtil.goUserPwdChangeActivity(UserInfoActivity.this);
+//            }
+//        });
 
-        ViewUtil.setViewOnClickListener(this, R.id.txt_update_pwd, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                IntentUtil.goUserPwdChangeActivity(UserInfoActivity.this);
-            }
-        });
-
-        ViewUtil.setViewOnClickListener(this, R.id.title_bar_right_layout, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final String name = EditTextUtil.getTextString(activity, R.id.edt_name);
-                if (StringUtil.isInvalid(name)) {
-                    ToastUtil.show(activity, "请输入昵称");
-                    return;
-                }
-                int newGender = 0;
-                int checkedRadioButtonId = rgSex.getCheckedRadioButtonId();
-                if (checkedRadioButtonId == R.id.rb_male) {
-                    newGender = 1;
-                } else if (checkedRadioButtonId == R.id.rb_female) {
-                    newGender = 2;
-                }
-                if (name.equals(infoEntity.getNickname()) && newGender == gender) {
-                    return;
-                }
-                final int finalNewGender = newGender;
-                HttpClientUtil.User.userEdit(name, gender, new AbsHttpResultHandler() {
-                    @Override
-                    public void onSuccess(int resultCode, String desc, Object data) {
-                        ToastUtil.show(activity, "修改成功");
-                        infoEntity.setNickname(name);
-                        infoEntity.setGender(String.valueOf(finalNewGender));
-                        Global.setUserInfo(infoEntity);
-                    }
-
-                    @Override
-                    public void onFailure(int resultCode, String desc) {
-                        ToastUtil.show(activity, "修改失败:" + desc);
-                    }
-                });
-            }
-        });
+//        ViewUtil.setViewOnClickListener(this, R.id.title_bar_right_layout, new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                final String name = EditTextUtil.getTextString(activity, R.id.edt_name);
+//                if (StringUtil.isInvalid(name)) {
+//                    ToastUtil.show(activity, "请输入昵称");
+//                    return;
+//                }
+//                int newGender = 0;
+//                int checkedRadioButtonId = rgSex.getCheckedRadioButtonId();
+//                if (checkedRadioButtonId == R.id.rb_male) {
+//                    newGender = 1;
+//                } else if (checkedRadioButtonId == R.id.rb_female) {
+//                    newGender = 2;
+//                }
+//                if (name.equals(infoEntity.getNickname()) && newGender == gender) {
+//                    return;
+//                }
+//                final int finalNewGender = newGender;
+//                HttpClientUtil.User.userEdit(name, gender, new AbsHttpResultHandler() {
+//                    @Override
+//                    public void onSuccess(int resultCode, String desc, Object data) {
+//                        ToastUtil.show(activity, "修改成功");
+//                        infoEntity.setNickname(name);
+//                        infoEntity.setGender(String.valueOf(finalNewGender));
+//                        Global.setUserInfo(infoEntity);
+//                    }
+//
+//                    @Override
+//                    public void onFailure(int resultCode, String desc) {
+//                        ToastUtil.show(activity, "修改失败:" + desc);
+//                    }
+//                });
+//            }
+//        });
     }
 
     @Override

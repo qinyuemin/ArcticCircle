@@ -5,7 +5,6 @@
     <string name="image_count">%1$s张</string>
     <string name="no_images">您的手机中暂时没有图片哦~</string>
     <string-array name="spingarr_seach">
-        <item>店铺</item>
         <item>动态</item>
         <item>好友</item>
     </string-array>

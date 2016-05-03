@@ -16,15 +16,13 @@ import android.widget.Spinner;
 import com.xiaoma.beiji.R;
 import com.xiaoma.beiji.base.SimpleBaseActivity;
 import com.xiaoma.beiji.entity.FriendDynamicEntity;
-import com.xiaoma.beiji.entity.HotShop;
-import com.xiaoma.beiji.entity.ShopEntity;
-import com.xiaoma.beiji.entity.Title;
 import com.xiaoma.beiji.entity.UserInfoEntity;
 import com.xiaoma.beiji.fragment.InfoDetailsFragment;
 import com.xiaoma.beiji.fragment.SearchFriendFragment;
 import com.xiaoma.beiji.fragment.SearchShopFragment;
 import com.xiaoma.beiji.network.AbsHttpResultHandler;
 import com.xiaoma.beiji.network.HttpClientUtil;
+import com.xiaoma.beiji.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,9 +33,9 @@ import java.util.List;
 public class SearchActivity extends SimpleBaseActivity implements View.OnClickListener {
     private static final String TAG = SearchActivity.class.getSimpleName();
 
-    private static final int DIANPU = 0;
-    private static final int DONGTAI = 1;
-    private static final int HAOYOU = 2;
+//    private static final int DIANPU = 0;
+    private static final int DONGTAI = 0;
+    private static final int HAOYOU = 1;
 
     private FragmentManager fragmentManager;
     private FragmentTransaction fmt;
@@ -48,7 +46,7 @@ public class SearchActivity extends SimpleBaseActivity implements View.OnClickLi
 
     private EditText searchEdit;
 
-    private List<Object> list = new ArrayList<>();
+    private List<Object> dataList = new ArrayList<>();
 
     private Spinner spinner;
 //    private List<String> data_list;
@@ -78,22 +76,22 @@ public class SearchActivity extends SimpleBaseActivity implements View.OnClickLi
         searchShopFragment = new SearchShopFragment();
         searchFriendFragment = new SearchFriendFragment();
         infoDetailsFragment = new InfoDetailsFragment();
-        list.add(new Title("热门店铺"));
-        List<ShopEntity> hotShops = new ArrayList<>();
-        ShopEntity shopEntity1 = new ShopEntity();
-        shopEntity1.setShowName("推荐1");
-        ShopEntity shopEntity2 = new ShopEntity();
-        shopEntity2.setShowName("推荐2");
-        hotShops.add(shopEntity1);
-        hotShops.add(shopEntity2);
-        HotShop hotShop = new HotShop(hotShops);
-        list.add(hotShop);
-        list.add(new Title("已收藏店铺"));
-        for(int i=0; i<20; i++){
-            ShopEntity shopEntity = new ShopEntity();
-            shopEntity.setShowName("收藏"+i);
-            list.add(shopEntity);
-        }
+//        dataList.add(new Title("热门店铺"));
+//        List<ShopEntity> hotShops = new ArrayList<>();
+//        ShopEntity shopEntity1 = new ShopEntity();
+//        shopEntity1.setShowName("推荐1");
+//        ShopEntity shopEntity2 = new ShopEntity();
+//        shopEntity2.setShowName("推荐2");
+//        hotShops.add(shopEntity1);
+//        hotShops.add(shopEntity2);
+//        HotShop hotShop = new HotShop(hotShops);
+//        dataList.add(hotShop);
+//        dataList.add(new Title("已收藏店铺"));
+//        for(int i=0; i<20; i++){
+//            ShopEntity shopEntity = new ShopEntity();
+//            shopEntity.setShowName("收藏"+i);
+//            dataList.add(shopEntity);
+//        }
 
     }
 
@@ -107,9 +105,9 @@ public class SearchActivity extends SimpleBaseActivity implements View.OnClickLi
     private void showFragment(int tag){
         Fragment fragment = null;
         switch (tag){
-            case DIANPU:
+//            case DIANPU:
             case HAOYOU:
-                searchShopFragment.setList(list);
+                searchShopFragment.setList(dataList);
                 fragment = searchShopFragment;
                 searchUser();
                 break;
@@ -142,7 +140,7 @@ public class SearchActivity extends SimpleBaseActivity implements View.OnClickLi
 
             @Override
             public void onSuccess(int resultCode, String desc, List<FriendDynamicEntity> list) {
-//                for(FriendDynamicEntity entity: list){
+//                for(FriendDynamicEntity entity: dataList){
 //                    HttpClientUtil.logger(entity.toString());
 //                }
                 infoDetailsFragment.setList(list);
@@ -167,14 +165,20 @@ public class SearchActivity extends SimpleBaseActivity implements View.OnClickLi
 
             @Override
             public void onSuccess(int resultCode, String desc, List<UserInfoEntity> list) {
-                for(UserInfoEntity entity: list){
-                    HttpClientUtil.logger(entity.toString());
+                if(list==null||list.size()<=0){
+                    ToastUtil.showToast(SearchActivity.this,"暂未搜索到好友");
+                }else{
+                    for(UserInfoEntity entity: list){
+                        HttpClientUtil.logger(entity.toString());
+                        dataList.add(entity);
+                    }
+                    searchFriendFragment.setList(dataList);
                 }
             }
 
             @Override
             public void onFailure(int resultCode, String desc) {
-
+                ToastUtil.showToast(SearchActivity.this,"desc");
             }
         });
     }
