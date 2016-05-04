@@ -8,6 +8,8 @@ package com.xiaoma.beiji.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
+import java.io.Serializable;
+
 /**
  *
  * 类名称： CommentEntity
@@ -31,7 +33,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 
  *
  */
-public class CommentEntity {
+public class CommentEntity implements Serializable{
     @JSONField (name = "comment_id")
     private String commentId;
     @JSONField (name = "release_id")
@@ -65,6 +67,10 @@ public class CommentEntity {
     @JSONField (name = "comment_title")
     private String comment_title;
 
+    @JSONField (name = "comment_user_avatar")
+    private String commentUserAvatar;
+    @JSONField (name = "comment_user_nickname")
+    private String commentUserNickname;
 
     public String getCommentId() {
         return commentId;
@@ -192,5 +198,21 @@ public class CommentEntity {
 
     public void setComment_title(String comment_title) {
         this.comment_title = comment_title;
+    }
+
+    public String getCommentUserAvatar() {
+        return commentUserAvatar;
+    }
+
+    public void setCommentUserAvatar(String commentUserAvatar) {
+        this.commentUserAvatar = commentUserAvatar;
+    }
+
+    public String getCommentUserNickname() {
+        return commentUserNickname;
+    }
+
+    public void setCommentUserNickname(String commentUserNickname) {
+        this.commentUserNickname = commentUserNickname;
     }
 }

@@ -17,6 +17,7 @@ import com.xiaoma.beiji.common.Global;
 import com.xiaoma.beiji.controls.view.BottomBarView;
 import com.xiaoma.beiji.controls.view.zxing.CaptureActivity;
 import com.xiaoma.beiji.entity.ChatRequestEntity;
+import com.xiaoma.beiji.entity.FriendDynamicEntity;
 import com.xiaoma.beiji.entity.IMSystemMessageEntity;
 import com.xiaoma.beiji.entity.PicEntity;
 import com.xiaoma.beiji.entity.UserInfoEntity;
@@ -128,10 +129,10 @@ public class IntentUtil {
     }
 
     //店铺详情
-    public static void goFriendDynamicDetailActivity(Context activity, String releaseId) {
+    public static void goFriendDynamicDetailActivity(Context activity, FriendDynamicEntity entity) {
         Intent intent = new Intent();
         intent.setClass(activity, FriendDynamicDetailActivity.class);
-        intent.putExtra("releaseId", releaseId);
+        intent.putExtra("entity", entity);
         activity.startActivity(intent);
     }
 

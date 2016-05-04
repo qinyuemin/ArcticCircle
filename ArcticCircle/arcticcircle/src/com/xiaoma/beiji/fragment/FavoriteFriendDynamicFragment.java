@@ -96,6 +96,7 @@ public class FavoriteFriendDynamicFragment extends SimpleFragment implements Ada
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        IntentUtil.goFriendDynamicDetailActivity(getFragmentActivity(), entities.get((int) l).getReleaseId()); // todo
+//        IntentUtil.goFriendDynamicDetailActivity(getFragmentActivity(), entities.get((int) l).getReleaseId());
+        // todo
     }
 }

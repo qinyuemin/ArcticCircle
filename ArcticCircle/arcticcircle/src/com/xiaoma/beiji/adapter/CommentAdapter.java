@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,7 +24,7 @@ import java.util.List;
 /**
  * Created by zhangqibo on 2016/5/2.
  */
-public class CommentAdapter extends RecyclerView.Adapter<CommentHolder>{
+public class CommentAdapter extends BaseAdapter{
 
     private List<CommentEntity> commentEntityList ;
     private Context context;
@@ -33,20 +34,39 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentHolder>{
         this.context = context;
     }
 
+
     @Override
-    public CommentHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.lst_item_store_detail,null);
-        return new CommentHolder(view);
+    public int getCount() {
+        return commentEntityList.size();
+    }
+
+
+    @Override
+    public Object getItem(int position) {
+        return null;
     }
 
     @Override
-    public void onBindViewHolder(CommentHolder holder, int position) {
+    public long getItemId(int position) {
+        return 0;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        CommentHolder holder;
+        if(convertView == null){
+            convertView = LayoutInflater.from(context).inflate(R.layout.lst_item_store_detail, null);
+            holder = new  CommentHolder(convertView);
+            convertView.setTag(holder);
+        }else{
+            holder = (CommentHolder) convertView.getTag();
+        }
         final CommentEntity commentEntity = commentEntityList.get(position);
-        String avatar = commentEntity.getAvatar();
+        String avatar = commentEntity.getCommentUserAvatar();
         if (StringUtil.isValid(avatar)) {
             ImageLoader.getInstance().displayImage(avatar, holder.imgHead);
         }
-        holder.nameText.setText(commentEntity.getNickname());
+        holder.nameText.setText(commentEntity.getCommentUserNickname());
         holder.timeText.setText(commentEntity.getCreateTimeTitle());
 
         String content = commentEntity.getCommentContent();
@@ -66,14 +86,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentHolder>{
                 }
             }
         });
+        return convertView;
     }
-
-    @Override
-    public int getItemCount() {
-        return commentEntityList.size();
-    }
-
-
 }
 class CommentHolder extends RecyclerView.ViewHolder {
 

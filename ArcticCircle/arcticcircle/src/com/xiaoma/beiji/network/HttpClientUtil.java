@@ -331,7 +331,7 @@ public class HttpClientUtil {
             Map<String, Object> params = new HashMap<>();
             params.put("user_id", Global.getUserId());
             params.put("user_session", Global.getUserSession());
-            params.put("release_type", 1);
+            params.put("release_type", 2);
             executeAction(UrlConstants.USER_HOME_DYNAMIC, UserInfoEntity.class, params, handler);
         }
 

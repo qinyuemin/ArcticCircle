@@ -114,7 +114,7 @@ public class MessageListActivity extends SimpleBaseActivity implements View.OnCl
             case IMConfig.MessageType.ChatTypeDynamicCollection:
             case IMConfig.MessageType.ChatTypeDynamicComment:
             case IMConfig.MessageType.ChatTypeDynamicReply:
-                IntentUtil.goFriendDynamicDetailActivity(this, releaseId);
+//                IntentUtil.goFriendDynamicDetailActivity(this, releaseId);
                 break;
             case IMConfig.MessageType.ChatTypeHelp:
             case IMConfig.MessageType.ChatTypeHelpComment:

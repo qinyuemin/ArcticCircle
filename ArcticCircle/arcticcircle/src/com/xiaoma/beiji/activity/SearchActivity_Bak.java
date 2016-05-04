@@ -143,7 +143,7 @@ public class SearchActivity_Bak extends SimpleBaseActivity implements View.OnCli
         lstDynamic.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                IntentUtil.goFriendDynamicDetailActivity(SearchActivity_Bak.this, dynamicAdapter.getItem((int) l).getReleaseId());
+//                IntentUtil.goFriendDynamicDetailActivity(SearchActivity_Bak.this, dynamicAdapter.getItem((int) l).getReleaseId());
             }
         });
         lstShop.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -8,8 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.makeapp.javase.lang.StringUtil;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xiaoma.beiji.R;
+import com.xiaoma.beiji.controls.view.CircularImage;
 import com.xiaoma.beiji.entity.Thing;
+import com.xiaoma.beiji.entity.UserInfoEntity;
 
 import java.util.List;
 
@@ -21,26 +25,29 @@ import java.util.List;
  */
 public class RecyclerView1Adapter extends RecyclerView.Adapter<RecyclerView1Adapter.ViewHolder> {
 //    private int[] colors = {R.color.red, R.color.gray_1,R.color.color_blue,R.color.color_orange,R.color.color_yellow};
-    private List<String> strings;
+    private List<UserInfoEntity> strings;
 
     private Context mContext;
 
-    public RecyclerView1Adapter(Context mContext, List<String> things) {
+    public RecyclerView1Adapter(Context mContext, List<UserInfoEntity> things) {
         this.mContext = mContext;
         this.strings = things;
     }
 
     @Override
     public RecyclerView1Adapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ImageView view = (ImageView) LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_1, parent, false);
+        CircularImage view = (CircularImage) LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_1, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView1Adapter.ViewHolder holder, int position) {
 //        holder.titleTextView.setBackgroundColor(mContext.getResources().getColor(colors[position%(colors.length)]));
-        String  str = strings.get(position);
-        holder.mTextView.setImageResource(R.drawable.ic_def_header);
+        UserInfoEntity  entity = strings.get(position);
+        if (StringUtil.isValid(entity.getAvatar())) {
+            ImageLoader.getInstance().displayImage(entity.getAvatar(), holder.mTextView);
+        }
+
     }
 
     @Override
@@ -49,9 +56,9 @@ public class RecyclerView1Adapter extends RecyclerView.Adapter<RecyclerView1Adap
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView mTextView;
+        public CircularImage mTextView;
 
-        public ViewHolder(ImageView view) {
+        public ViewHolder(CircularImage view) {
             super(view);
             mTextView = view;
         }

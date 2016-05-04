@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.makeapp.android.util.ViewUtil;
+import com.makeapp.javase.lang.StringUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xiaoma.beiji.R;
 import com.xiaoma.beiji.adapter.RecyclerViewAdapter;
@@ -109,12 +110,16 @@ public class SearchFriendFragment extends Fragment{
             }else if(o instanceof FriendEntity){
                 FriendEntity friendEntity = (FriendEntity) o;
                 holder.layout_shop.setVisibility(View.VISIBLE);
-                ImageLoader.getInstance().displayImage(friendEntity.getAvatar(), holder.headImage);
+                if(StringUtil.isValid(friendEntity.getAvatar())){
+                    ImageLoader.getInstance().displayImage(friendEntity.getAvatar(), holder.headImage);
+                }
                 holder.itemShopName.setText(friendEntity.getNickname());
             }else if(o instanceof UserInfoEntity){
                 UserInfoEntity userInfoEntity = (UserInfoEntity) o;
                 holder.layout_shop.setVisibility(View.VISIBLE);
-                ImageLoader.getInstance().displayImage(userInfoEntity.getAvatar(), holder.headImage);
+                if(StringUtil.isValid(userInfoEntity.getAvatar())){
+                    ImageLoader.getInstance().displayImage(userInfoEntity.getAvatar(), holder.headImage);
+                }
                 holder.itemShopName.setText(userInfoEntity.getNickname());
             }
         }

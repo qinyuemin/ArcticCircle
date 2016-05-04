@@ -3,15 +3,19 @@ package com.xiaoma.beiji.adapter;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.makeapp.javase.lang.StringUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xiaoma.beiji.R;
 import com.xiaoma.beiji.controls.view.CircularImage;
+import com.xiaoma.beiji.controls.view.ExpandListView;
 import com.xiaoma.beiji.controls.view.ImgPagerView;
 import com.xiaoma.beiji.entity.CommentEntity;
 import com.xiaoma.beiji.entity.FriendDynamicEntity;
@@ -125,7 +129,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private void initShareArticleViewHolder(final ShareArticleViewHolder holder,FriendDynamicEntity entity){
-        ImageLoader.getInstance().displayImage(entity.getAvatar(), holder.headImage);
+        if(StringUtil.isValid(entity.getAvatar())){
+            ImageLoader.getInstance().displayImage(entity.getAvatar(), holder.headImage);
+        }
         List<PicEntity> picLists = entity.getPic();
         List<String> picStrings = new ArrayList<>();
         if(picLists!=null){
@@ -150,7 +156,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
     private void initArticleViewHolder(final ArticleViewHolder holder,FriendDynamicEntity entity){
-        ImageLoader.getInstance().displayImage(entity.getAvatar(), holder.headImage);
+        if(StringUtil.isValid(entity.getAvatar())){
+            ImageLoader.getInstance().displayImage(entity.getAvatar(), holder.headImage);
+        }
         List<PicEntity> picLists = entity.getPic();
         List<String> picStrings = new ArrayList<>();
         if(picLists!=null){
@@ -187,7 +195,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private void initDynamicViewHolder(final DynamicViewHolder holder,final FriendDynamicEntity entity){
-        ImageLoader.getInstance().displayImage(entity.getAvatar(), holder.headImage);
+        String avatar = entity.getAvatar();
+        holder.headImage.setImageResource(R.drawable.ic_logo);
+        if(!TextUtils.isEmpty(avatar)){
+            ImageLoader.getInstance().displayImage(entity.getAvatar(), holder.headImage);
+        }
         List<PicEntity> picLists = entity.getPic();
         List<String> picStrings = new ArrayList<>();
         if(picLists!=null){
@@ -196,35 +208,36 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
         }
         holder.imgPagerView.notifyData(picStrings);
-        holder.titleTextView.setText(entity.getTitle());
+        holder.titleTextView.setText(entity.getArea());
+        holder.contentTextView.setText(entity.getAssociated_price()+"RMB");
         holder.nameTextView.setText(entity.getNickName());
         holder.descriptionTextView.setText(entity.getDescription());
         LinearLayoutManager manager1 = new LinearLayoutManager(mContext);
         manager1.setOrientation(LinearLayoutManager.HORIZONTAL);
         holder.mRecyclerView.setLayoutManager(manager1);
-        List<String> lickUser = entity.getPraise_avatar_user() != null ? entity.getPraise_avatar_user() : new ArrayList<String>();
+        List<UserInfoEntity> lickUser = entity.getPraiseUsers() != null ? entity.getPraiseUsers() : new ArrayList<UserInfoEntity>();
         holder.mRecyclerView.setAdapter(new RecyclerView1Adapter(mContext,lickUser));
         holder.likeLabel.setText(String.format("%d位已喜欢",lickUser.size()));
 
-        LinearLayoutManager manager2 = new LinearLayoutManager(mContext);
-        manager2.setOrientation(LinearLayoutManager.VERTICAL);
-        holder.mRecyclerView.setLayoutManager(manager2);
+//        LinearLayoutManager manager2 = new LinearLayoutManager(mContext);
+//        manager2.setOrientation(LinearLayoutManager.VERTICAL);
+//        holder.mCommentRecyclerView.setLayoutManager(manager2);
         final List<CommentEntity> commentEntityList = entity.getComment()!= null ? entity.getComment() : new ArrayList<CommentEntity>();
         holder.commentLabel.setText(String.format("%d条评论",commentEntityList.size()));
         if(commentEntityList.size()<=2){
-            holder.mRecyclerView.setAdapter(new CommentAdapter(mContext, commentEntityList));
+            holder.mCommentRecyclerView.setAdapter(new CommentAdapter(mContext, commentEntityList));
             holder.showAllCommentBtn.setVisibility(View.GONE);
         }else{
             List<CommentEntity> commentEntities = new ArrayList<>(2);
             for(int i = 0; i<2; i++){
                 commentEntities.add(commentEntityList.get(i));
             }
-            holder.mRecyclerView.setAdapter(new CommentAdapter(mContext, commentEntities));
+            holder.mCommentRecyclerView.setAdapter(new CommentAdapter(mContext, commentEntities));
             holder.showAllCommentBtn.setVisibility(View.VISIBLE);
             holder.showAllCommentBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    holder.mRecyclerView.setAdapter(new CommentAdapter(mContext, commentEntityList));
+                    holder.mCommentRecyclerView.setAdapter(new CommentAdapter(mContext, commentEntityList));
                     holder.showAllCommentBtn.setVisibility(View.GONE);
                 }
             });
@@ -251,9 +264,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         holder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IntentUtil.goFriendDynamicDetailActivity(mContext, entity.getReleaseId());
+                IntentUtil.goFriendDynamicDetailActivity(mContext, entity);
             }
         });
+        holder.rootView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
     }
 
     @Override
@@ -275,7 +289,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public RecyclerView mRecyclerView;
         public ImageView addComment;
         public TextView descriptionTextView;
-        public RecyclerView mCommentRecyclerView;
+        public ExpandListView mCommentRecyclerView;
         public ImageView showAllCommentBtn;
         public TextView likeLabel;
         public TextView commentLabel;
@@ -292,7 +306,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             nameTextView = (TextView) view.findViewById(R.id.text_item_name);
             headImage = (CircularImage) view.findViewById(R.id.img_head);
             imgPagerView = (ImgPagerView) view.findViewById(R.id.ipv_item_img);
-            mCommentRecyclerView = (RecyclerView) view.findViewById(R.id.item_recyclerView_comment);
+            mCommentRecyclerView = (ExpandListView) view.findViewById(R.id.item_recyclerView_comment);
             showAllCommentBtn = (ImageView) view.findViewById(R.id.item_show_all_comment);
             likeLabel = (TextView) view.findViewById(R.id.item_text_label_like);
             commentLabel = (TextView) view.findViewById(R.id.item_text_label_comment);

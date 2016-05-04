@@ -6,45 +6,44 @@
  */
 package com.xiaoma.beiji.fragment;
 
-import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import com.common.android.lib.controls.view.pulltorefresh.PullToRefreshBase;
 import com.common.android.lib.controls.view.pulltorefresh.PullToRefreshListView;
+import com.makeapp.javase.lang.StringUtil;
 import com.xiaoma.beiji.R;
-import com.xiaoma.beiji.adapter.FriendHelpAdapter;
+import com.xiaoma.beiji.adapter.FriendDynamicAdapter;
+import com.xiaoma.beiji.adapter.RecyclerViewAdapter;
 import com.xiaoma.beiji.base.SimpleFragment;
+import com.xiaoma.beiji.common.Global;
 import com.xiaoma.beiji.entity.FriendDynamicEntity;
 import com.xiaoma.beiji.network.AbsHttpResultHandler;
 import com.xiaoma.beiji.network.HttpClientUtil;
 import com.xiaoma.beiji.util.IntentUtil;
+import com.xiaoma.beiji.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 类名称： FriendHelpFragment
+ * 类名称： FriendTrendsFragment
  * 类描述：
  * 创建人： gang.shi
  * 修改人： gang.shi
- * 修改时间： 2015年11月21 13:59
+ * 修改时间： 2015年11月21 13:58
  * 修改备注：
  *
  * @version 1.0.0
  */
-public class FriendHelpFragment extends SimpleFragment implements AdapterView.OnItemClickListener {
-
-    private PullToRefreshListView lstHelp;
-    private FriendHelpAdapter adapter;
+public class FriendHelpFragment extends SimpleFragment{
+    private RecyclerView lstFriend;
+    private RecyclerViewAdapter adapter;
     private List<FriendDynamicEntity> entities;
-    private String releaseUserId = "";
 
-    public static FriendHelpFragment newInstance(Bundle args) {
-        FriendHelpFragment conversationFragment = new FriendHelpFragment();
-        conversationFragment.setArguments(args);
-        return conversationFragment;
-    }
+    private String lastKeyId = "";
 
     @Override
     protected int getFragmentLayoutId() {
@@ -53,26 +52,39 @@ public class FriendHelpFragment extends SimpleFragment implements AdapterView.On
 
     @Override
     protected void initComponents(View v) {
-        lstHelp = (PullToRefreshListView) v.findViewById(R.id.lst_help);
-
+        lstFriend = (RecyclerView) v.findViewById(R.id.dynamic_list);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        lstFriend.setLayoutManager(layoutManager);
         entities = new ArrayList<>();
-        adapter = new FriendHelpAdapter(getFragmentActivity(), entities);
-        lstHelp.setAdapter(adapter);
-        lstHelp.setMode(PullToRefreshBase.Mode.BOTH);
-        lstHelp.setOnItemClickListener(this);
-        lstHelp.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
-            @Override
-            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                loadData();
-            }
-        });
+        adapter = new RecyclerViewAdapter(getFragmentActivity(), entities);
+        lstFriend.setAdapter(adapter);
+//        lstFriend.setMode(PullToRefreshBase.Mode.BOTH);
+//        lstFriend.setOnItemClickListener(this);
+//        lstFriend.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+//
+//            @Override
+//            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+//                // 下拉 刷新
+//                lastKeyId = "";
+//                loadData();
+//            }
+//
+//            @Override
+//            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+//                // 上啦更多
+//                FriendDynamicEntity last = entities.get(entities.size() - 1);
+//                lastKeyId = last.getPageId();
+//                loadData();
+//            }
+//        });
 
 //        releaseUserId = getArguments().getString("releaseUserId");
     }
 
     @Override
     protected void loadData() {
-        HttpClientUtil.Dynamic.dynamicGetList(releaseUserId,2, "", "", new AbsHttpResultHandler<FriendDynamicEntity>() {
+        HttpClientUtil.Dynamic.dynamicGetList("", 2, "", lastKeyId, new AbsHttpResultHandler<FriendDynamicEntity>() {
             @Override
             public void onSuccess(int resultCode, String desc, FriendDynamicEntity data) {
 
@@ -81,53 +93,47 @@ public class FriendHelpFragment extends SimpleFragment implements AdapterView.On
             @Override
             public void onSuccess(int resultCode, String desc, List<FriendDynamicEntity> data) {
                 if (data != null) {
-                    // todo 测试用 添加几张图片
-//                    FriendTrendsEntity friendTrendsEntity = data.get(0);
-//                    friendTrendsEntity.getPic().add("");
-//                    friendTrendsEntity.getPic().add("");
-//                    friendTrendsEntity.getPic().add("");
-//                    friendTrendsEntity.getPic().add("");
-//                    CommentEntity commentEntity = new CommentEntity();
-//                    commentEntity.setNickname("周董");
-//                    commentEntity.setContent("你确定你真的不来听我的演唱会？");
-//                    friendTrendsEntity.getComment().add(commentEntity);
-//                    commentEntity = new CommentEntity();
-//                    commentEntity.setNickname("老汉");
-//                    commentEntity.setContent("你怎么这么叼呢");
-//                    friendTrendsEntity.getComment().add(commentEntity);
-                    entities.clear();
+                    if (StringUtil.isInvalid(lastKeyId)) {
+                        entities.clear();
+                    }
                     entities.addAll(data);
                     adapter.notifyDataSetChanged();
                 }
 
-                if (lstHelp.isRefreshing()) {
-                    lstHelp.onRefreshComplete();
-                }
+//                if (lstFriend.isRefreshing()) {
+//                    lstFriend.onRefreshComplete();
+//                }
             }
 
             @Override
             public void onFailure(int resultCode, String desc) {
-                if (lstHelp.isRefreshing()) {
-                    lstHelp.onRefreshComplete();
-                }
+                ToastUtil.showToast(getFragmentActivity(), desc);
+//                if (lstFriend.isRefreshing()) {
+//                    lstFriend.onRefreshComplete();
+//                }
             }
         });
     }
 
     boolean isFirst = true;
+
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if(!hidden){
-            if (!isFirst) {
+            if(Global.isNeedRefreshIndex()){
                 loadData();
+                Global.setIsNeedRefreshIndex(false);
             }
-            isFirst = false;
         }
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        IntentUtil.goFriendHelpDetailActivity(getFragmentActivity(), entities.get((int) l).getReleaseId()); // todo
+    public void onResume() {
+        super.onResume();
+        if(Global.isNeedRefreshIndex()){
+            loadData();
+            Global.setIsNeedRefreshIndex(false);
+        }
     }
 }

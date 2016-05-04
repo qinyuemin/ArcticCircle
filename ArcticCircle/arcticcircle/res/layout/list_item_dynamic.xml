@@ -92,6 +92,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/ipv_item_img"
+                android:background="@color/gray_1"
                 />
             <LinearLayout
                 android:layout_width="match_parent"
@@ -118,6 +119,11 @@
                         android:singleLine="true"
                         android:layout_marginLeft="@dimen/dimen_5_dip"
                         android:paddingRight="@dimen/dimen_15_dip"
+                        android:textColor="@color/white"
+                        android:shadowColor="@color/gray_title"
+                        android:shadowDx="1"
+                        android:shadowDy="2"
+                        android:shadowRadius="2"
                         android:text="2.14情人节烂漫套餐"/>
                 </LinearLayout>
                 <TextView
@@ -125,6 +131,11 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/text_photo_content"
                     android:layout_marginTop="5dp"
+                    android:textColor="@color/white"
+                    android:shadowColor="@color/gray_title"
+                    android:shadowDx="1"
+                    android:shadowDy="2"
+                    android:shadowRadius="2"
                     android:text="256RMB"/>
             </LinearLayout>
         </RelativeLayout>
@@ -202,15 +213,15 @@
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:background="@color/gray_divider"/>
-        <android.support.v7.widget.RecyclerView
+        <com.xiaoma.beiji.controls.view.ExpandListView
             android:layout_marginTop="7dp"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:id="@+id/item_recyclerView_comment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-        </android.support.v7.widget.RecyclerView>
+        </com.xiaoma.beiji.controls.view.ExpandListView>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="15dp"

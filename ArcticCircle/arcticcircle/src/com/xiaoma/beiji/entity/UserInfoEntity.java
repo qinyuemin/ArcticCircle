@@ -102,7 +102,7 @@ public class UserInfoEntity implements Serializable{
     private String my_friend_cant_see_his;
 
     @JSONField (name = "dynamic_list")
-    private List<FriendDynamicEntity> release_data;
+    private FriendDynamicListEntity release_data;
 
     @JSONField (name = "common_friends")
     private CommonFriends common_friends;
@@ -219,11 +219,11 @@ public class UserInfoEntity implements Serializable{
         this.my_friend_cant_see_his = my_friend_cant_see_his;
     }
 
-    public List<FriendDynamicEntity> getRelease_data() {
+    public FriendDynamicListEntity getRelease_data() {
         return release_data;
     }
 
-    public void setRelease_data(List<FriendDynamicEntity> release_data) {
+    public void setRelease_data(FriendDynamicListEntity release_data) {
         this.release_data = release_data;
     }
 

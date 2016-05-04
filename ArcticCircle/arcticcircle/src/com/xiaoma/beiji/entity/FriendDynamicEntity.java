@@ -8,6 +8,7 @@ package com.xiaoma.beiji.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -47,7 +48,7 @@ import java.util.List;
  *          动态type字段
 1 用户动态 2 用户求助  3 用户推荐店铺 4 店铺推广 5 朋友加入
  */
-public class FriendDynamicEntity {
+public class FriendDynamicEntity  implements Serializable{
     @JSONField(name = "release_id")
     private String releaseId;
     @JSONField(name = "release_type")
@@ -139,6 +140,17 @@ public class FriendDynamicEntity {
 
     @JSONField(name = "showAll2")
     private boolean showAll2;
+
+    @JSONField(name = "praise_data")
+    private List<UserInfoEntity> praiseUsers;
+
+    public List<UserInfoEntity> getPraiseUsers() {
+        return praiseUsers;
+    }
+
+    public void setPraiseUsers(List<UserInfoEntity> praiseUsers) {
+        this.praiseUsers = praiseUsers;
+    }
 
     public void setIsHaveFavorite(boolean isHaveFavorite) {
         this.isHaveFavorite = isHaveFavorite;

@@ -166,7 +166,7 @@ public class MyProfileFragment extends Fragment{
 
     private void bindDataToView(){
         initInfo();
-        infoDetailsFragment.setList(userInfoEntity.getRelease_data());
+        infoDetailsFragment.setList(userInfoEntity.getRelease_data().getFriendDynamicEntities());
     }
 
     private void loadMyDynamic(){

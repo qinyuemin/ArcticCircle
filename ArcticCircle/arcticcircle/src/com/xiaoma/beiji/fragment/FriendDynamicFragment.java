@@ -6,6 +6,8 @@
  */
 package com.xiaoma.beiji.fragment;
 
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -14,6 +16,7 @@ import com.common.android.lib.controls.view.pulltorefresh.PullToRefreshListView;
 import com.makeapp.javase.lang.StringUtil;
 import com.xiaoma.beiji.R;
 import com.xiaoma.beiji.adapter.FriendDynamicAdapter;
+import com.xiaoma.beiji.adapter.RecyclerViewAdapter;
 import com.xiaoma.beiji.base.SimpleFragment;
 import com.xiaoma.beiji.common.Global;
 import com.xiaoma.beiji.entity.FriendDynamicEntity;
@@ -35,11 +38,10 @@ import java.util.List;
  *
  * @version 1.0.0
  */
-public class FriendDynamicFragment extends SimpleFragment implements AdapterView.OnItemClickListener {
-    private PullToRefreshListView lstFriend;
-    private FriendDynamicAdapter adapter;
+public class FriendDynamicFragment extends SimpleFragment {
+    private RecyclerView lstFriend;
+    private RecyclerViewAdapter adapter;
     private List<FriendDynamicEntity> entities;
-    private String releaseUserId = "";
 
     private String lastKeyId = "";
 
@@ -50,37 +52,39 @@ public class FriendDynamicFragment extends SimpleFragment implements AdapterView
 
     @Override
     protected void initComponents(View v) {
-        lstFriend = (PullToRefreshListView) v.findViewById(R.id.lst_friend);
-
+        lstFriend = (RecyclerView) v.findViewById(R.id.dynamic_list);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        lstFriend.setLayoutManager(layoutManager);
         entities = new ArrayList<>();
-        adapter = new FriendDynamicAdapter(getFragmentActivity(), entities);
+        adapter = new RecyclerViewAdapter(getFragmentActivity(), entities);
         lstFriend.setAdapter(adapter);
-        lstFriend.setMode(PullToRefreshBase.Mode.BOTH);
-        lstFriend.setOnItemClickListener(this);
-        lstFriend.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
-
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                // 下拉 刷新
-                lastKeyId = "";
-                loadData();
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                // 上啦更多
-                FriendDynamicEntity last = entities.get(entities.size() - 1);
-                lastKeyId = last.getPageId();
-                loadData();
-            }
-        });
+//        lstFriend.setMode(PullToRefreshBase.Mode.BOTH);
+//        lstFriend.setOnItemClickListener(this);
+//        lstFriend.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+//
+//            @Override
+//            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+//                // 下拉 刷新
+//                lastKeyId = "";
+//                loadData();
+//            }
+//
+//            @Override
+//            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+//                // 上啦更多
+//                FriendDynamicEntity last = entities.get(entities.size() - 1);
+//                lastKeyId = last.getPageId();
+//                loadData();
+//            }
+//        });
 
 //        releaseUserId = getArguments().getString("releaseUserId");
     }
 
     @Override
     protected void loadData() {
-        HttpClientUtil.Dynamic.dynamicGetList(releaseUserId, -1, "", lastKeyId, new AbsHttpResultHandler<FriendDynamicEntity>() {
+        HttpClientUtil.Dynamic.dynamicGetList("", 1, "", lastKeyId, new AbsHttpResultHandler<FriendDynamicEntity>() {
             @Override
             public void onSuccess(int resultCode, String desc, FriendDynamicEntity data) {
 
@@ -96,17 +100,17 @@ public class FriendDynamicFragment extends SimpleFragment implements AdapterView
                     adapter.notifyDataSetChanged();
                 }
 
-                if (lstFriend.isRefreshing()) {
-                    lstFriend.onRefreshComplete();
-                }
+//                if (lstFriend.isRefreshing()) {
+//                    lstFriend.onRefreshComplete();
+//                }
             }
 
             @Override
             public void onFailure(int resultCode, String desc) {
                 ToastUtil.showToast(getFragmentActivity(),desc);
-                if (lstFriend.isRefreshing()) {
-                    lstFriend.onRefreshComplete();
-                }
+//                if (lstFriend.isRefreshing()) {
+//                    lstFriend.onRefreshComplete();
+//                }
             }
         });
     }
@@ -133,19 +137,4 @@ public class FriendDynamicFragment extends SimpleFragment implements AdapterView
         }
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        FriendDynamicEntity dynamicEntity = entities.get((int) l);
-        int releaseType = dynamicEntity.getReleaseType();
-        if(releaseType == 3){
-            IntentUtil.goShopMainActivity(getFragmentActivity(), dynamicEntity.getShopId());
-        }else if(releaseType == 4){
-            IntentUtil.goShopMainActivity(getFragmentActivity(), dynamicEntity.getShopId());
-        } if(releaseType == 5){
-            IntentUtil.goFriendDetailActivity(getFragmentActivity(), dynamicEntity.getUserId());
-        }else {
-            IntentUtil.goFriendDynamicDetailActivity(getFragmentActivity(), dynamicEntity.getReleaseId());
-
-        }
-    }
 }
