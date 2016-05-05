@@ -65,12 +65,23 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
     public TextView likeLabel;
     public TextView commentLabel;
     public TextView shareUsers;
+    public TextView text_item_flag;
 
     private FriendDynamicEntity friendTrendsEntity;
 
     @Override
     protected String getActivityTitle() {
-        return "点评详情";
+        String title = "";
+        switch (friendTrendsEntity.getReleaseType()){
+            case 1:
+                title = "点评详情";
+                break;
+            case 2:
+                title = "问问详情";
+                break;
+
+        }
+        return title;
     }
 
     @Override
@@ -108,9 +119,11 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
         likeLabel = (TextView) findViewById(R.id.item_text_label_like);
         commentLabel = (TextView) findViewById(R.id.item_text_label_comment);
         shareUsers = (TextView) findViewById(R.id.text_recommend_user);
+        text_item_flag = (TextView) findViewById(R.id.text_item_flag);
         if(friendTrendsEntity != null){
             initView(friendTrendsEntity);
         }
+
     }
 
     private void initView(final FriendDynamicEntity entity){
@@ -180,7 +193,16 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
             shareUsers.setText("暂无人推荐");
         }
 
-
+        switch (friendTrendsEntity.getReleaseType()){
+            case 1:
+                text_item_flag.setText("点评");
+                break;
+            case 2:
+                text_item_flag.setText("问问");
+                titleTextView.setVisibility(View.GONE);
+                contentTextView.setVisibility(View.GONE);
+                break;
+        }
     }
 
     @Override

@@ -62,6 +62,8 @@ public class UrlConstants {
     public static final String USER_GET_DYNAMIC_COMMENTS = "User.get_dynamic_comments";
     public static final String USER_GET_SHOP_COMMENTS = "User.get_shop_comments";
     public static final String USER_HOME_DYNAMIC = "User.home_dynamic";
+    public static final String USER_FRIEND_HOME_DYNAMIC = "User.friend_home_dynamic";
+    public static final String USER_FRIEND_HOME_FAVORITE = "User.friend_home_favorite";
 
     // app
     public static final String APP_ADD = "App.add";// 接口应用添加

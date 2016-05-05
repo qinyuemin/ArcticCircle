@@ -25,12 +25,12 @@ public class MyTabLayoutItem {
         this.context = context;
     }
 
-    public void setmCount(TextView mCount) {
-        this.mCount = mCount;
+    public void setmCount(String mCount) {
+        this.mCount.setText(mCount);
     }
 
-    public void setmLabel(TextView mLabel) {
-        this.mLabel = mLabel;
+    public void setmLabel(String mLabel) {
+        this.mLabel.setText(mLabel);
     }
 
     public void setSelected(boolean isSelected){

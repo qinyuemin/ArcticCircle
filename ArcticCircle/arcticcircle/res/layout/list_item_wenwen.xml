@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/bg_main"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/bg_main">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_buttom_round"
         android:paddingTop="20dp"
-        android:paddingBottom="20dp"
+        android:paddingBottom="10dp"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
@@ -77,24 +76,33 @@
                     android:id="@+id/text_item_flag"
                     android:textSize="@dimen/text_size_20px"
                     android:textColor="#54CADB"
-                    android:text="点评"/>
+                    android:text="发布求助"/>
             </RelativeLayout>
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_tips_more"/>
         </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray_title"
+            android:id="@+id/text_description"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="6dp"
+            />
         <RelativeLayout
             android:layout_margin="4dp"
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:background="@color/gray_1">
-            <com.xiaoma.beiji.controls.view.ImgPagerView
+            <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/ipv_item_img"
-
-                />
+                android:scaleType="centerCrop"
+                 />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -108,6 +116,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:visibility="gone"
                     android:gravity="center_vertical">
                     <ImageView
                         android:layout_width="@dimen/dimen_15_dip"
@@ -128,6 +137,7 @@
                         android:text="2.14情人节烂漫套餐"/>
                 </LinearLayout>
                 <TextView
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/text_photo_content"
@@ -140,136 +150,73 @@
                     android:text="256RMB"/>
             </LinearLayout>
         </RelativeLayout>
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="3"
-            android:ellipsize="end"
-            android:textSize="@dimen/text_size_24px"
-            android:id="@+id/text_description"
-            android:textColor="@color/gray_title"
-            android:lineSpacingExtra="3dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:text="苹果公司1980年12月12日公开招股上市，2012年创下6235亿美元的市值记录，截至2014年6月，苹果公司已经连续三年成为全球市值最大公司。苹果公司在2014年世界500强排行榜中排名第15名。2013年9月30日，在宏盟集团的“全球最佳品牌”报告中，苹果公司超过可口可乐成为世界最有价值品牌。2014年，苹果品牌超越谷歌（Google），成为世界最具价值品牌。"/>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginTop="30dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:textSize="@dimen/text_size_20px"
-                android:textColor="@color/gray_title"
-                android:id="@+id/item_text_label_like"
-                android:text="14位已喜欢"/>
-            <ImageView
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:src="@drawable/icon_add_like"
-                android:layout_alignParentRight="true"/>
-        </RelativeLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginTop="7dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:background="@color/gray_divider"/>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/item_recyclerView_lick"
-            android:layout_marginTop="7dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"/>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginTop="25dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:textSize="@dimen/text_size_20px"
-                android:textColor="@color/gray_title"
-                android:id="@+id/item_text_label_comment"
-                android:text="156条评论"/>
-            <ImageView
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:src="@drawable/icon_add_comment"
-                android:id="@+id/item_btn_add_comment"
-                android:layout_alignParentRight="true"/>
-        </RelativeLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginTop="7dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:background="@color/gray_divider"/>
-        <com.xiaoma.beiji.controls.view.ExpandListView
-            android:layout_marginTop="7dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:id="@+id/item_recyclerView_comment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </com.xiaoma.beiji.controls.view.ExpandListView>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:src="@drawable/icon_show_all"
-            android:id="@+id/item_show_all_comment"
-            android:layout_gravity="center_horizontal"/>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginTop="25dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:textSize="@dimen/text_size_20px"
-                android:textColor="@color/gray_title"
-                android:text="推荐一下吧"/>
-            <ImageView
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:src="@drawable/icon_share"
-                android:id="@+id/item_btn_recommend"
-                android:layout_alignParentRight="true"/>
-        </RelativeLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginTop="7dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:background="@color/gray_divider"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_20px"
-            android:id="@+id/text_recommend_user"
-            android:textColor="@color/gray_title"
-            android:layout_marginTop="7dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:gravity="center_horizontal"
-            android:text="已有@木头、@马东、@如晶、@恬恬推荐"/>
+            android:layout_height="@dimen/dimen_25_dip"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <ImageView
+                    android:layout_width="@dimen/dimen_15_dip"
+                    android:layout_height="@dimen/dimen_15_dip"
+                    android:src="@drawable/icon_add_like"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/item_btn_add_like"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/item_btn_add_like"
+                    android:layout_marginLeft="4dp"
+                    android:textSize="@dimen/text_size_20px"
+                    android:textColor="@color/gray_title"
+                    android:id="@+id/item_text_label_like"
+                    android:text="23"
+                    android:layout_alignParentTop="true"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <ImageView
+                    android:layout_width="@dimen/dimen_15_dip"
+                    android:layout_height="@dimen/dimen_15_dip"
+                    android:src="@drawable/icon_add_comment"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/item_btn_add_comment"/>
+                <!--<TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/item_btn_add_comment"
+                    android:textSize="@dimen/text_size_20px"
+                    android:textColor="@color/gray_title"
+                    android:text="23"
+                    android:layout_alignParentTop="true"/>-->
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <ImageView
+                    android:layout_width="@dimen/dimen_15_dip"
+                    android:layout_height="@dimen/dimen_15_dip"
+                    android:src="@drawable/icon_share"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/item_btn_share"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/item_btn_share"
+                    android:textSize="@dimen/text_size_20px"
+                    android:textColor="@color/gray_title"
+                    android:id="@+id/item_text_label_share"
+                    android:layout_marginLeft="4dp"
+                    android:text="23"
+                    android:layout_alignParentTop="true"/>
+            </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
 

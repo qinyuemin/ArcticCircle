@@ -327,12 +327,31 @@ public class HttpClientUtil {
             executeAction(UrlConstants.USER_GET_DYNAMIC_COMMENTS, JSONObject.class, params, handler);
         }
 
-        public static void userHomeDynamic( AbsHttpResultHandler handler) {
+        public static void userHomeDynamic(int type, AbsHttpResultHandler handler) {
             Map<String, Object> params = new HashMap<>();
             params.put("user_id", Global.getUserId());
             params.put("user_session", Global.getUserSession());
-            params.put("release_type", 2);
+            params.put("release_type", type);
             executeAction(UrlConstants.USER_HOME_DYNAMIC, UserInfoEntity.class, params, handler);
+        }
+
+        public static void friendHomeDynamic(int type, int friendId , AbsHttpResultHandler handler) {
+            Map<String, Object> params = new HashMap<>();
+            params.put("user_id", Global.getUserId());
+            params.put("user_session", Global.getUserSession());
+            params.put("friend_user_id", friendId);
+            params.put("release_type", type);
+            executeAction(UrlConstants.USER_FRIEND_HOME_DYNAMIC, UserInfoEntity.class, params, handler);
+        }
+
+        public static void friendFavoriteDynamic(int release_type,int favorite_type, int friendId , AbsHttpResultHandler handler) {
+            Map<String, Object> params = new HashMap<>();
+            params.put("user_id", Global.getUserId());
+            params.put("user_session", Global.getUserSession());
+            params.put("friend_user_id", release_type);
+            params.put("release_type", release_type);
+            params.put("favorite_type", favorite_type);
+            executeAction(UrlConstants.USER_FRIEND_HOME_FAVORITE, UserInfoEntity.class, params, handler);
         }
 
         public static void userGetShopComments(String bottomCommentId, AbsHttpResultHandler handler) {

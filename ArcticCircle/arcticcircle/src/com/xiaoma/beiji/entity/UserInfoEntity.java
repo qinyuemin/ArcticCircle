@@ -101,8 +101,13 @@ public class UserInfoEntity implements Serializable{
     @JSONField (name = "my_friend_cant_see_his")
     private String my_friend_cant_see_his;
 
+//    @JSONField (name = "dynamic_list")
+//    private FriendDynamicListEntity release_data;
     @JSONField (name = "dynamic_list")
-    private FriendDynamicListEntity release_data;
+    private List<FriendDynamicEntity> friendDynamicEntities;
+
+    @JSONField (name = "favorite_list")
+    private List<FriendDynamicEntity> friendFavoriteEntities;
 
     @JSONField (name = "common_friends")
     private CommonFriends common_friends;
@@ -219,12 +224,21 @@ public class UserInfoEntity implements Serializable{
         this.my_friend_cant_see_his = my_friend_cant_see_his;
     }
 
-    public FriendDynamicListEntity getRelease_data() {
-        return release_data;
+//    public FriendDynamicListEntity getRelease_data() {
+//        return release_data;
+//    }
+//
+//    public void setRelease_data(FriendDynamicListEntity release_data) {
+//        this.release_data = release_data;
+//    }
+
+
+    public List<FriendDynamicEntity> getFriendDynamicEntities() {
+        return friendDynamicEntities;
     }
 
-    public void setRelease_data(FriendDynamicListEntity release_data) {
-        this.release_data = release_data;
+    public void setFriendDynamicEntities(List<FriendDynamicEntity> friendDynamicEntities) {
+        this.friendDynamicEntities = friendDynamicEntities;
     }
 
     public CommonFriends getCommon_friends() {
@@ -323,36 +337,11 @@ public class UserInfoEntity implements Serializable{
         this.createTime = createTime;
     }
 
-    @Override
-    public String toString() {
-        return "UserInfoEntity{" +
-                "userId=" + userId +
-                ", userPhone='" + userPhone + '\'' +
-                ", userPwd='" + userPwd + '\'' +
-                ", userSession='" + userSession + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", gender='" + gender + '\'' +
-                ", lastLoginTime='" + lastLoginTime + '\'' +
-                ", sessionExpireTime='" + sessionExpireTime + '\'' +
-                ", isEnabled='" + isEnabled + '\'' +
-                ", createTime='" + createTime + '\'' +
-                ", address='" + address + '\'' +
-                ", profile='" + profile + '\'' +
-                ", label='" + label + '\'' +
-                ", favorite_num='" + favorite_num + '\'' +
-                ", dynamic_num='" + dynamic_num + '\'' +
-                ", attention_user_num='" + attention_user_num + '\'' +
-                ", attention_friend_num='" + attention_friend_num + '\'' +
-                ", attention_num='" + attention_num + '\'' +
-                ", is_register='" + is_register + '\'' +
-                ", is_attention='" + is_attention + '\'' +
-                ", last_dynamic_content='" + last_dynamic_content + '\'' +
-                ", is_talent='" + is_talent + '\'' +
-                ", cant_see_me='" + cant_see_me + '\'' +
-                ", my_friend_cant_see_his='" + my_friend_cant_see_his + '\'' +
-                ", release_data=" + release_data +
-                ", common_friends=" + common_friends +
-                '}';
+    public List<FriendDynamicEntity> getFriendFavoriteEntities() {
+        return friendFavoriteEntities;
+    }
+
+    public void setFriendFavoriteEntities(List<FriendDynamicEntity> friendFavoriteEntities) {
+        this.friendFavoriteEntities = friendFavoriteEntities;
     }
 }

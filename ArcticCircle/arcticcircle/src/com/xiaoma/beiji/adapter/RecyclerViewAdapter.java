@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.makeapp.javase.lang.StringUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xiaoma.beiji.R;
+import com.xiaoma.beiji.common.Global;
 import com.xiaoma.beiji.controls.view.CircularImage;
 import com.xiaoma.beiji.controls.view.ExpandListView;
 import com.xiaoma.beiji.controls.view.ImgPagerView;
@@ -66,8 +67,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 holder = new DynamicViewHolder(view);
                 break;
             case TYPE_WENWEN:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_dynamic, null, false);
-                holder = new DynamicViewHolder(view);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_wenwen, null, false);
+                holder = new WenWenViewHolder(view);
                 break;
             case TYPE_TUIJIAN_SHOP:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_dynamic, null, false);
@@ -124,14 +125,66 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ArticleViewHolder articleViewHolder = (ArticleViewHolder) holder;
             FriendDynamicEntity entity = (FriendDynamicEntity) list.get(position);
             initArticleViewHolder(articleViewHolder, entity);
+        }else if(holder instanceof  WenWenViewHolder){
+            WenWenViewHolder wenWenViewHolder = (WenWenViewHolder) holder;
+            FriendDynamicEntity entity = (FriendDynamicEntity) list.get(position);
+            initWenWenViewHolder(wenWenViewHolder, entity);
         }
 
     }
 
-    private void initShareArticleViewHolder(final ShareArticleViewHolder holder,FriendDynamicEntity entity){
+    private void initWenWenViewHolder(final WenWenViewHolder holder,final FriendDynamicEntity entity){
         if(StringUtil.isValid(entity.getAvatar())){
             ImageLoader.getInstance().displayImage(entity.getAvatar(), holder.headImage);
         }
+        holder.headImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentUtil.goProfileActivity(mContext,Integer.valueOf(entity.getUserId()));
+            }
+        });
+        List<PicEntity> picLists = entity.getPic();
+        if(picLists!=null&&picLists.size()>0){
+            PicEntity picEntity = picLists.get(0);
+            if(picEntity != null && StringUtil.isValid(picEntity.getPicUrl())){
+                ImageLoader.getInstance().displayImage(picEntity.getPicUrl(), holder.imgPagerView);
+            }
+
+        }
+        holder.titleTextView.setText(entity.getTitle());
+        holder.nameTextView.setText(entity.getNickName());
+        holder.descriptionTextView.setText(entity.getContent());
+
+        List<String> lickUser = entity.getPraise_avatar_user() != null ? entity.getPraise_avatar_user() : new ArrayList<String>();
+        holder.likeLabel.setText(String.format("%d", lickUser.size()));
+
+        List<String> shareUsers = entity.getShare_user_nickname()!= null ? entity.getShare_user_nickname() : new ArrayList<String>();
+        holder.shareLabel.setText(String.format("%d", shareUsers.size()));
+        holder.rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentUtil.goFriendDynamicDetailActivity(mContext, entity);
+            }
+        });
+        holder.rootView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+//        StringBuffer stringBuffer = new StringBuffer().append("@").append(entity.getShare_user_nickname());
+//        String content = stringBuffer.toString() + entity.get
+    }
+
+    private void initShareArticleViewHolder(final ShareArticleViewHolder holder,final FriendDynamicEntity entity){
+        if(StringUtil.isValid(entity.getAvatar())){
+            ImageLoader.getInstance().displayImage(entity.getAvatar(), holder.headImage);
+        }
+        holder.headImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int userID = Integer.valueOf(entity.getUserId());
+                if(Global.getUserId() != userID){
+                    IntentUtil.goProfileActivity(mContext,userID);
+                }
+            }
+        });
         List<PicEntity> picLists = entity.getPic();
         List<String> picStrings = new ArrayList<>();
         if(picLists!=null){
@@ -155,10 +208,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
 
-    private void initArticleViewHolder(final ArticleViewHolder holder,FriendDynamicEntity entity){
+    private void initArticleViewHolder(final ArticleViewHolder holder,final FriendDynamicEntity entity){
         if(StringUtil.isValid(entity.getAvatar())){
             ImageLoader.getInstance().displayImage(entity.getAvatar(), holder.headImage);
         }
+        holder.headImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int userID = Integer.valueOf(entity.getUserId());
+                if(Global.getUserId() != userID){
+                    IntentUtil.goProfileActivity(mContext,userID);
+                }
+
+            }
+        });
         List<PicEntity> picLists = entity.getPic();
         List<String> picStrings = new ArrayList<>();
         if(picLists!=null){
@@ -169,7 +232,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         holder.imgPagerView.notifyData(picStrings);
         holder.titleTextView.setText(entity.getTitle());
         holder.nameTextView.setText(entity.getNickName());
-        holder.descriptionTextView.setText(entity.getDescription());
+        holder.descriptionTextView.setText(entity.getContent());
 
         List<String> lickUser = entity.getPraise_avatar_user() != null ? entity.getPraise_avatar_user() : new ArrayList<String>();
         holder.likeLabel.setText(String.format("%d",lickUser.size()));
@@ -200,6 +263,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if(!TextUtils.isEmpty(avatar)){
             ImageLoader.getInstance().displayImage(entity.getAvatar(), holder.headImage);
         }
+        holder.headImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int userID = Integer.valueOf(entity.getUserId());
+                if(Global.getUserId() != userID){
+                    IntentUtil.goProfileActivity(mContext,userID);
+                }
+            }
+        });
         List<PicEntity> picLists = entity.getPic();
         List<String> picStrings = new ArrayList<>();
         if(picLists!=null){
@@ -366,6 +438,33 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             likeLabel = (TextView) view.findViewById(R.id.item_text_label_like);
             shareLabel = (TextView) view.findViewById(R.id.item_text_label_share);
             shareNotice = (TextView) view.findViewById(R.id.text_share_notice);
+        }
+    }
+
+    public static class WenWenViewHolder extends RecyclerView.ViewHolder {
+
+        public View rootView;
+
+        public CircularImage headImage;
+        public ImageView imgPagerView;
+        public TextView nameTextView;
+        public TextView titleTextView;
+        public TextView contentTextView;
+        public TextView descriptionTextView;
+        public TextView likeLabel;
+        public TextView shareLabel;
+
+        public WenWenViewHolder(View view) {
+            super(view);
+            rootView = view;
+            titleTextView = (TextView) view.findViewById(R.id.text_photo_title);
+            contentTextView = (TextView) view.findViewById(R.id.text_photo_content);
+            descriptionTextView = (TextView) view.findViewById(R.id.text_description);
+            nameTextView = (TextView) view.findViewById(R.id.text_item_name);
+            headImage = (CircularImage) view.findViewById(R.id.img_head);
+            imgPagerView = (ImageView) view.findViewById(R.id.ipv_item_img);
+            likeLabel = (TextView) view.findViewById(R.id.item_text_label_like);
+            shareLabel = (TextView) view.findViewById(R.id.item_text_label_share);
         }
     }
 

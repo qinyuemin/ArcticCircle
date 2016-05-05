@@ -86,6 +86,13 @@ public class IntentUtil {
         from.startActivity(intent);
     }
 
+    public static void goProfileActivity(Context from, int userId) {
+        Intent intent = new Intent();
+        intent.setClass(from, ProfileActivity.class);
+        intent.putExtra("user_id", userId);
+        from.startActivity(intent);
+    }
+
     public static void goStartActivity(Activity activity) {
         Intent intent = new Intent();
         intent.setClass(activity, StartActivity.class);

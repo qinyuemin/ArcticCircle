@@ -1,106 +1,91 @@
-package com.xiaoma.beiji.fragment;
+package com.xiaoma.beiji.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.makeapp.android.util.ImageViewUtil;
 import com.makeapp.android.util.TextViewUtil;
 import com.makeapp.javase.lang.StringUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xiaoma.beiji.R;
 import com.xiaoma.beiji.adapter.FragmentAdapter;
-import com.xiaoma.beiji.common.Global;
 import com.xiaoma.beiji.controls.view.CircularImage;
 import com.xiaoma.beiji.controls.view.MyTabLayoutItem;
 import com.xiaoma.beiji.entity.UserInfoEntity;
+import com.xiaoma.beiji.fragment.InfoDetailsFragment;
 import com.xiaoma.beiji.network.AbsHttpResultHandler;
 import com.xiaoma.beiji.network.HttpClientUtil;
-import com.xiaoma.beiji.util.IntentUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by zhangqibo on 2016/3/29.
+ * Created by zhangqibo on 2016/5/6.
  */
-public class MyProfileFragment extends Fragment{
-    private static final String TAG = MyProfileFragment.class.getSimpleName();
-
-    private UserInfoEntity userInfoEntity;
+public class ProfileActivity extends FragmentActivity {
 
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
-    private RecyclerView recyclerView;
-    private ImageButton hideSettingBtn;
-    private LinearLayout settingLayout;
 
     private InfoDetailsFragment dynamicFragment;
-    private InfoDetailsFragment seekHelpFragment;
-    private InfoDetailsFragment shouCangFragment;
-
-    private TextView leftLabel;
-    private TextView rightLabel;
+    private InfoDetailsFragment favoriteFragment;
 
     private CircularImage headView;
-
-    private View rootView;
+    private UserInfoEntity userInfoEntity;
 
     MyTabLayoutItem[] tabs;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_layout_profile,null);
-        initComponents(rootView);
-        userInfoEntity = Global.getUserInfo();
-        initInfo();
-        loadMyDynamic();
-        return  rootView;
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_layout_profile);
+        initComponents();
+        int id = getIntent().getIntExtra("user_id",-1);
+        if(id<0){
+            finish();
+        }else{
+            loadDynamic(id);
+            loadFavorite(id);
+        }
     }
 
-
-    protected void initComponents(View rootView) {
-        View permissionSetting = rootView.findViewById(R.id.layout_permission_setting);
-        permissionSetting.setVisibility(View.GONE);
-        View commomFriends = rootView.findViewById(R.id.layout_commom_friends);
-        commomFriends.setVisibility(View.GONE);
-        headView = (CircularImage) rootView.findViewById(R.id.img_user_head);
-        leftLabel = (TextView) rootView.findViewById(R.id.text_left_label);
-        rightLabel = (TextView) rootView.findViewById(R.id.text_right_label);
-        leftLabel.setCompoundDrawables(null,null,null,null);
-        rightLabel.setCompoundDrawables(null,null,null,null);
-        leftLabel.setText("我关注的人");
-        rightLabel.setText("关注我的人");
-        rootView.findViewById(R.id.btn_account_setting).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                IntentUtil.goAccountSettingActivity(getActivity());
-            }
-        });
-//        settingLayout = (LinearLayout) rootView.findViewById(R.id.layout_setting);
-//        hideSettingBtn = (ImageButton) rootView.findViewById(R.id.btn_hide_setting);
-//        hideSettingBtn.setOnClickListener(new View.OnClickListener() {
+    protected void initComponents() {
+        View permissionSetting = findViewById(R.id.layout_permission_setting);
+        permissionSetting.setVisibility(View.VISIBLE);
+        View commomFriends = findViewById(R.id.layout_commom_friends);
+        commomFriends.setVisibility(View.VISIBLE);
+        headView = (CircularImage) findViewById(R.id.img_user_head);
+//        leftLabel = (TextView) rootView.findViewById(R.id.text_left_label);
+//        rightLabel = (TextView) rootView.findViewById(R.id.text_right_label);
+//        leftLabel.setCompoundDrawables(null,null,null,null);
+//        rightLabel.setCompoundDrawables(null,null,null,null);
+//        leftLabel.setText("我关注的人");
+//        rightLabel.setText("关注我的人");
+//        rootView.findViewById(R.id.btn_account_setting).setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                if(View.VISIBLE == settingLayout.getVisibility()){
-//                    settingLayout.setVisibility(View.GONE);
-//                }else{
-//                    settingLayout.setVisibility(View.VISIBLE);
-//                }
+//                IntentUtil.goAccountSettingActivity(getActivity());
 //            }
 //        });
-        mTabLayout = (TabLayout) rootView.findViewById(R.id.tab_layout);
-        mViewPager = (ViewPager) rootView.findViewById(R.id.view_pager);
+        final LinearLayout settingLayout = (LinearLayout) findViewById(R.id.layout_setting);
+        ImageView hideSettingBtn = (ImageView) findViewById(R.id.btn_hide_setting);
+        hideSettingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(View.VISIBLE == settingLayout.getVisibility()){
+                    settingLayout.setVisibility(View.GONE);
+                }else{
+                    settingLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        mViewPager = (ViewPager) findViewById(R.id.view_pager);
         //初始化TabLayout的title数据集
         List<String> titles = new ArrayList<>();
         titles.add("动态");
@@ -113,23 +98,20 @@ public class MyProfileFragment extends Fragment{
         //初始化ViewPager的数据集
         List<Fragment> fragments = new ArrayList<>();
         dynamicFragment = new InfoDetailsFragment();
-        seekHelpFragment = new InfoDetailsFragment();
-        shouCangFragment = new InfoDetailsFragment();
+        favoriteFragment = new InfoDetailsFragment();
         fragments.add(dynamicFragment);
-        fragments.add(seekHelpFragment);
-        fragments.add(shouCangFragment);
+        fragments.add(favoriteFragment);
         //创建ViewPager的adapter
-        FragmentAdapter adapter = new FragmentAdapter(getActivity().getSupportFragmentManager(), fragments, titles);
+        FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager(), fragments, titles);
         mViewPager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mViewPager);
 //        mTabLayout.setTabsFromPagerAdapter(adapter);
-        rootView.findViewById(R.id.layout_other_users).setVisibility(View.GONE);
 
         tabs = new MyTabLayoutItem[mTabLayout.getTabCount()];
 
         for (int i = 0; i < mTabLayout.getTabCount(); i++) {
             TabLayout.Tab tab = mTabLayout.getTabAt(i);
-            tabs[i] = new MyTabLayoutItem(getContext());
+            tabs[i] = new MyTabLayoutItem(this);
             tab.setCustomView(tabs[i].getTabView("0",titles.get(i)));
         }
         tabs[0].setSelected(true);
@@ -168,18 +150,15 @@ public class MyProfileFragment extends Fragment{
 //        recyclerView.setAdapter(new RecyclerView1Adapter(getContext(),items));
     }
 
-    private void bindDataToView(){
-        initInfo();
-    }
+    private void loadDynamic(int friendId){
 
-    private void loadMyDynamic(){
-        HttpClientUtil.User.userHomeDynamic(1,new AbsHttpResultHandler<UserInfoEntity>() {
+        HttpClientUtil.User.friendHomeDynamic(1, friendId, new AbsHttpResultHandler<UserInfoEntity>() {
             @Override
             public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
-                    userInfoEntity = data;
-                    bindDataToView();
-                    dynamicFragment.setList(data.getFriendDynamicEntities());
-                    tabs[0].setmCount(data.getFriendDynamicEntities().size()+"");
+                userInfoEntity = data;
+                initInfo();
+                dynamicFragment.setList(data.getFriendDynamicEntities());
+                tabs[0].setmCount(data.getFriendDynamicEntities().size() + "");
             }
 
             @Override
@@ -187,12 +166,16 @@ public class MyProfileFragment extends Fragment{
 
             }
         });
-        HttpClientUtil.User.userHomeDynamic(2,new AbsHttpResultHandler<UserInfoEntity>() {
+    }
+
+    private void loadFavorite(int friendId){
+
+        HttpClientUtil.User.friendFavoriteDynamic(1, 1, friendId, new AbsHttpResultHandler<UserInfoEntity>() {
             @Override
             public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
                 userInfoEntity = data;
-                bindDataToView();
-                seekHelpFragment.setList(data.getFriendDynamicEntities());
+                initInfo();
+                favoriteFragment.setList(data.getFriendFavoriteEntities());
                 tabs[1].setmCount(data.getFriendDynamicEntities().size() + "");
             }
 
@@ -203,11 +186,10 @@ public class MyProfileFragment extends Fragment{
         });
     }
     private void initInfo() {
-        TextViewUtil.setText(rootView, R.id.text_user_name, userInfoEntity.getNickname());
-        TextViewUtil.setText(rootView, R.id.text_user_id, "北极圈号:" + userInfoEntity.getUserId());
+        TextViewUtil.setText(this, R.id.text_user_name, userInfoEntity.getNickname());
+        TextViewUtil.setText(this, R.id.text_user_id, "北极圈号:" + userInfoEntity.getUserId());
         if(StringUtil.isValid(userInfoEntity.getAvatar())){
             ImageLoader.getInstance().displayImage(userInfoEntity.getAvatar(), headView);
         }
     }
-
 }
