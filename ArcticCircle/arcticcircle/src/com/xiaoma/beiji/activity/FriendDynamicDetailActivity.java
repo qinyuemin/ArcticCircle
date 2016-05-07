@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.*;
 
+import com.common.android.lib.util.TimeUtil;
 import com.makeapp.android.util.ImageViewUtil;
 import com.makeapp.android.util.ViewUtil;
 import com.makeapp.javase.util.DataUtil;
@@ -27,6 +28,7 @@ import com.xiaoma.beiji.controls.sharesdk.ShareSdkUtil;
 import com.xiaoma.beiji.controls.view.CircularImage;
 import com.xiaoma.beiji.controls.view.ExpandListView;
 import com.xiaoma.beiji.controls.view.ImgPagerView;
+import com.xiaoma.beiji.controls.view.ShowMoreView;
 import com.xiaoma.beiji.entity.CommentEntity;
 import com.xiaoma.beiji.entity.FriendDynamicEntity;
 import com.xiaoma.beiji.entity.PicEntity;
@@ -59,13 +61,14 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
     public TextView contentTextView;
     public RecyclerView mRecyclerView;
     public ImageView addComment;
-    public TextView descriptionTextView;
+    public ShowMoreView descriptionTextView;
     public ExpandListView mCommentRecyclerView;
     public ImageView showAllCommentBtn;
     public TextView likeLabel;
     public TextView commentLabel;
     public TextView shareUsers;
     public TextView text_item_flag;
+    public TextView timeTextView;
 
     private FriendDynamicEntity friendTrendsEntity;
 
@@ -110,7 +113,7 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
         contentTextView = (TextView) findViewById(R.id.text_photo_content);
         mRecyclerView = (RecyclerView) findViewById(R.id.item_recyclerView_lick);
         addComment = (ImageView) findViewById(R.id.item_btn_add_comment);
-        descriptionTextView = (TextView)findViewById(R.id.text_description);
+        descriptionTextView = (ShowMoreView)findViewById(R.id.text_description);
         nameTextView = (TextView) findViewById(R.id.text_item_name);
         headImage = (CircularImage) findViewById(R.id.img_head);
         imgPagerView = (ImgPagerView) findViewById(R.id.ipv_item_img);
@@ -120,6 +123,7 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
         commentLabel = (TextView) findViewById(R.id.item_text_label_comment);
         shareUsers = (TextView) findViewById(R.id.text_recommend_user);
         text_item_flag = (TextView) findViewById(R.id.text_item_flag);
+        timeTextView = (TextView) findViewById(R.id.text_item_time);
         if(friendTrendsEntity != null){
             initView(friendTrendsEntity);
         }
@@ -132,6 +136,7 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
         if(!TextUtils.isEmpty(avatar)){
             ImageLoader.getInstance().displayImage(entity.getAvatar(), headImage);
         }
+        timeTextView.setText(TimeUtil.getDisplayTime(entity.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
         List<PicEntity> picLists = entity.getPic();
         List<String> picStrings = new ArrayList<>();
         if(picLists!=null){

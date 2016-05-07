@@ -344,6 +344,15 @@ public class HttpClientUtil {
             executeAction(UrlConstants.USER_FRIEND_HOME_DYNAMIC, UserInfoEntity.class, params, handler);
         }
 
+        public static void homeFavoriteDynamic(int release_type,int favorite_type,  AbsHttpResultHandler handler) {
+            Map<String, Object> params = new HashMap<>();
+            params.put("user_id", Global.getUserId());
+            params.put("user_session", Global.getUserSession());
+            params.put("release_type", release_type);
+            params.put("favorite_type", favorite_type);
+            executeAction(UrlConstants.USER_FRIEND_HOME_FAVORITE, UserInfoEntity.class, params, handler);
+        }
+
         public static void friendFavoriteDynamic(int release_type,int favorite_type, int friendId , AbsHttpResultHandler handler) {
             Map<String, Object> params = new HashMap<>();
             params.put("user_id", Global.getUserId());

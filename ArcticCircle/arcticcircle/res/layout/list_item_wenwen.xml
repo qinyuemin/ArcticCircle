@@ -54,7 +54,8 @@
                     android:layout_below="@id/text_item_name"
                     android:layout_alignRight="@id/text_item_name"
                     android:layout_alignLeft="@id/text_item_name"
-                    android:textSize="@dimen/text_size_20px"
+                    android:textSize="@dimen/text_size_18px"
+                    android:singleLine="true"
                     android:textColor="@color/gray_light"
                     android:gravity="left|center_vertical"
                     android:text="10分钟前"/>
@@ -83,15 +84,14 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_tips_more"/>
         </LinearLayout>
-        <TextView
+        <com.xiaoma.beiji.controls.view.ShowMoreView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/gray_title"
-            android:id="@+id/text_description"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
-            android:layout_marginTop="6dp"
-            />
+            android:id="@+id/text_description">
+
+        </com.xiaoma.beiji.controls.view.ShowMoreView>
         <RelativeLayout
             android:layout_margin="4dp"
             android:layout_width="match_parent"

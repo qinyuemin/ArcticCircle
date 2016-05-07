@@ -23,6 +23,7 @@ import com.xiaoma.beiji.common.Global;
 import com.xiaoma.beiji.controls.view.CircularImage;
 import com.xiaoma.beiji.controls.view.ExpandListView;
 import com.xiaoma.beiji.controls.view.ImgPagerView;
+import com.xiaoma.beiji.controls.view.ShowMoreView;
 import com.xiaoma.beiji.entity.CommentEntity;
 import com.xiaoma.beiji.entity.FriendDynamicEntity;
 import com.xiaoma.beiji.entity.PicEntity;
@@ -148,7 +149,7 @@ public class FindFragment extends SimpleFragment{
         public TextView contentTextView;
         public RecyclerView mRecyclerView;
         public ImageView addComment;
-        public TextView descriptionTextView;
+        public ShowMoreView descriptionTextView;
         public ExpandListView mCommentRecyclerView;
         public ImageView showAllCommentBtn;
         public TextView likeLabel;
@@ -162,7 +163,7 @@ public class FindFragment extends SimpleFragment{
             contentTextView = (TextView) view.findViewById(R.id.text_photo_content);
             mRecyclerView = (RecyclerView) view.findViewById(R.id.item_recyclerView_lick);
             addComment = (ImageView) view.findViewById(R.id.item_btn_add_comment);
-            descriptionTextView = (TextView) view.findViewById(R.id.text_description);
+            descriptionTextView = (ShowMoreView) view.findViewById(R.id.text_description);
             nameTextView = (TextView) view.findViewById(R.id.text_item_name);
             headImage = (CircularImage) view.findViewById(R.id.img_head);
             imgPagerView = (ImgPagerView) view.findViewById(R.id.ipv_item_img);

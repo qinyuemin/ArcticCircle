@@ -55,7 +55,8 @@
                     android:layout_below="@id/text_item_name"
                     android:layout_alignRight="@id/text_item_name"
                     android:layout_alignLeft="@id/text_item_name"
-                    android:textSize="@dimen/text_size_20px"
+                    android:textSize="@dimen/text_size_18px"
+                    android:singleLine="true"
                     android:textColor="@color/gray_light"
                     android:gravity="left|center_vertical"
                     android:text="10分钟前"/>
@@ -140,18 +141,14 @@
                     android:text="256RMB"/>
             </LinearLayout>
         </RelativeLayout>
-        <TextView
+        <com.xiaoma.beiji.controls.view.ShowMoreView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="3"
-            android:ellipsize="end"
-            android:textSize="@dimen/text_size_24px"
-            android:id="@+id/text_description"
-            android:textColor="@color/gray_title"
-            android:lineSpacingExtra="3dp"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
-            android:text="苹果公司1980年12月12日公开招股上市，2012年创下6235亿美元的市值记录，截至2014年6月，苹果公司已经连续三年成为全球市值最大公司。苹果公司在2014年世界500强排行榜中排名第15名。2013年9月30日，在宏盟集团的“全球最佳品牌”报告中，苹果公司超过可口可乐成为世界最有价值品牌。2014年，苹果品牌超越谷歌（Google），成为世界最具价值品牌。"/>
+            android:id="@+id/text_description">
+
+        </com.xiaoma.beiji.controls.view.ShowMoreView>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

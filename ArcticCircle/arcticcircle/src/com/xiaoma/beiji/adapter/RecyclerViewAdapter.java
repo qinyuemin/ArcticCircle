@@ -11,13 +11,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.common.android.lib.util.TimeUtil;
 import com.makeapp.javase.lang.StringUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xiaoma.beiji.R;
+import com.xiaoma.beiji.bookview.BookLayout;
 import com.xiaoma.beiji.common.Global;
 import com.xiaoma.beiji.controls.view.CircularImage;
 import com.xiaoma.beiji.controls.view.ExpandListView;
 import com.xiaoma.beiji.controls.view.ImgPagerView;
+import com.xiaoma.beiji.controls.view.ShowMoreView;
 import com.xiaoma.beiji.entity.CommentEntity;
 import com.xiaoma.beiji.entity.FriendDynamicEntity;
 import com.xiaoma.beiji.entity.PicEntity;
@@ -137,6 +140,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if(StringUtil.isValid(entity.getAvatar())){
             ImageLoader.getInstance().displayImage(entity.getAvatar(), holder.headImage);
         }
+        holder.timeTextView.setText(TimeUtil.getDisplayTime(entity.getCreateTime(),"yyyy-MM-dd HH:mm:ss"));
         holder.headImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,39 +176,39 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 //        String content = stringBuffer.toString() + entity.get
     }
 
-    private void initShareArticleViewHolder(final ShareArticleViewHolder holder,final FriendDynamicEntity entity){
-        if(StringUtil.isValid(entity.getAvatar())){
-            ImageLoader.getInstance().displayImage(entity.getAvatar(), holder.headImage);
-        }
-        holder.headImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int userID = Integer.valueOf(entity.getUserId());
-                if(Global.getUserId() != userID){
-                    IntentUtil.goProfileActivity(mContext,userID);
-                }
-            }
-        });
-        List<PicEntity> picLists = entity.getPic();
-        List<String> picStrings = new ArrayList<>();
-        if(picLists!=null){
-            for (PicEntity picEntity:picLists) {
-                picStrings.add(picEntity.getPicUrl());
-            }
-        }
-        holder.imgPagerView.notifyData(picStrings);
-        holder.titleTextView.setText(entity.getTitle());
-        holder.nameTextView.setText(entity.getNickName());
-        holder.descriptionTextView.setText(entity.getDescription());
-
-        List<String> lickUser = entity.getPraise_avatar_user() != null ? entity.getPraise_avatar_user() : new ArrayList<String>();
-        holder.likeLabel.setText(String.format("%d", lickUser.size()));
-
-        List<String> shareUsers = entity.getShare_user_nickname()!= null ? entity.getShare_user_nickname() : new ArrayList<String>();
-        holder.shareLabel.setText(String.format("%d", shareUsers.size()));
-//        StringBuffer stringBuffer = new StringBuffer().append("@").append(entity.getShare_user_nickname());
-//        String content = stringBuffer.toString() + entity.get
-    }
+//    private void initShareArticleViewHolder(final ShareArticleViewHolder holder,final FriendDynamicEntity entity){
+//        if(StringUtil.isValid(entity.getAvatar())){
+//            ImageLoader.getInstance().displayImage(entity.getAvatar(), holder.headImage);
+//        }
+//        holder.headImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                int userID = Integer.valueOf(entity.getUserId());
+//                if(Global.getUserId() != userID){
+//                    IntentUtil.goProfileActivity(mContext,userID);
+//                }
+//            }
+//        });
+//        List<PicEntity> picLists = entity.getPic();
+//        List<String> picStrings = new ArrayList<>();
+//        if(picLists!=null){
+//            for (PicEntity picEntity:picLists) {
+//                picStrings.add(picEntity.getPicUrl());
+//            }
+//        }
+//        holder.imgPagerView.notifyData(picStrings);
+//        holder.titleTextView.setText(entity.getTitle());
+//        holder.nameTextView.setText(entity.getNickName());
+//        holder.descriptionTextView.setText(entity.getDescription());
+//
+//        List<String> lickUser = entity.getPraise_avatar_user() != null ? entity.getPraise_avatar_user() : new ArrayList<String>();
+//        holder.likeLabel.setText(String.format("%d", lickUser.size()));
+//
+//        List<String> shareUsers = entity.getShare_user_nickname()!= null ? entity.getShare_user_nickname() : new ArrayList<String>();
+//        holder.shareLabel.setText(String.format("%d", shareUsers.size()));
+////        StringBuffer stringBuffer = new StringBuffer().append("@").append(entity.getShare_user_nickname());
+////        String content = stringBuffer.toString() + entity.get
+//    }
 
 
 
@@ -212,6 +216,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if(StringUtil.isValid(entity.getAvatar())){
             ImageLoader.getInstance().displayImage(entity.getAvatar(), holder.headImage);
         }
+        holder.timeTextView.setText(TimeUtil.getDisplayTime(entity.getCreateTime(),"yyyy-MM-dd HH:mm:ss"));
         holder.headImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -259,6 +264,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private void initDynamicViewHolder(final DynamicViewHolder holder,final FriendDynamicEntity entity){
         String avatar = entity.getAvatar();
+        holder.timeTextView.setText(TimeUtil.getDisplayTime(entity.getCreateTime(),"yyyy-MM-dd HH:mm:ss"));
         holder.headImage.setImageResource(R.drawable.ic_logo);
         if(!TextUtils.isEmpty(avatar)){
             ImageLoader.getInstance().displayImage(entity.getAvatar(), holder.headImage);
@@ -360,12 +366,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public TextView contentTextView;
         public RecyclerView mRecyclerView;
         public ImageView addComment;
-        public TextView descriptionTextView;
+        public ShowMoreView descriptionTextView;
         public ExpandListView mCommentRecyclerView;
         public ImageView showAllCommentBtn;
         public TextView likeLabel;
         public TextView commentLabel;
         public TextView shareUsers;
+        public TextView timeTextView;
 
         public DynamicViewHolder(View view) {
             super(view);
@@ -374,7 +381,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             contentTextView = (TextView) view.findViewById(R.id.text_photo_content);
             mRecyclerView = (RecyclerView) view.findViewById(R.id.item_recyclerView_lick);
             addComment = (ImageView) view.findViewById(R.id.item_btn_add_comment);
-            descriptionTextView = (TextView) view.findViewById(R.id.text_description);
+            descriptionTextView = (ShowMoreView) view.findViewById(R.id.text_description);
             nameTextView = (TextView) view.findViewById(R.id.text_item_name);
             headImage = (CircularImage) view.findViewById(R.id.img_head);
             imgPagerView = (ImgPagerView) view.findViewById(R.id.ipv_item_img);
@@ -383,6 +390,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             likeLabel = (TextView) view.findViewById(R.id.item_text_label_like);
             commentLabel = (TextView) view.findViewById(R.id.item_text_label_comment);
             shareUsers = (TextView) view.findViewById(R.id.text_recommend_user);
+            timeTextView = (TextView) view.findViewById(R.id.text_item_time);
         }
     }
 
@@ -394,52 +402,54 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public TextView titleTextView;
         public TextView contentTextView;
         public ImageView addComment;
-        public TextView descriptionTextView;
+        public ShowMoreView descriptionTextView;
         public TextView likeLabel;
         public TextView shareLabel;
         public TextView shareUsers;
+        public TextView timeTextView;
 
         public ArticleViewHolder(View view) {
             super(view);
             titleTextView = (TextView) view.findViewById(R.id.text_photo_title);
             contentTextView = (TextView) view.findViewById(R.id.text_photo_content);
             addComment = (ImageView) view.findViewById(R.id.item_btn_add_comment);
-            descriptionTextView = (TextView) view.findViewById(R.id.text_description);
+            descriptionTextView = (ShowMoreView) view.findViewById(R.id.text_description);
             nameTextView = (TextView) view.findViewById(R.id.text_item_name);
             headImage = (CircularImage) view.findViewById(R.id.img_head);
             imgPagerView = (ImgPagerView) view.findViewById(R.id.ipv_item_img);
             likeLabel = (TextView) view.findViewById(R.id.item_text_label_like);
             shareLabel = (TextView) view.findViewById(R.id.item_text_label_share);
             shareUsers = (TextView) view.findViewById(R.id.text_recommend_user);
+            timeTextView = (TextView) view.findViewById(R.id.text_item_time);
         }
     }
 
-    public static class ShareArticleViewHolder extends RecyclerView.ViewHolder {
-        public CircularImage headImage;
-        public ImgPagerView imgPagerView;
-        public TextView nameTextView;
-        public TextView titleTextView;
-        public TextView contentTextView;
-        public ImageView addComment;
-        public TextView descriptionTextView;
-        public TextView likeLabel;
-        public TextView shareLabel;
-        public TextView shareNotice;
-
-        public ShareArticleViewHolder(View view) {
-            super(view);
-            titleTextView = (TextView) view.findViewById(R.id.text_photo_title);
-            contentTextView = (TextView) view.findViewById(R.id.text_photo_content);
-            addComment = (ImageView) view.findViewById(R.id.item_btn_add_comment);
-            descriptionTextView = (TextView) view.findViewById(R.id.text_description);
-            nameTextView = (TextView) view.findViewById(R.id.text_item_name);
-            headImage = (CircularImage) view.findViewById(R.id.img_head);
-            imgPagerView = (ImgPagerView) view.findViewById(R.id.ipv_item_img);
-            likeLabel = (TextView) view.findViewById(R.id.item_text_label_like);
-            shareLabel = (TextView) view.findViewById(R.id.item_text_label_share);
-            shareNotice = (TextView) view.findViewById(R.id.text_share_notice);
-        }
-    }
+//    public static class ShareArticleViewHolder extends RecyclerView.ViewHolder {
+//        public CircularImage headImage;
+//        public ImgPagerView imgPagerView;
+//        public TextView nameTextView;
+//        public TextView titleTextView;
+//        public TextView contentTextView;
+//        public ImageView addComment;
+//        public ShowMoreView descriptionTextView;
+//        public TextView likeLabel;
+//        public TextView shareLabel;
+//        public TextView shareNotice;
+//
+//        public ShareArticleViewHolder(View view) {
+//            super(view);
+//            titleTextView = (TextView) view.findViewById(R.id.text_photo_title);
+//            contentTextView = (TextView) view.findViewById(R.id.text_photo_content);
+//            addComment = (ImageView) view.findViewById(R.id.item_btn_add_comment);
+//            descriptionTextView = (ShowMoreView) view.findViewById(R.id.text_description);
+//            nameTextView = (TextView) view.findViewById(R.id.text_item_name);
+//            headImage = (CircularImage) view.findViewById(R.id.img_head);
+//            imgPagerView = (ImgPagerView) view.findViewById(R.id.ipv_item_img);
+//            likeLabel = (TextView) view.findViewById(R.id.item_text_label_like);
+//            shareLabel = (TextView) view.findViewById(R.id.item_text_label_share);
+//            shareNotice = (TextView) view.findViewById(R.id.text_share_notice);
+//        }
+//    }
 
     public static class WenWenViewHolder extends RecyclerView.ViewHolder {
 
@@ -450,21 +460,24 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public TextView nameTextView;
         public TextView titleTextView;
         public TextView contentTextView;
-        public TextView descriptionTextView;
+        public ShowMoreView descriptionTextView;
         public TextView likeLabel;
         public TextView shareLabel;
+        public TextView timeTextView;
 
         public WenWenViewHolder(View view) {
             super(view);
             rootView = view;
             titleTextView = (TextView) view.findViewById(R.id.text_photo_title);
             contentTextView = (TextView) view.findViewById(R.id.text_photo_content);
-            descriptionTextView = (TextView) view.findViewById(R.id.text_description);
+            descriptionTextView = (ShowMoreView) view.findViewById(R.id.text_description);
             nameTextView = (TextView) view.findViewById(R.id.text_item_name);
             headImage = (CircularImage) view.findViewById(R.id.img_head);
             imgPagerView = (ImageView) view.findViewById(R.id.ipv_item_img);
             likeLabel = (TextView) view.findViewById(R.id.item_text_label_like);
             shareLabel = (TextView) view.findViewById(R.id.item_text_label_share);
+            timeTextView = (TextView) view.findViewById(R.id.text_item_time);
+
         }
     }
 

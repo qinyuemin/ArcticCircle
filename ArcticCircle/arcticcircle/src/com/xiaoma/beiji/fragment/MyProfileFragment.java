@@ -22,10 +22,12 @@ import com.xiaoma.beiji.adapter.FragmentAdapter;
 import com.xiaoma.beiji.common.Global;
 import com.xiaoma.beiji.controls.view.CircularImage;
 import com.xiaoma.beiji.controls.view.MyTabLayoutItem;
+import com.xiaoma.beiji.entity.FriendDynamicEntity;
 import com.xiaoma.beiji.entity.UserInfoEntity;
 import com.xiaoma.beiji.network.AbsHttpResultHandler;
 import com.xiaoma.beiji.network.HttpClientUtil;
 import com.xiaoma.beiji.util.IntentUtil;
+import com.xiaoma.beiji.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -184,10 +186,10 @@ public class MyProfileFragment extends Fragment{
 
             @Override
             public void onFailure(int resultCode, String desc) {
-
+                ToastUtil.showToast(getContext(),desc);
             }
         });
-        HttpClientUtil.User.userHomeDynamic(2,new AbsHttpResultHandler<UserInfoEntity>() {
+        HttpClientUtil.User.userHomeDynamic(2, new AbsHttpResultHandler<UserInfoEntity>() {
             @Override
             public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
                 userInfoEntity = data;
@@ -198,7 +200,26 @@ public class MyProfileFragment extends Fragment{
 
             @Override
             public void onFailure(int resultCode, String desc) {
+                ToastUtil.showToast(getContext(),desc);
+            }
+        });
 
+        HttpClientUtil.User.homeFavoriteDynamic(1,1,new AbsHttpResultHandler<UserInfoEntity>() {
+            @Override
+            public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
+                userInfoEntity = data;
+                bindDataToView();
+                List<FriendDynamicEntity> favoriteList = data.getFriendFavoriteEntities();
+                if(favoriteList == null){
+                    favoriteList = new ArrayList<FriendDynamicEntity>();
+                }
+                shouCangFragment.setList(favoriteList);
+                tabs[2].setmCount(favoriteList.size() + "");
+            }
+
+            @Override
+            public void onFailure(int resultCode, String desc) {
+                ToastUtil.showToast(getContext(),desc);
             }
         });
     }
