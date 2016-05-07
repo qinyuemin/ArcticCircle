@@ -59,6 +59,7 @@ public class ProfileActivity extends FragmentActivity {
         permissionSetting.setVisibility(View.VISIBLE);
         View commomFriends = findViewById(R.id.layout_commom_friends);
         commomFriends.setVisibility(View.VISIBLE);
+        findViewById(R.id.btn_account_setting).setVisibility(View.GONE);
         headView = (CircularImage) findViewById(R.id.img_user_head);
 //        leftLabel = (TextView) rootView.findViewById(R.id.text_left_label);
 //        rightLabel = (TextView) rootView.findViewById(R.id.text_right_label);

@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Author       : yanbo
- * Date         : 2015-06-01
+ * Author       : zhangqibo
+ * Date         : 2015-04-01
  * Time         : 15:09
  * Description  :
  */
@@ -33,31 +33,14 @@ public class InfoDetailsFragment extends Fragment {
     private void initDate(){
         if(dynamicEntities == null){
             dynamicEntities = new ArrayList<>();
-            for(int i=0; i<18; i++){
-                FriendDynamicEntity thing = new FriendDynamicEntity();
-                thing.setTitle("第" + i + "个");
-                thing.setContent("这是第" + i + "个动态");
-                List<PicEntity> picEntities = new ArrayList<>();
-                PicEntity picEntity = new PicEntity();
-                picEntity.setPicUrl("http://i6.265g.com/images/201501/201501301413233383.jpg");
-                picEntities.add(picEntity);
-                thing.setPic(picEntities);
-                List<String> items = new ArrayList<>();
-                for(int j=0; j<18; j++){
-                    items.add("第" + j + "个朋友");
-                }
-                thing.setShare_user_nickname(items);
-                dynamicEntities.add(thing);
-            }
         }
     }
 
     public void setList(List list){
         this.dynamicEntities = list;
-        if(adapter!=null){
-            adapter.setData(list);
-            adapter.notifyDataSetChanged();
-            HttpClientUtil.logger("setList  and  notifyDataSetChanged");
+        if(mRecyclerView!=null){
+            adapter = new RecyclerViewAdapter(getActivity(), dynamicEntities);
+            mRecyclerView.setAdapter(adapter);
         }
     }
 
