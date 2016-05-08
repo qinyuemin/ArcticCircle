@@ -350,14 +350,14 @@ public class HttpClientUtil {
             params.put("user_session", Global.getUserSession());
             params.put("release_type", release_type);
             params.put("favorite_type", favorite_type);
-            executeAction(UrlConstants.USER_FRIEND_HOME_FAVORITE, UserInfoEntity.class, params, handler);
+            executeAction(UrlConstants.USER_HOME_FAVORITE, UserInfoEntity.class, params, handler);
         }
 
         public static void friendFavoriteDynamic(int release_type,int favorite_type, int friendId , AbsHttpResultHandler handler) {
             Map<String, Object> params = new HashMap<>();
             params.put("user_id", Global.getUserId());
             params.put("user_session", Global.getUserSession());
-            params.put("friend_user_id", release_type);
+            params.put("friend_user_id", friendId);
             params.put("release_type", release_type);
             params.put("favorite_type", favorite_type);
             executeAction(UrlConstants.USER_FRIEND_HOME_FAVORITE, UserInfoEntity.class, params, handler);
@@ -815,6 +815,30 @@ public class HttpClientUtil {
             params.put("user_id", Global.getUserId());
             params.put("user_session", Global.getUserSession());
             executeAction(UrlConstants.FRIEND_GET_FILIATION, FriendEntity.class, params, handler);
+        }
+
+        public static void friendAttention(boolean isAttention, int friend_id,AbsHttpResultHandler handler) {
+            Map<String, Object> params = new HashMap<>();
+            params.put("user_id", Global.getUserId());
+            params.put("user_session", Global.getUserSession());
+            params.put("friend_user_id",friend_id);
+            String method = "";
+            if(isAttention){
+                method = UrlConstants.FRIEND_DO_ATTENTION;
+            }else{
+                method = UrlConstants.FRIEND_REMOVE_ATTENTION;
+            }
+            executeAction(method, Object.class, params, handler);
+        }
+
+        public static void friendSetPrivacy(String canSeeMe,String myFriendCanSeeHis, int friend_id,AbsHttpResultHandler handler) {
+            Map<String, Object> params = new HashMap<>();
+            params.put("user_id", Global.getUserId());
+            params.put("user_session", Global.getUserSession());
+            params.put("friend_user_id",friend_id);
+            params.put("cant_see_me",canSeeMe);
+            params.put("my_friend_cant_see_his",myFriendCanSeeHis);
+            executeAction(UrlConstants.FRIEND_SET_PRIVACY, Object.class, params, handler);
         }
 
         /**

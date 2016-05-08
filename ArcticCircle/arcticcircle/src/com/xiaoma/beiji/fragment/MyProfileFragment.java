@@ -204,13 +204,13 @@ public class MyProfileFragment extends Fragment{
             }
         });
 
-        HttpClientUtil.User.homeFavoriteDynamic(1,1,new AbsHttpResultHandler<UserInfoEntity>() {
+        HttpClientUtil.User.homeFavoriteDynamic(1, 1, new AbsHttpResultHandler<UserInfoEntity>() {
             @Override
             public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
                 userInfoEntity = data;
                 bindDataToView();
                 List<FriendDynamicEntity> favoriteList = data.getFriendFavoriteEntities();
-                if(favoriteList == null){
+                if (favoriteList == null) {
                     favoriteList = new ArrayList<FriendDynamicEntity>();
                 }
                 shouCangFragment.setList(favoriteList);
@@ -219,7 +219,7 @@ public class MyProfileFragment extends Fragment{
 
             @Override
             public void onFailure(int resultCode, String desc) {
-                ToastUtil.showToast(getContext(),desc);
+                ToastUtil.showToast(getContext(), desc);
             }
         });
     }
@@ -229,6 +229,10 @@ public class MyProfileFragment extends Fragment{
         if(StringUtil.isValid(userInfoEntity.getAvatar())){
             ImageLoader.getInstance().displayImage(userInfoEntity.getAvatar(), headView);
         }
+    }
+
+    private void attention(){
+
     }
 
 }

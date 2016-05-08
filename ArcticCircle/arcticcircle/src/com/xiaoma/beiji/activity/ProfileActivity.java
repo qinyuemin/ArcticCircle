@@ -5,21 +5,31 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
+import android.widget.TextView;
 
 import com.makeapp.android.util.TextViewUtil;
 import com.makeapp.javase.lang.StringUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xiaoma.beiji.R;
 import com.xiaoma.beiji.adapter.FragmentAdapter;
+import com.xiaoma.beiji.adapter.RecyclerView1Adapter;
 import com.xiaoma.beiji.controls.view.CircularImage;
 import com.xiaoma.beiji.controls.view.MyTabLayoutItem;
+import com.xiaoma.beiji.entity.CommonFriends;
+import com.xiaoma.beiji.entity.FriendDynamicEntity;
 import com.xiaoma.beiji.entity.UserInfoEntity;
 import com.xiaoma.beiji.fragment.InfoDetailsFragment;
 import com.xiaoma.beiji.network.AbsHttpResultHandler;
 import com.xiaoma.beiji.network.HttpClientUtil;
+import com.xiaoma.beiji.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +37,7 @@ import java.util.List;
 /**
  * Created by zhangqibo on 2016/5/6.
  */
-public class ProfileActivity extends FragmentActivity {
+public class ProfileActivity extends FragmentActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
@@ -38,19 +48,29 @@ public class ProfileActivity extends FragmentActivity {
     private CircularImage headView;
     private UserInfoEntity userInfoEntity;
 
+    private TextView commonFriendsLabel;
+
+    private RecyclerView commonFriendsRecyclerView;
+
+    private TextView leftLabel,rightLabel;
+    private Switch hidemeSwitch;
+    private Switch hidemeToHeFriendsSwitch;
+    private Switch addBlackSwitch;
+
     MyTabLayoutItem[] tabs;
+    private int friendId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_layout_profile);
         initComponents();
-        int id = getIntent().getIntExtra("user_id",-1);
-        if(id<0){
+        friendId = getIntent().getIntExtra("user_id",-1);
+        if(friendId<0){
             finish();
         }else{
-            loadDynamic(id);
-            loadFavorite(id);
+            loadDynamic(friendId);
+            loadFavorite(friendId);
         }
     }
 
@@ -61,8 +81,25 @@ public class ProfileActivity extends FragmentActivity {
         commomFriends.setVisibility(View.VISIBLE);
         findViewById(R.id.btn_account_setting).setVisibility(View.GONE);
         headView = (CircularImage) findViewById(R.id.img_user_head);
-//        leftLabel = (TextView) rootView.findViewById(R.id.text_left_label);
-//        rightLabel = (TextView) rootView.findViewById(R.id.text_right_label);
+        commonFriendsLabel = (TextView) findViewById(R.id.text_commfriend_label);
+        hidemeSwitch = (Switch) findViewById(R.id.switch_hide_me_to_he);
+        hidemeToHeFriendsSwitch = (Switch) findViewById(R.id.switch_hide_me_to_his_friend);
+        addBlackSwitch = (Switch) findViewById(R.id.switch_add_to_black);
+        commonFriendsRecyclerView = (RecyclerView) findViewById(R.id.freinds_recycler_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        commonFriendsRecyclerView.setLayoutManager(layoutManager);
+//        commonFriendsRecyclerView.setAdapter(new RecyclerView1Adapter(this,new ArrayList<UserInfoEntity>()));
+        leftLabel = (TextView) findViewById(R.id.text_left_label);
+        rightLabel = (TextView) findViewById(R.id.text_right_label);
+        leftLabel.setOnClickListener(this);
+        rightLabel.setOnClickListener(this);
+        hidemeSwitch = (Switch) findViewById(R.id.switch_hide_me_to_he);
+        hidemeToHeFriendsSwitch = (Switch) findViewById(R.id.switch_hide_me_to_his_friend);
+        addBlackSwitch = (Switch) findViewById(R.id.switch_add_to_black);
+        hidemeSwitch.setOnCheckedChangeListener(this);
+        hidemeToHeFriendsSwitch.setOnCheckedChangeListener(this);
+        addBlackSwitch.setOnCheckedChangeListener(this);
 //        leftLabel.setCompoundDrawables(null,null,null,null);
 //        rightLabel.setCompoundDrawables(null,null,null,null);
 //        leftLabel.setText("我关注的人");
@@ -74,14 +111,16 @@ public class ProfileActivity extends FragmentActivity {
 //            }
 //        });
         final LinearLayout settingLayout = (LinearLayout) findViewById(R.id.layout_setting);
-        ImageView hideSettingBtn = (ImageView) findViewById(R.id.btn_hide_setting);
+        final ImageView hideSettingBtn = (ImageView) findViewById(R.id.btn_hide_setting);
         hideSettingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(View.VISIBLE == settingLayout.getVisibility()){
                     settingLayout.setVisibility(View.GONE);
+                    hideSettingBtn.setImageResource(R.drawable.icon_open);
                 }else{
                     settingLayout.setVisibility(View.VISIBLE);
+                    hideSettingBtn.setImageResource(R.drawable.icon_hide);
                 }
             }
         });
@@ -90,12 +129,10 @@ public class ProfileActivity extends FragmentActivity {
         //初始化TabLayout的title数据集
         List<String> titles = new ArrayList<>();
         titles.add("动态");
-        titles.add("求助");
         titles.add("收藏");
         //初始化TabLayout的title
         mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(0)));
         mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(1)));
-        mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(2)));
         //初始化ViewPager的数据集
         List<Fragment> fragments = new ArrayList<>();
         dynamicFragment = new InfoDetailsFragment();
@@ -106,13 +143,14 @@ public class ProfileActivity extends FragmentActivity {
         FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager(), fragments, titles);
         mViewPager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mViewPager);
-//        mTabLayout.setTabsFromPagerAdapter(adapter);
+        mTabLayout.setTabsFromPagerAdapter(adapter);
 
-        tabs = new MyTabLayoutItem[mTabLayout.getTabCount()];
+        tabs = new MyTabLayoutItem[titles.size()];
 
         for (int i = 0; i < mTabLayout.getTabCount(); i++) {
             TabLayout.Tab tab = mTabLayout.getTabAt(i);
             tabs[i] = new MyTabLayoutItem(this);
+            Log.d("AAAAAAAAAAA","i = " +i);
             tab.setCustomView(tabs[i].getTabView("0",titles.get(i)));
         }
         tabs[0].setSelected(true);
@@ -149,6 +187,7 @@ public class ProfileActivity extends FragmentActivity {
 //            items.add("第" + j + "个子元素");
 //        }
 //        recyclerView.setAdapter(new RecyclerView1Adapter(getContext(),items));
+
     }
 
     private void loadDynamic(int friendId){
@@ -158,13 +197,13 @@ public class ProfileActivity extends FragmentActivity {
             public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
                 userInfoEntity = data;
                 initInfo();
-                dynamicFragment.setList(data.getFriendDynamicEntities());
                 tabs[0].setmCount(data.getFriendDynamicEntities().size() + "");
+                dynamicFragment.setList(data.getFriendDynamicEntities());
             }
 
             @Override
             public void onFailure(int resultCode, String desc) {
-
+                ToastUtil.showToast(ProfileActivity.this, desc);
             }
         });
     }
@@ -176,8 +215,14 @@ public class ProfileActivity extends FragmentActivity {
             public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
                 userInfoEntity = data;
                 initInfo();
-                favoriteFragment.setList(data.getFriendFavoriteEntities());
-                tabs[1].setmCount(data.getFriendDynamicEntities().size() + "");
+                if (data.getFriendFavoriteEntities() != null) {
+                    tabs[1].setmCount(data.getFriendFavoriteEntities().size() + "");
+                    favoriteFragment.setList(data.getFriendFavoriteEntities());
+                } else {
+                    tabs[1].setmCount("0");
+                    favoriteFragment.setList(new ArrayList());
+                }
+
             }
 
             @Override
@@ -191,6 +236,88 @@ public class ProfileActivity extends FragmentActivity {
         TextViewUtil.setText(this, R.id.text_user_id, "北极圈号:" + userInfoEntity.getUserId());
         if(StringUtil.isValid(userInfoEntity.getAvatar())){
             ImageLoader.getInstance().displayImage(userInfoEntity.getAvatar(), headView);
+        }
+        CommonFriends commonFriends = userInfoEntity.getCommon_friends();
+        List<UserInfoEntity> userInfoEntities = new ArrayList<>();
+        if(commonFriends != null){
+            commonFriendsLabel.setText(userInfoEntity.getCommon_friends().getTotal()+"个共同好友");
+            userInfoEntities = commonFriends.getList();
+        }else{
+            commonFriendsLabel.setText("0个共同好友");
+        }
+        if("1".equals(userInfoEntity.getIs_attention())){
+            rightLabel.setText("已关注");
+        }else{
+            rightLabel.setText("关注TA");
+        }
+        commonFriendsRecyclerView.setAdapter(new RecyclerView1Adapter(this, userInfoEntities));
+    }
+
+    private void attention(final boolean isAttention){
+        HttpClientUtil.Friend.friendAttention(isAttention, friendId, new AbsHttpResultHandler() {
+            @Override
+            public void onSuccess(int resultCode, String desc, Object data) {
+                if(isAttention){
+                    ToastUtil.showToast(ProfileActivity.this,"关注成功");
+                    userInfoEntity.setIs_attention("1");
+                    rightLabel.setText("已关注");
+                }else{
+                    ToastUtil.showToast(ProfileActivity.this,"取消关注成功");
+                    userInfoEntity.setIs_attention("0");
+                    rightLabel.setText("关注TA");
+                }
+            }
+
+            @Override
+            public void onFailure(int resultCode, String desc) {
+                ToastUtil.showToast(ProfileActivity.this,desc);
+            }
+        });
+    }
+
+    private void setPrivacy(final String canSeeMe, final String  my_friend_cant_see_his){
+
+        HttpClientUtil.Friend.friendSetPrivacy(canSeeMe, my_friend_cant_see_his, friendId, new AbsHttpResultHandler() {
+            @Override
+            public void onSuccess(int resultCode, String desc, Object data) {
+                userInfoEntity.setCant_see_me(canSeeMe);
+                userInfoEntity.setMy_friend_cant_see_his(my_friend_cant_see_his);
+                ToastUtil.showToast(ProfileActivity.this,"设置成功");
+            }
+
+            @Override
+            public void onFailure(int resultCode, String desc) {
+                ToastUtil.showToast(ProfileActivity.this,desc);
+            }
+        });
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.text_right_label:
+                if("已关注".equals(rightLabel.getText())){
+                    attention(false);
+                }else {
+                    attention(true);
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        switch (buttonView.getId()){
+            case R.id.switch_hide_me_to_he:
+                String canSeeMe = isChecked ? "1" :"2";
+                setPrivacy(canSeeMe, userInfoEntity.getMy_friend_cant_see_his());
+                break;
+            case R.id.switch_hide_me_to_his_friend:
+                String my_friend_can_see_his  = isChecked ? "1" :"2";
+                setPrivacy(userInfoEntity.getCant_see_me(), my_friend_can_see_his);
+                break;
+            case R.id.switch_add_to_black:
+                break;
         }
     }
 }

@@ -36,7 +36,7 @@ public class RecyclerView1Adapter extends RecyclerView.Adapter<RecyclerView1Adap
 
     @Override
     public RecyclerView1Adapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        CircularImage view = (CircularImage) LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_1, parent, false);
+        CircularImage view = (CircularImage) LayoutInflater.from(mContext).inflate(R.layout.list_item_1, parent, false);
         return new ViewHolder(view);
     }
 

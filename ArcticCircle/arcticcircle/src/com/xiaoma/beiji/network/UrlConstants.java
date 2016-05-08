@@ -62,6 +62,7 @@ public class UrlConstants {
     public static final String USER_GET_DYNAMIC_COMMENTS = "User.get_dynamic_comments";
     public static final String USER_GET_SHOP_COMMENTS = "User.get_shop_comments";
     public static final String USER_HOME_DYNAMIC = "User.home_dynamic";
+    public static final String USER_HOME_FAVORITE = "User.home_dynamic";
     public static final String USER_FRIEND_HOME_DYNAMIC = "User.friend_home_dynamic";
     public static final String USER_FRIEND_HOME_FAVORITE = "User.friend_home_favorite";
 
@@ -123,6 +124,9 @@ public class UrlConstants {
     public static final String FRIEND_SET_FILIATION = "Friend.set_filiation";
     public static final String FRIEND_SET_BLACKLIST = "Friend.set_backlist";
     public static final String FRIEND_DEL_BLACKLIST = "Friend.del_backlist";
+    public static final String FRIEND_DO_ATTENTION = "Friend.do_attention";
+    public static final String FRIEND_REMOVE_ATTENTION = "Friend.remove_attention";
+    public static final String FRIEND_SET_PRIVACY = "Friend.set_privacy";
 
     public static final String IMAGES_UPLOAD = "/upload_image";
 

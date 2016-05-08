@@ -12,5 +12,21 @@ public class CommonFriends {
     @JSONField(name = "total")
     private String total;
     @JSONField (name = "list")
-    private List list;
+    private List<UserInfoEntity> list;
+
+    public String getTotal() {
+        return total;
+    }
+
+    public void setTotal(String total) {
+        this.total = total;
+    }
+
+    public List<UserInfoEntity> getList() {
+        return list;
+    }
+
+    public void setList(List<UserInfoEntity> list) {
+        this.list = list;
+    }
 }
