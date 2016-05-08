@@ -60,7 +60,7 @@ public class WelcomeActivity extends SimpleBaseActivity {
                 if (Global.isLogin()) {
                     IntentUtil.goMainActivity(WelcomeActivity.this);
                 }else{
-                    IntentUtil.goStartActivity(WelcomeActivity.this);
+                    IntentUtil.goUserLoginActivity(WelcomeActivity.this);
                 }
                 finish();
             }
