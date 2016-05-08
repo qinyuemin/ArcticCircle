@@ -79,11 +79,12 @@ public class CommentAdapter extends BaseAdapter{
         holder.imgHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    IntentUtil.goFriendDetailActivity((Activity) context,commentEntity.getUserId());
+                try{
+                    IntentUtil.goProfileActivity(context,Integer.valueOf(commentEntity.getUserId()));
                 }catch (Exception e){
-                    e.printStackTrace();
+
                 }
+
             }
         });
         return convertView;

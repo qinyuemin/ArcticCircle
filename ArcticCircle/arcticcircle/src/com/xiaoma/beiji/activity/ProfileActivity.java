@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.makeapp.android.util.TextViewUtil;
 import com.makeapp.javase.lang.StringUtil;
+import com.makeapp.javase.util.DataUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xiaoma.beiji.R;
 import com.xiaoma.beiji.adapter.FragmentAdapter;
@@ -97,9 +98,7 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
         hidemeSwitch = (Switch) findViewById(R.id.switch_hide_me_to_he);
         hidemeToHeFriendsSwitch = (Switch) findViewById(R.id.switch_hide_me_to_his_friend);
         addBlackSwitch = (Switch) findViewById(R.id.switch_add_to_black);
-        hidemeSwitch.setOnCheckedChangeListener(this);
-        hidemeToHeFriendsSwitch.setOnCheckedChangeListener(this);
-        addBlackSwitch.setOnCheckedChangeListener(this);
+
 //        leftLabel.setCompoundDrawables(null,null,null,null);
 //        rightLabel.setCompoundDrawables(null,null,null,null);
 //        leftLabel.setText("我关注的人");
@@ -164,9 +163,9 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
             public void onPageSelected(int position) {
                 for (int i = 0; i < mTabLayout.getTabCount(); i++) {
                     MyTabLayoutItem item = tabs[i];
-                    if(position == i){
+                    if (position == i) {
                         item.setSelected(true);
-                    }else{
+                    } else {
                         item.setSelected(false);
                     }
                 }
@@ -177,6 +176,8 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
 
             }
         });
+        findViewById(R.id.btn_back).setVisibility(View.VISIBLE);
+        findViewById(R.id.btn_back).setOnClickListener(this);
 
 //        recyclerView = (RecyclerView) rootView.findViewById(R.id.freinds_recycler_view);
 //        LinearLayoutManager manager = new LinearLayoutManager(getContext());
@@ -196,7 +197,7 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
             @Override
             public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
                 userInfoEntity = data;
-                initInfo();
+//                initInfo();
                 tabs[0].setmCount(data.getFriendDynamicEntities().size() + "");
                 dynamicFragment.setList(data.getFriendDynamicEntities());
             }
@@ -251,18 +252,26 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
             rightLabel.setText("关注TA");
         }
         commonFriendsRecyclerView.setAdapter(new RecyclerView1Adapter(this, userInfoEntities));
+
+        hidemeSwitch.setChecked(userInfoEntity.getCant_see_me().equals("1"));
+        hidemeToHeFriendsSwitch.setChecked(userInfoEntity.getMy_friend_cant_see_his().equals("1"));
+        //TODO 黑名单初始状态
+//        addBlackSwitch.setChecked(userInfoEntity.isBlackList());
+        hidemeSwitch.setOnCheckedChangeListener(this);
+        hidemeToHeFriendsSwitch.setOnCheckedChangeListener(this);
+        addBlackSwitch.setOnCheckedChangeListener(this);
     }
 
     private void attention(final boolean isAttention){
         HttpClientUtil.Friend.friendAttention(isAttention, friendId, new AbsHttpResultHandler() {
             @Override
             public void onSuccess(int resultCode, String desc, Object data) {
-                if(isAttention){
-                    ToastUtil.showToast(ProfileActivity.this,"关注成功");
+                if (isAttention) {
+                    ToastUtil.showToast(ProfileActivity.this, "关注成功");
                     userInfoEntity.setIs_attention("1");
                     rightLabel.setText("已关注");
-                }else{
-                    ToastUtil.showToast(ProfileActivity.this,"取消关注成功");
+                } else {
+                    ToastUtil.showToast(ProfileActivity.this, "取消关注成功");
                     userInfoEntity.setIs_attention("0");
                     rightLabel.setText("关注TA");
                 }
@@ -270,7 +279,7 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
 
             @Override
             public void onFailure(int resultCode, String desc) {
-                ToastUtil.showToast(ProfileActivity.this,desc);
+                ToastUtil.showToast(ProfileActivity.this, desc);
             }
         });
     }
@@ -282,15 +291,30 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
             public void onSuccess(int resultCode, String desc, Object data) {
                 userInfoEntity.setCant_see_me(canSeeMe);
                 userInfoEntity.setMy_friend_cant_see_his(my_friend_cant_see_his);
+                ToastUtil.showToast(ProfileActivity.this, "设置成功");
+            }
+
+            @Override
+            public void onFailure(int resultCode, String desc) {
+                ToastUtil.showToast(ProfileActivity.this, "设置成功"+desc);
+            }
+        });
+    }
+
+    private void updateBlackList(boolean isChecked){
+        HttpClientUtil.Friend.friendUpdateBlacklist(DataUtil.getInt(userInfoEntity.getUserId()), isChecked, new AbsHttpResultHandler() {
+            @Override
+            public void onSuccess(int resultCode, String desc, Object data) {
                 ToastUtil.showToast(ProfileActivity.this,"设置成功");
             }
 
             @Override
             public void onFailure(int resultCode, String desc) {
-                ToastUtil.showToast(ProfileActivity.this,desc);
+                ToastUtil.showToast(ProfileActivity.this,"设置成功:"+desc);
             }
         });
     }
+
 
     @Override
     public void onClick(View v) {
@@ -301,6 +325,9 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
                 }else {
                     attention(true);
                 }
+                break;
+            case R.id.btn_back:
+                finish();
                 break;
         }
     }
@@ -317,6 +344,7 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
                 setPrivacy(userInfoEntity.getCant_see_me(), my_friend_can_see_his);
                 break;
             case R.id.switch_add_to_black:
+                updateBlackList(isChecked);
                 break;
         }
     }

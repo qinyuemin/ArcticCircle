@@ -6,6 +6,12 @@
  */
 package com.xiaoma.beiji.activity;
 
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,6 +46,8 @@ public class LoginActivity extends SimpleBaseActivity implements View.OnClickLis
     private RelativeLayout rlMobile, rlPwd;
     private EditText edtMobile, edtCode, edtEmail, edtPwd;
     private Button btnLogin;
+
+    private TextView registerBtn;
 
     private String smsKey = "";
 
@@ -99,25 +107,44 @@ public class LoginActivity extends SimpleBaseActivity implements View.OnClickLis
             }
         });
 
-        setLoginModel(true);
+        setLoginModel(false);
 
         edtMobile = (EditText) findViewById(R.id.edt_mobile);
         edtCode = (EditText) findViewById(R.id.edt_code);
         edtEmail = (EditText) findViewById(R.id.edt_mail);
         edtPwd = (EditText) findViewById(R.id.edt_pwd);
 
-        ViewUtil.setViewOnClickListener(this, R.id.img_logo, new View.OnClickListener() {
+//        ViewUtil.setViewOnClickListener(this, R.id.img_logo, new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+////                IntentUtil.goMainActivity(LoginActivity.this);
+//            }
+//        });
+        SpannableString str = new SpannableString("---- 还没有账户？ 赶快来注册一个吧！ ----");
+        str.setSpan(new ClickableSpan() {
             @Override
-            public void onClick(View view) {
-//                IntentUtil.goMainActivity(LoginActivity.this);
+            public void onClick(View widget) {
+                IntentUtil.goUserRegisterActivity(LoginActivity.this);
             }
-        });
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                //设置文本的颜色
+                ds.setColor(getResources().getColor(R.color.blue));
+                //超链接形式的下划线，false 表示不显示下划线，true表示显示下划线
+                ds.setUnderlineText(false);
+            }
+        }, 15, 19, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        registerBtn = (TextView) findViewById(R.id.text_notice_register);
+        registerBtn.setMovementMethod(LinkMovementMethod.getInstance());
+        registerBtn.setText(str);
     }
 
     private void setLoginModel(boolean loginModel) {
         rlMobile.setVisibility(loginModel ? View.VISIBLE : View.GONE);
         rlPwd.setVisibility(loginModel ? View.GONE : View.VISIBLE);
-        txtLoginModel.setText(loginModel ? "密码登陆>>" : "验证码登陆>>");
+        txtLoginModel.setText(loginModel ? "密码登陆" : "验证码登陆");
     }
 
     @Override

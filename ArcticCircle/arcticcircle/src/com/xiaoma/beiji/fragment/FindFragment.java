@@ -53,6 +53,7 @@ public class FindFragment extends SimpleFragment{
 
     @Override
     protected void initComponents(View v) {
+        setTitleControlsInfo(v);
         recyclerView = (RecyclerView) v.findViewById(R.id.find_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
