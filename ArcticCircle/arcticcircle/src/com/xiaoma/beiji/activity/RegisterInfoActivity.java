@@ -11,6 +11,7 @@ import android.text.Html;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+
 import com.makeapp.javase.lang.StringUtil;
 import com.xiaoma.beiji.R;
 import com.xiaoma.beiji.base.SimpleBaseActivity;
@@ -68,6 +69,7 @@ public class RegisterInfoActivity extends SimpleBaseActivity implements View.OnC
         String comment1 = "<font color=#a0aab3>注册会员即表示你同意</font><font color=#1ab6fe>《北极圈服务条款》</font>";
         TextViewUtil.setText(this, R.id.txt_clause, Html.fromHtml(comment1));
         ViewUtil.setViewOnClickListener(this,R.id.txt_clause,this);
+
     }
 
     @Override
@@ -115,7 +117,7 @@ public class RegisterInfoActivity extends SimpleBaseActivity implements View.OnC
                         if(data != null){
                             Global.setUserInfo(data);
                         }
-                        IntentUtil.goRegisterFinishActivity(RegisterInfoActivity.this);
+                        IntentUtil.goPhoneContactsActivity(RegisterInfoActivity.this, true);
                         finish();
                     }
 

@@ -99,7 +99,7 @@ public class MainActivity extends SimpleBaseActivity implements BottomBarView.On
         signView = VersionView.showVersionSign(this);// 显示版本标识（测试期间使用）
         try {
             dbExport(TableMetadataDef.DATABASE_BASE_NAME);
-            syncContacts();
+//            syncContacts();
         } catch (Throwable e) {
             e.printStackTrace();
         }
@@ -119,19 +119,7 @@ public class MainActivity extends SimpleBaseActivity implements BottomBarView.On
         VersionView.removeVersionSign(this, signView);// 去掉版本标识（测试期间使用）
     }
 
-    private void syncContacts() {
-        HttpClientUtil.vCardChange(ContactManager.getInstance(this).getContactEntities(), new AbsHttpResultHandler() {
-            @Override
-            public void onSuccess(int resultCode, String desc, Object data) {
-                Log.i(TAG,"vCardChange success");
-            }
 
-            @Override
-            public void onFailure(int resultCode, String desc) {
-                Log.i(TAG,"vCardChange failure :"+desc);
-            }
-        });
-    }
 
     private void dbExport(String dbName) {
         FileInputStream in = null;

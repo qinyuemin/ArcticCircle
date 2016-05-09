@@ -66,6 +66,9 @@ public class UrlConstants {
     public static final String USER_FRIEND_HOME_DYNAMIC = "User.friend_home_dynamic";
     public static final String USER_FRIEND_HOME_FAVORITE = "User.friend_home_favorite";
 
+//    public static final String  CONTACTS_UPDATE          = "Vcard.change";
+    public static final String  FRIEND_GET_VCARD_LIST    = "Friend.get_vcard_list";
+
     // app
     public static final String APP_ADD = "App.add";// 接口应用添加
     public static final String APP_UPDATE = "App.update";// 接口应用信息更新
@@ -104,7 +107,7 @@ public class UrlConstants {
     public static final String SHOP_GOODS_EDIT = "Shop.goods_edit";//
 
     // VCARD
-    public static final String VCARD_CHANGE = "Vcard.change";// 通讯录更新
+//    public static final String VCARD_CHANGE = "Vcard.change";// 通讯录更新
 
     public static final String XMPP_GET_USER = "Xmpp.get_user";// 通讯录更新
 

@@ -25,6 +25,22 @@ public class ContactEntity {
     @JSONField(name = "phone")
     private String phone;
 
+//    @JSONField(name = "is_register")
+//    private String is_register;
+
+    @JSONField (name = "avatar")
+    private String avatar;
+
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+
     public String getName() {
         return name;
     }

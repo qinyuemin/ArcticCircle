@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="bg_main">#f0eff5</color>
+    <color name="bg_main">#f8f8f8</color>
     <color name="white">#ffffff</color>
     <color name="bg_title_bar">#ffcc6dff</color>
     <color name="color_gray">#a0aab3</color><!-- 灰色字体颜色 -->
@@ -12,7 +12,7 @@
     <color name="bg_color_gray">#f0eff5</color><!-- 灰色字体颜色 -->
 
 
-    <color name="color_blue">#19b5f1</color>
+    <color name="color_blue">#53cadb</color>
     <color name="color_blue1">#36d7b7</color>
     <color name="color_red">#ff6666</color>
     <color name="color_yellow">#f7ca18</color>

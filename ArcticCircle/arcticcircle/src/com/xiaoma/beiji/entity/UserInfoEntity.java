@@ -35,7 +35,7 @@ import java.util.List;
 "create_time": "0000-00-00 00:00:00"
 
  */
-public class UserInfoEntity implements Serializable{
+public class UserInfoEntity extends ContactEntity implements Serializable {
     @JSONField (name = "user_id")
     private int userId;
     @JSONField (name = "user_phone")

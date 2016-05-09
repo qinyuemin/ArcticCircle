@@ -10,6 +10,7 @@ import com.loopj.android.http.RequestParams;
 import com.makeapp.javase.util.DateUtil;
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.StringEntity;
+import org.json.JSONArray;
 
 import java.io.*;
 import java.security.NoSuchAlgorithmException;
@@ -209,7 +210,7 @@ public class HttpClientUtil {
             params.put("user_pwd", pwd);
             params.put("captcha", captcha);
             params.put("sms_key", smsKey);
-            executeAction(UrlConstants.USER_REGISTER, null, params, handler);
+            executeAction(UrlConstants.USER_REGISTER, UserInfoEntity.class, params, handler);
         }
 
         /**
@@ -368,6 +369,7 @@ public class HttpClientUtil {
             params.put("user_id", Global.getUserId());
             params.put("user_session", Global.getUserSession());
             params.put("bottom_comment_id", bottomCommentId);
+
             executeAction(UrlConstants.USER_GET_SHOP_COMMENTS, JSONObject.class, params, handler);
         }
     }
@@ -906,6 +908,21 @@ public class HttpClientUtil {
             }
             executeAction(url, FriendEntity.class, params, handler);
         }
+
+        public static void friendGetVcardList(int friendUserId,boolean b,AbsHttpResultHandler handler){
+//            Map<String, Object> params = new HashMap<>();
+//            params.put("user_id", Global.getUserId());
+//            params.put("user_session", Global.getUserSession());
+//            params.put("friend_user_id", friendUserId);
+//            String url = "";
+//            if(b){
+//                url = UrlConstants.FRIEND_SET_BACKLIST;
+//            }else{
+//                url = UrlConstants.FRIEND_DEL_BLACKLIST;
+//            }
+//            executeAction(url, FriendEntity.class, params, handler);
+        }
+
     }
 
     public static class Message{
@@ -979,6 +996,14 @@ public class HttpClientUtil {
         params.put("user_session", Global.getUserSession());
         params.put("list", entities);
         executeAction(UrlConstants.V_CARD_CHANGE, SearchEntity.class, params, handler);
+    }
+
+    public static void friendVCardList(List<ContactEntity> entities,AbsHttpResultHandler handler){
+        JSONObject params = new JSONObject();
+        params.put("user_id", Global.getUserId());
+        params.put("user_session", Global.getUserSession());
+        params.put("list", entities);
+        executeAction(UrlConstants.FRIEND_GET_VCARD_LIST, UserInfoEntity.class, params, handler);
     }
 }
 

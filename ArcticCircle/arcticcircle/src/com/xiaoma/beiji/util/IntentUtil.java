@@ -10,7 +10,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+
 import com.xiaoma.beiji.R;
 import com.xiaoma.beiji.activity.*;
 import com.xiaoma.beiji.common.Global;
@@ -115,9 +115,10 @@ public class IntentUtil {
         activity.startActivity(intent);
     }
 
-    public static void goRegisterFinishActivity(Activity activity) {
+    public static void goPhoneContactsActivity(Activity activity, boolean isFromRegister) {
         Intent intent = new Intent();
-        intent.setClass(activity, RegisterFinishActivity.class);
+        intent.setClass(activity, PhoneContactsActivity.class);
+        intent.putExtra("isFromRegister",isFromRegister);
         activity.startActivity(intent);
     }
 
