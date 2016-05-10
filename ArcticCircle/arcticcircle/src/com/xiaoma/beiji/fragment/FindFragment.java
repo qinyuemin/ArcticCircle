@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.common.android.lib.util.TimeUtil;
 import com.makeapp.android.util.TextViewUtil;
 import com.makeapp.android.util.ViewUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -27,8 +28,12 @@ import com.xiaoma.beiji.controls.view.ShowMoreView;
 import com.xiaoma.beiji.entity.CommentEntity;
 import com.xiaoma.beiji.entity.FriendDynamicEntity;
 import com.xiaoma.beiji.entity.PicEntity;
+import com.xiaoma.beiji.entity.SqureEntity;
 import com.xiaoma.beiji.entity.UserInfoEntity;
+import com.xiaoma.beiji.network.AbsHttpResultHandler;
+import com.xiaoma.beiji.network.HttpClientUtil;
 import com.xiaoma.beiji.util.IntentUtil;
+import com.xiaoma.beiji.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,37 +68,65 @@ public class FindFragment extends SimpleFragment{
     @Override
     protected void loadData() {
 
-        Title title1 = new Title();
-        title1.setTitle("推荐达人");
-        Title title2 = new Title();
-        title2.setTitle("推荐列表");
-
-        findEntityList = new ArrayList<>();
-        findEntityList.add(title1);
-        List<UserInfoEntity> list = new ArrayList<>(2);
-        list.add(new UserInfoEntity());
-        list.add(new UserInfoEntity());
-        FindEntity findEntity = new FindEntity();
-        findEntity.setEntities(list);
-        findEntityList.add(findEntity);
-        findEntityList.add(title2);
-        for(int i=0; i<18; i++){
-            FriendDynamicEntity thing = new FriendDynamicEntity();
-            thing.setTitle("第" + i + "个");
-            thing.setContent("这是第" + i + "个动态");
-            List<PicEntity> picEntities = new ArrayList<>();
-            PicEntity picEntity = new PicEntity();
-            picEntity.setPicUrl("http://i6.265g.com/images/201501/201501301413233383.jpg");
-            picEntities.add(picEntity);
-            thing.setPic(picEntities);
-            List<String> items = new ArrayList<>();
-            for(int j=0; j<18; j++){
-                items.add("第" + j + "个朋友");
+//        Title title1 = new Title();
+//        title1.setTitle("推荐达人");
+//        Title title2 = new Title();
+//        title2.setTitle("推荐列表");
+//
+//        findEntityList = new ArrayList<>();
+//        findEntityList.add(title1);
+//        List<UserInfoEntity> list = new ArrayList<>(2);
+//        list.add(new UserInfoEntity());
+//        list.add(new UserInfoEntity());
+//        FindEntity findEntity = new FindEntity();
+//        findEntity.setEntities(list);
+//        findEntityList.add(findEntity);
+//        findEntityList.add(title2);
+//        for(int i=0; i<18; i++){
+//            FriendDynamicEntity thing = new FriendDynamicEntity();
+//            thing.setTitle("第" + i + "个");
+//            thing.setContent("这是第" + i + "个动态");
+//            List<PicEntity> picEntities = new ArrayList<>();
+//            PicEntity picEntity = new PicEntity();
+//            picEntity.setPicUrl("http://i6.265g.com/images/201501/201501301413233383.jpg");
+//            picEntities.add(picEntity);
+//            thing.setPic(picEntities);
+//            List<String> items = new ArrayList<>();
+//            for(int j=0; j<18; j++){
+//                items.add("第" + j + "个朋友");
+//            }
+//            thing.setShare_user_nickname(items);
+//            findEntityList.add(thing);
+//        }
+        HttpClientUtil.squreList(new AbsHttpResultHandler<SqureEntity>() {
+            @Override
+            public void onSuccess(int resultCode, String desc, SqureEntity data) {
+                List<UserInfoEntity> userInfoEntities = data.getUserInfoEntities();
+                List<FriendDynamicEntity> dynamicEntities = data.getDynamicEntities();
+                Title title1 = new Title();
+                title1.setTitle("推荐达人");
+                Title title2 = new Title();
+                title2.setTitle("推荐列表");
+                findEntityList = new ArrayList<>();
+                findEntityList.add(title1);
+                FindEntity entity = new FindEntity();
+                entity.setEntities(userInfoEntities!=null?userInfoEntities:new ArrayList<UserInfoEntity>());
+                findEntityList.add(entity);
+                findEntityList.add(title2);
+                if(dynamicEntities!=null){
+                    for(FriendDynamicEntity entity1:dynamicEntities){
+                        findEntityList.add(entity1);
+                    }
+                }
+                recyclerView.setAdapter(new Adapter(getContext(), findEntityList));
             }
-            thing.setShare_user_nickname(items);
-            findEntityList.add(thing);
-        }
-        recyclerView.setAdapter(new Adapter(getContext(), findEntityList));
+
+            @Override
+            public void onFailure(int resultCode, String desc) {
+                ToastUtil.showToast(getContext(),desc);
+            }
+        });
+
     }
 
     class FindEntity{
@@ -135,15 +168,42 @@ public class FindFragment extends SimpleFragment{
 
         View rootView;
 
+        CircularImage headView1,headView2;
+        TextView nikeName1,nikeName2;
+        ImageView darenImg1,darenImg2;
+        ImageView hotImg1,hotImg2;
+        TextView desView1,desView2;
+        TextView noticeView1,noticeView2;
+        TextView labelView1,labelView2;
+        LinearLayout userLayout1,userLayout2;
+
+
         public DarenViewHolder(View itemView) {
             super(itemView);
             rootView = itemView;
+            headView1 = (CircularImage) rootView.findViewById(R.id.img_head1);
+            headView2 = (CircularImage) rootView.findViewById(R.id.img_head2);
+            nikeName1 = (TextView) rootView.findViewById(R.id.text_nickname1);
+            nikeName2 = (TextView) rootView.findViewById(R.id.text_nickname2);
+            darenImg1 = (ImageView) rootView.findViewById(R.id.icon_daren1);
+            darenImg2 = (ImageView) rootView.findViewById(R.id.icon_daren2);
+            hotImg1 = (ImageView) rootView.findViewById(R.id.icon_hot1);
+            hotImg2 = (ImageView) rootView.findViewById(R.id.icon_hot2);
+            desView1 = (TextView) rootView.findViewById(R.id.hot_des1);
+            desView2 = (TextView) rootView.findViewById(R.id.hot_des2);
+            noticeView1 = (TextView) rootView.findViewById(R.id.text_notice1);
+            noticeView2 = (TextView) rootView.findViewById(R.id.text_notice2);
+            labelView1 = (TextView) rootView.findViewById(R.id.text_label1);
+            labelView2 = (TextView) rootView.findViewById(R.id.text_label2);
+            userLayout1 = (LinearLayout) rootView.findViewById(R.id.layout_user1);
+            userLayout2 = (LinearLayout) rootView.findViewById(R.id.layout_user2);
         }
     }
 
     public static class DynamicViewHolder extends RecyclerView.ViewHolder {
         public View rootView;
         public CircularImage headImage;
+        public TextView timeTextView;
         public ImgPagerView imgPagerView;
         public TextView nameTextView;
         public TextView titleTextView;
@@ -173,6 +233,7 @@ public class FindFragment extends SimpleFragment{
             likeLabel = (TextView) view.findViewById(R.id.item_text_label_like);
             commentLabel = (TextView) view.findViewById(R.id.item_text_label_comment);
             shareUsers = (TextView) view.findViewById(R.id.text_recommend_user);
+            timeTextView = (TextView) view.findViewById(R.id.text_item_time);
         }
     }
 
@@ -252,9 +313,47 @@ public class FindFragment extends SimpleFragment{
 
         private void initDarenHolder(DarenViewHolder holder,List<UserInfoEntity> list){
             holder.rootView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            if(list.size()<=0){
+                holder.userLayout1.setVisibility(View.INVISIBLE);
+                holder.userLayout2.setVisibility(View.INVISIBLE);
+            }else if(list.size() == 1){
+                holder.userLayout1.setVisibility(View.VISIBLE);
+                holder.userLayout2.setVisibility(View.INVISIBLE);
+                UserInfoEntity userInfoEntity = list.get(0);
+                initDaren(userInfoEntity,holder.nikeName1,holder.headView1,holder.darenImg1,holder.labelView1,holder.desView1,holder.noticeView1);
+            }else{
+                holder.userLayout1.setVisibility(View.VISIBLE);
+                holder.userLayout2.setVisibility(View.VISIBLE);
+                UserInfoEntity userInfoEntity = list.get(0);
+                UserInfoEntity userInfoEntity1 = list.get(1);
+                initDaren(userInfoEntity,holder.nikeName1,holder.headView1,holder.darenImg1,holder.labelView1,holder.desView1,holder.noticeView1);
+                initDaren(userInfoEntity1,holder.nikeName2,holder.headView2,holder.darenImg2,holder.labelView2,holder.desView2,holder.noticeView2);
+            }
+        }
+
+        private void initDaren(UserInfoEntity userInfoEntity, TextView nikeName,CircularImage headView,ImageView darenView,TextView labelView,TextView desView,TextView noticeView){
+            nikeName.setText(userInfoEntity.getNickname());
+            if(!TextUtils.isEmpty(userInfoEntity.getAvatar())){
+                ImageLoader.getInstance().displayImage(userInfoEntity.getAvatar(), headView);
+            }
+            if("1".equals(userInfoEntity.getIs_talent())){
+                darenView.setVisibility(View.VISIBLE);
+            }else {
+                darenView.setVisibility(View.INVISIBLE);
+            }
+            labelView.setText(userInfoEntity.getLabel());
+            if(userInfoEntity.getFriendDynamicEntities()!=null&&userInfoEntity.getFriendDynamicEntities().size()>1){
+                desView.setText(userInfoEntity.getFriendDynamicEntities().get(0).getContent());
+            }
+            if("1".equals(userInfoEntity.getIs_attention())){
+                noticeView.setText("已关注");
+            }else{
+                noticeView.setText("关注Ta");
+            }
         }
         private void initDynamicViewHolder(final DynamicViewHolder holder,final FriendDynamicEntity entity){
             String avatar = entity.getAvatar();
+            holder.timeTextView.setText(TimeUtil.getDisplayTime(entity.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
             holder.headImage.setImageResource(R.drawable.ic_logo);
             if(!TextUtils.isEmpty(avatar)){
                 ImageLoader.getInstance().displayImage(entity.getAvatar(), holder.headImage);

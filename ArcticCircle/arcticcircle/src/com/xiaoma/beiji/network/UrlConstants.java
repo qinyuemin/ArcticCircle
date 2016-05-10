@@ -138,4 +138,7 @@ public class UrlConstants {
     public static final String SEARCH_USER = "Search.user";// 搜索用户
 
     public static final String V_CARD_CHANGE = "Vcard.change"; // 更新联系人
+
+
+    public static final String SQUARE_SQUARE = "Square.square"; // 更新联系人
 }

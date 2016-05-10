@@ -1024,5 +1024,12 @@ public class HttpClientUtil {
         params.put("list", entities);
         executeAction(UrlConstants.FRIEND_GET_VCARD_LIST, UserInfoEntity.class, params, handler);
     }
+
+    public static void squreList(AbsHttpResultHandler handler){
+        JSONObject params = new JSONObject();
+        params.put("user_id", Global.getUserId());
+        params.put("user_session", Global.getUserSession());
+        executeAction(UrlConstants.SQUARE_SQUARE, SqureEntity.class, params, handler);
+    }
 }
 
