@@ -57,17 +57,17 @@ public class IMChatService extends Service {
         initXmppLogin();
 
 
-        HttpClientUtil.vCardChange(ContactManager.getInstance(this).getContactEntities(), new AbsHttpResultHandler() {
-            @Override
-            public void onSuccess(int resultCode, String desc, Object data) {
-                Log.i(TAG,"vCardChange success");
-            }
-
-            @Override
-            public void onFailure(int resultCode, String desc) {
-                Log.i(TAG,"vCardChange failure :"+desc);
-            }
-        });
+//        HttpClientUtil.vCardChange(ContactManager.getInstance(this).getContactEntities(), new AbsHttpResultHandler() {
+//            @Override
+//            public void onSuccess(int resultCode, String desc, Object data) {
+//                Log.i(TAG,"vCardChange success");
+//            }
+//
+//            @Override
+//            public void onFailure(int resultCode, String desc) {
+//                Log.i(TAG,"vCardChange failure :"+desc);
+//            }
+//        });
     }
 
     private void initXmppLogin() {

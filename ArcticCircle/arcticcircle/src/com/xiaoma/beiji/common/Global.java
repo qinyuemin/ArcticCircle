@@ -57,6 +57,9 @@ public class Global {
             SharedPreferencesUtil.setSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_SESSION, entity.getUserSession());
             SharedPreferencesUtil.setSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_AVATAR, entity.getAvatar());
             SharedPreferencesUtil.setSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_GENDER, entity.getGender());
+            SharedPreferencesUtil.setSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_GENDER, entity.getGender());
+            SharedPreferencesUtil.setSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_GENDER, entity.getGender());
+            SharedPreferencesUtil.setSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_GENDER, entity.getGender());
             SharedPreferencesUtil.setSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_LAST_LOGIN_TIME, entity.getLastLoginTime());
             SharedPreferencesUtil.setSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_SESSION_EXPIRE_TIME, entity.getSessionExpireTime());
             SharedPreferencesUtil.setSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_IS_ENABLED, entity.getIsEnabled());
@@ -76,6 +79,9 @@ public class Global {
             userInfo.setUserSession(SharedPreferencesUtil.getSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_SESSION));
             userInfo.setAvatar(SharedPreferencesUtil.getSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_AVATAR));
             userInfo.setGender(SharedPreferencesUtil.getSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_GENDER));
+            userInfo.setLabel(SharedPreferencesUtil.getSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_LABLE));
+            userInfo.setAddress(SharedPreferencesUtil.getSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_ADDRESS));
+            userInfo.setProfile(SharedPreferencesUtil.getSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_PROFILE));
             userInfo.setLastLoginTime(SharedPreferencesUtil.getSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_LAST_LOGIN_TIME));
             userInfo.setSessionExpireTime(SharedPreferencesUtil.getSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_SESSION_EXPIRE_TIME));
             userInfo.setIsEnabled(SharedPreferencesUtil.getSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_IS_ENABLED));

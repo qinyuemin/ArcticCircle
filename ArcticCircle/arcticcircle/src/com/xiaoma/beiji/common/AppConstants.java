@@ -21,6 +21,9 @@ public final class AppConstants {
         public static final String SHARED_USER_SESSION = "prf_user_session";
         public static final String SHARED_USER_AVATAR = "prf_user_avatar";
         public static final String SHARED_USER_GENDER = "prf_user_gender";
+        public static final String SHARED_USER_LABLE = "prf_user_label";
+        public static final String SHARED_USER_ADDRESS = "prf_user_address";
+        public static final String SHARED_USER_PROFILE = "prf_user_profile";
         public static final String SHARED_USER_LAST_LOGIN_TIME = "prf_user_last_login_time";
         public static final String SHARED_USER_SESSION_EXPIRE_TIME = "prf_user_session_expire_time";
         public static final String SHARED_USER_IS_ENABLED = "prf_user_is_enabled";

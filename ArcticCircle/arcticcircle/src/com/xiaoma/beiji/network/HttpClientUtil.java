@@ -242,6 +242,25 @@ public class HttpClientUtil {
         }
 
         /**
+         * 设置用户信息(昵称/性别)
+         * <p/>
+         * user_id                         # 用户id
+         * nickname                        # 用户昵称
+         * gender                          # 用户性别
+         */
+        public static void userEditV2(String nickname, int gender, String label,String address,String profile,AbsHttpResultHandler handler) {
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put("user_id", Global.getUserId());
+            params.put("user_session", Global.getUserSession());
+            params.put("nickname", nickname);
+            params.put("gender", gender);
+            params.put("label", label);
+            params.put("address", address);
+            params.put("profile", profile);
+            executeAction(UrlConstants.USER_EDIT, JSONObject.class, params, handler);
+        }
+
+        /**
          * 修改密码
          * user_id                         # 用户id
          * user_pwd                        # 登陆密码

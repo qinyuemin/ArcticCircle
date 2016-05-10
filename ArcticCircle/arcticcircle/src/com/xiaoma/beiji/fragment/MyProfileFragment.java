@@ -42,9 +42,6 @@ public class MyProfileFragment extends Fragment{
 
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
-    private RecyclerView recyclerView;
-    private ImageButton hideSettingBtn;
-    private LinearLayout settingLayout;
 
     private InfoDetailsFragment dynamicFragment;
     private InfoDetailsFragment seekHelpFragment;
@@ -62,14 +59,18 @@ public class MyProfileFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_layout_profile,null);
-        initComponents(rootView);
+        rootView = inflater.inflate(R.layout.fragment_layout_profile, null);
         userInfoEntity = Global.getUserInfo();
-        initInfo();
+        initComponents(rootView);
         loadMyDynamic();
         return  rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initInfo();
+    }
 
     protected void initComponents(View rootView) {
         View permissionSetting = rootView.findViewById(R.id.layout_permission_setting);
@@ -79,10 +80,17 @@ public class MyProfileFragment extends Fragment{
         headView = (CircularImage) rootView.findViewById(R.id.img_user_head);
         leftLabel = (TextView) rootView.findViewById(R.id.text_left_label);
         rightLabel = (TextView) rootView.findViewById(R.id.text_right_label);
-        leftLabel.setCompoundDrawables(null,null,null,null);
-        rightLabel.setCompoundDrawables(null,null,null,null);
+        leftLabel.setCompoundDrawables(null, null, null, null);
+        rightLabel.setCompoundDrawables(null, null, null, null);
         leftLabel.setText("我关注的人");
         rightLabel.setText("关注我的人");
+        headView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentUtil.goHeadPhotoEnlargeActivity(getActivity());
+            }
+        });
+
         rootView.findViewById(R.id.btn_account_setting).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -229,6 +237,9 @@ public class MyProfileFragment extends Fragment{
         if(StringUtil.isValid(userInfoEntity.getAvatar())){
             ImageLoader.getInstance().displayImage(userInfoEntity.getAvatar(), headView);
         }
+        TextViewUtil.setText(rootView,R.id.text_user_address,userInfoEntity.getAddress());
+        TextViewUtil.setText(rootView,R.id.text_uesr_label,userInfoEntity.getLabel());
+        TextViewUtil.setText(rootView, R.id.text_uesr_label_all, userInfoEntity.getProfile());
     }
 
     private void attention(){

@@ -1,16 +1,34 @@
 package com.xiaoma.beiji.activity;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.view.View;
 
 import com.makeapp.android.util.ViewUtil;
+import com.makeapp.javase.lang.StringUtil;
+import com.makeapp.javase.util.DateUtil;
 import com.xiaoma.beiji.R;
 import com.xiaoma.beiji.base.SimpleBaseActivity;
+import com.xiaoma.beiji.common.AppConstants;
+import com.xiaoma.beiji.controls.view.imagechooser.ImageChooserGroupActivity;
+import com.xiaoma.beiji.entity.FileUploadResultEntity;
+import com.xiaoma.beiji.network.AbsHttpResultHandler;
+import com.xiaoma.beiji.network.HttpClientUtil;
+import com.xiaoma.beiji.util.BitmapDecodeTool;
+import com.xiaoma.beiji.util.ImgHelper;
 import com.xiaoma.beiji.util.IntentUtil;
+import com.xiaoma.beiji.util.ToastUtil;
+
+import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Created by zhangqibo on 2016/5/2.
  */
 public class AccountSettingActivity extends SimpleBaseActivity implements View.OnClickListener{
+
 
 
     @Override

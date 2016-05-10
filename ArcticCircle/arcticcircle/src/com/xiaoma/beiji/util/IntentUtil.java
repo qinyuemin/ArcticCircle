@@ -118,7 +118,7 @@ public class IntentUtil {
     public static void goPhoneContactsActivity(Activity activity, boolean isFromRegister) {
         Intent intent = new Intent();
         intent.setClass(activity, PhoneContactsActivity.class);
-        intent.putExtra("isFromRegister",isFromRegister);
+        intent.putExtra("isFromRegister", isFromRegister);
         activity.startActivity(intent);
     }
 
@@ -141,6 +141,13 @@ public class IntentUtil {
         Intent intent = new Intent();
         intent.setClass(activity, FriendDynamicDetailActivity.class);
         intent.putExtra("entity", entity);
+        activity.startActivity(intent);
+    }
+
+    //头像放大
+    public static void goHeadPhotoEnlargeActivity(Activity activity) {
+        Intent intent = new Intent();
+        intent.setClass(activity, HeadPhotoEnlargeActivity.class);
         activity.startActivity(intent);
     }
 

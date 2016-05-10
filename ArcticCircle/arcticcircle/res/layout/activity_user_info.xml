@@ -36,7 +36,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:textColor="@color/gray_title"
-                        android:textSize="@dimen/text_size_24px"
+                        android:textSize="@dimen/text_size_20px"
                         android:text="头像"/>
                     <LinearLayout android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -71,13 +71,15 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:textColor="@color/gray_title"
-                        android:textSize="@dimen/text_size_24px"
+                        android:textSize="@dimen/text_size_20px"
                         android:text="昵称"/>
                     <EditText android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/edit_nikename"
                         android:background="@null"
+                        android:textSize="@dimen/text_size_20px"
                         android:singleLine="true"
+                        android:hint="请输入昵称"
                         android:layout_weight="1"/>
                     <ImageView
                         android:layout_width="wrap_content"
@@ -99,23 +101,36 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:textColor="@color/gray_title"
-                        android:textSize="@dimen/text_size_24px"
+                        android:textSize="@dimen/text_size_20px"
                         android:text="性别"/>
                     <TextView android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@null"
                         android:textColor="@color/gray_title"
-                        android:textSize="@dimen/text_size_24px"
+                        android:textSize="@dimen/text_size_20px"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:id="@+id/text_gender"
                         android:text="女"/>
+                    <TextView
+                        android:layout_width="40dp"
+                        android:gravity="center"
+                        android:textSize="@dimen/text_size_20px"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/text_choose_nan"
+                        android:text="男"/>
                     <ImageView
                         android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/line_xie"/>
+                    <TextView
+                        android:layout_width="40dp"
+                        android:gravity="center"
+                        android:textSize="@dimen/text_size_20px"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:visibility="gone"
-                        android:src="@drawable/icon_right_arrow"/>
+                        android:id="@+id/text_choose_nv"
+                        android:text="女"/>
                 </LinearLayout>
                 <View
                     android:layout_width="match_parent"
@@ -130,20 +145,16 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:textColor="@color/gray_title"
-                        android:textSize="@dimen/text_size_24px"
-                        android:text="年龄"/>
-                    <TextView android:layout_width="match_parent"
+                        android:textSize="@dimen/text_size_20px"
+                        android:text="个人标签"/>
+                    <EditText android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:id="@+id/edit_label"
                         android:background="@null"
-                        android:textColor="@color/gray_title"
-                        android:textSize="@dimen/text_size_24px"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"/>
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/icon_right_arrow"/>
+                        android:singleLine="true"
+                        android:textSize="@dimen/text_size_20px"
+                        android:hint="点击输入标签"
+                        android:layout_weight="1"/>
                 </LinearLayout>
                 <View
                     android:layout_width="match_parent"
@@ -158,21 +169,16 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:textColor="@color/gray_title"
-                        android:textSize="@dimen/text_size_24px"
-                        android:text="所在地"/>
-                    <TextView android:layout_width="match_parent"
+                        android:textSize="@dimen/text_size_20px"
+                        android:text="居住地"/>
+                    <EditText android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:id="@+id/edit_address"
                         android:background="@null"
-                        android:textColor="@color/gray_title"
-                        android:textSize="@dimen/text_size_24px"
-                        android:layout_weight="1"
-                        android:text="上海市"
-                        android:gravity="center_vertical"/>
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/icon_right_arrow"/>
+                        android:singleLine="true"
+                        android:textSize="@dimen/text_size_20px"
+                        android:hint="点击输入居住地"
+                        android:layout_weight="1"/>
                 </LinearLayout>
                 <View
                     android:layout_width="match_parent"
@@ -188,10 +194,11 @@
                         android:layout_height="45dp"
                         android:gravity="center_vertical"
                         android:textColor="@color/gray_title"
-                        android:textSize="@dimen/text_size_24px"
+                        android:textSize="@dimen/text_size_20px"
                         android:text="简介"/>
                     <EditText android:layout_width="fill_parent" android:layout_height="wrap_content"
-                        android:padding="@dimen/dimen_5_dip"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
                         android:gravity="top|left"
                         android:id="@+id/edt_content"
                         android:background="@color/white"
