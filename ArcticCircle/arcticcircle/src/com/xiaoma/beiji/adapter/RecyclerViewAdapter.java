@@ -19,6 +19,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xiaoma.beiji.R;
 import com.xiaoma.beiji.common.Global;
 import com.xiaoma.beiji.controls.acinterface.IActionInterFace;
+import com.xiaoma.beiji.controls.sharesdk.ShareSdkUtil;
 import com.xiaoma.beiji.controls.view.CircularImage;
 import com.xiaoma.beiji.controls.view.ExpandListView;
 import com.xiaoma.beiji.controls.view.ImgPagerView;
@@ -513,6 +514,34 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             @Override
             public void onClick(View v) {
                 Log.d("AAA","shareLayout onClick");
+                if(actionListener!=null){
+                    ShareSdkUtil.showShare(mContext, entity.getDynamicId());
+//                    actionListener.dynamicDoFaavorite(entity, new AbsHttpResultHandler() {
+//                        @Override
+//                        public void onSuccess(int resultCode, String desc, Object data) {
+//                            entity.setHavePraise(!entity.isHavePraise());
+//                            if(entity.isHavePraise()){
+//                                holder.likeBtn.setImageResource(R.drawable.ic_liked);
+//                                lickUser.add(Global.getUserInfo());
+//                            }else{
+//                                holder.likeBtn.setImageResource(R.drawable.icon_add_like);
+//                                Iterator<UserInfoEntity> iterator = lickUser.iterator();
+//                                while (iterator.hasNext()){
+//                                    UserInfoEntity entity1 = iterator.next();
+//                                    if(entity1.getUserId()==Global.getUserId()){
+//                                        iterator.remove();
+//                                    }
+//                                }
+//                            }
+//                            holder.likeLabel.setText(String.format("%d位已喜欢",lickUser.size()));
+//                            holder.mRecyclerView.getAdapter().notifyDataSetChanged();
+//                        }
+//                        @Override
+//                        public void onFailure(int resultCode, String desc) {
+//
+//                        }
+//                    });
+                }
             }
         });
         holder.addCommentBtn.setOnClickListener(new View.OnClickListener() {

@@ -30,6 +30,7 @@ import com.xiaoma.beiji.entity.UserInfoEntity;
 import com.xiaoma.beiji.fragment.InfoDetailsFragment;
 import com.xiaoma.beiji.network.AbsHttpResultHandler;
 import com.xiaoma.beiji.network.HttpClientUtil;
+import com.xiaoma.beiji.util.IntentUtil;
 import com.xiaoma.beiji.util.ToastUtil;
 
 import java.util.ArrayList;
@@ -260,6 +261,14 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
         hidemeSwitch.setOnCheckedChangeListener(this);
         hidemeToHeFriendsSwitch.setOnCheckedChangeListener(this);
         addBlackSwitch.setOnCheckedChangeListener(this);
+        TextViewUtil.setText(this, R.id.text_user_name, userInfoEntity.getNickname());
+        TextViewUtil.setText(this, R.id.text_user_id, "北极圈号:" + userInfoEntity.getUserId());
+        if(StringUtil.isValid(userInfoEntity.getAvatar())){
+            ImageLoader.getInstance().displayImage(userInfoEntity.getAvatar(), headView);
+        }
+        TextViewUtil.setText(this, R.id.text_user_address, userInfoEntity.getAddress());
+        TextViewUtil.setText(this, R.id.text_uesr_label, userInfoEntity.getLabel());
+        TextViewUtil.setText(this, R.id.text_uesr_label_all, userInfoEntity.getProfile());
     }
 
     private void attention(final boolean isAttention){
@@ -325,6 +334,9 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
                 }else {
                     attention(true);
                 }
+                break;
+            case R.id.text_left_label:
+                IntentUtil.goChattingActivity(this,userInfoEntity);
                 break;
             case R.id.btn_back:
                 finish();

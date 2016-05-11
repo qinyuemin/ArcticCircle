@@ -11,4 +11,5 @@ public interface IActionInterFace {
     public void dynamicDoFavorite(FriendDynamicEntity entity,AbsHttpResultHandler handler);
     public void dynamicDoShare(FriendDynamicEntity entity,AbsHttpResultHandler handler);
     public void dynamicMore(FriendDynamicEntity entity);
+//    public void dynamicMore(FriendDynamicEntity entity);
 }

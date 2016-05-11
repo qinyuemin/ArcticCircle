@@ -8,6 +8,8 @@ package com.xiaoma.beiji.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
+import java.io.Serializable;
+
 /**
  *
  * 类名称： ContactEntity
@@ -19,7 +21,7 @@ import com.alibaba.fastjson.annotation.JSONField;
  * @version 1.0.0
  *
  */
-public class ContactEntity {
+public class ContactEntity implements Serializable{
     @JSONField(name = "name")
     private String name;
     @JSONField(name = "phone")

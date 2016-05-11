@@ -143,12 +143,17 @@ public class SearchActivity extends SimpleBaseActivity implements View.OnClickLi
 //                for(FriendDynamicEntity entity: dataList){
 //                    HttpClientUtil.logger(entity.toString());
 //                }
-                infoDetailsFragment.setList(list);
+                if(list==null||list.size()<=0){
+                    ToastUtil.showToast(SearchActivity.this,"暂未搜索到动态");
+                }else{
+                    infoDetailsFragment.setList(list);
+                }
+
             }
 
             @Override
             public void onFailure(int resultCode, String desc) {
-
+                ToastUtil.showToast(SearchActivity.this,desc);
             }
         });
     }
@@ -178,7 +183,7 @@ public class SearchActivity extends SimpleBaseActivity implements View.OnClickLi
 
             @Override
             public void onFailure(int resultCode, String desc) {
-                ToastUtil.showToast(SearchActivity.this,"desc");
+                ToastUtil.showToast(SearchActivity.this,desc);
             }
         });
     }

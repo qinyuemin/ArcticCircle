@@ -2,12 +2,13 @@ package com.xiaoma.beiji.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by zhangqibo on 2016/4/28.
  */
-public class CommonFriends {
+public class CommonFriends implements Serializable{
 
     @JSONField(name = "total")
     private String total;
