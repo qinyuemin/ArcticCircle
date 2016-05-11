@@ -89,7 +89,12 @@ public class ChatFragment extends SimpleFragment{
                         img.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                IntentUtil.goFriendDetailActivity(getFragmentActivity(),String.valueOf(entity.getFromUserId()));
+                                if(entity.getFromUserId() == Global.getUserId()){
+                                    IntentUtil.goProfileActivity(getActivity(), entity.getToUserId());
+                                }else{
+                                    IntentUtil.goProfileActivity(getActivity(), entity.getFromUserId());
+                                }
+
                             }
                         });
                     }

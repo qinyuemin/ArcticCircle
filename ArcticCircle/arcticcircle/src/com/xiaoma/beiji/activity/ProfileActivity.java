@@ -254,8 +254,8 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
         }
         commonFriendsRecyclerView.setAdapter(new RecyclerView1Adapter(this, userInfoEntities));
 
-        hidemeSwitch.setChecked(userInfoEntity.getCant_see_me().equals("1"));
-        hidemeToHeFriendsSwitch.setChecked(userInfoEntity.getMy_friend_cant_see_his().equals("1"));
+        hidemeSwitch.setChecked("1".equals(userInfoEntity.getCant_see_me()));
+        hidemeToHeFriendsSwitch.setChecked("1".equals(userInfoEntity.getMy_friend_cant_see_his()));
         //TODO 黑名单初始状态
 //        addBlackSwitch.setChecked(userInfoEntity.isBlackList());
         hidemeSwitch.setOnCheckedChangeListener(this);
