@@ -123,6 +123,9 @@ public class FriendDynamicEntity  implements Serializable{
     @JSONField(name = "title")
     private String title;
 
+    @JSONField(name = "associated_shop_name")
+    private String associated_shop_name;
+
     @JSONField(name = "associated_price")
     private String associated_price;
 
@@ -174,6 +177,14 @@ public class FriendDynamicEntity  implements Serializable{
 
     public void setShare_user_nickname(List<String> share_user_nickname) {
         this.share_user_nickname = share_user_nickname;
+    }
+
+    public String getAssociated_shop_name() {
+        return associated_shop_name;
+    }
+
+    public void setAssociated_shop_name(String associated_shop_name) {
+        this.associated_shop_name = associated_shop_name;
     }
 
     public String getTitle() {

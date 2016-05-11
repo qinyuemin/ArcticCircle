@@ -407,8 +407,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
         }
         holder.imgPagerView.notifyData(picStrings);
-        holder.titleTextView.setText(entity.getArea());
-        holder.contentTextView.setText(entity.getAssociated_price()+"RMB");
+        if(!TextUtils.isEmpty(entity.getAssociated_shop_name())&&!"0".equals(entity.getAssociated_shop_name())){
+            holder.titleTextView.setText(entity.getAssociated_shop_name());
+        }else{
+            holder.titleTextView.setText("111");
+            holder.shopNameLayout.setVisibility(View.INVISIBLE);
+        }
+        if(!TextUtils.isEmpty(entity.getAssociated_price())&&!"0".equals(entity.getAssociated_price())){
+            holder.contentTextView.setText(entity.getAssociated_price()+"RMB");
+        }else{
+            holder.contentTextView.setText(entity.getAssociated_price()+"RMB");
+            holder. contentTextView.setVisibility(View.INVISIBLE);
+        }
+
         holder.nameTextView.setText(entity.getNickName());
         holder.descriptionTextView.setText(entity.getDescription());
         LinearLayoutManager manager1 = new LinearLayoutManager(mContext);
@@ -568,6 +579,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public ImgPagerView imgPagerView;
         public TextView nameTextView;
         public TextView titleTextView;
+        public LinearLayout shopNameLayout;
         public TextView contentTextView;
         public RecyclerView mRecyclerView;
         public ShowMoreView descriptionTextView;
@@ -587,6 +599,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             super(view);
             rootView = view;
             titleTextView = (TextView) view.findViewById(R.id.text_photo_title);
+            shopNameLayout = (LinearLayout) view.findViewById(R.id.layout_shop_name);
             contentTextView = (TextView) view.findViewById(R.id.text_photo_content);
             mRecyclerView = (RecyclerView) view.findViewById(R.id.item_recyclerView_lick);
             descriptionTextView = (ShowMoreView) view.findViewById(R.id.text_description);

@@ -9,6 +9,7 @@ package com.xiaoma.beiji.activity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 
@@ -24,6 +25,7 @@ import com.xiaoma.beiji.adapter.CommentAdapter;
 import com.xiaoma.beiji.adapter.RecyclerView1Adapter;
 import com.xiaoma.beiji.base.SimpleBaseActivity;
 import com.xiaoma.beiji.common.Global;
+import com.xiaoma.beiji.controls.dialog.CommonDialogsInBase;
 import com.xiaoma.beiji.controls.sharesdk.ShareSdkUtil;
 import com.xiaoma.beiji.controls.view.CircularImage;
 import com.xiaoma.beiji.controls.view.ExpandListView;
@@ -36,9 +38,11 @@ import com.xiaoma.beiji.entity.UserInfoEntity;
 import com.xiaoma.beiji.network.AbsHttpResultHandler;
 import com.xiaoma.beiji.network.HttpClientUtil;
 import com.xiaoma.beiji.util.CommUtil;
+import com.xiaoma.beiji.util.IntentUtil;
 import com.xiaoma.beiji.util.ToastUtil;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -58,17 +62,22 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
     public ImgPagerView imgPagerView;
     public TextView nameTextView;
     public TextView titleTextView;
+    public LinearLayout shopNameLayout;
     public TextView contentTextView;
     public RecyclerView mRecyclerView;
-    public ImageView addComment;
     public ShowMoreView descriptionTextView;
     public ExpandListView mCommentRecyclerView;
     public ImageView showAllCommentBtn;
     public TextView likeLabel;
     public TextView commentLabel;
     public TextView shareUsers;
-    public TextView text_item_flag;
     public TextView timeTextView;
+
+    public ImageView moreBtn;
+    public ImageView likeBtn;
+    public ImageView shareBtn;
+    public ImageView addCommentBtn;
+    public TextView text_item_flag;
 
     private FriendDynamicEntity friendTrendsEntity;
 
@@ -85,6 +94,14 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
 
         }
         return title;
+    }
+    protected CommonDialogsInBase commonDialogsInBase = new CommonDialogsInBase();
+    protected void showProgressDialog() {
+        commonDialogsInBase.showProgressDialog(this,false,null);
+    }
+
+    protected void closeProgressDialog() {
+        commonDialogsInBase.closeProgressDialog();
     }
 
     @Override
@@ -110,10 +127,10 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
     protected void initComponents() {
         setTitleControlsInfo();
         titleTextView = (TextView) findViewById(R.id.text_photo_title);
+        shopNameLayout = (LinearLayout) findViewById(R.id.layout_shop_name);
         contentTextView = (TextView) findViewById(R.id.text_photo_content);
         mRecyclerView = (RecyclerView) findViewById(R.id.item_recyclerView_lick);
-        addComment = (ImageView) findViewById(R.id.item_btn_add_comment);
-        descriptionTextView = (ShowMoreView)findViewById(R.id.text_description);
+        descriptionTextView = (ShowMoreView) findViewById(R.id.text_description);
         nameTextView = (TextView) findViewById(R.id.text_item_name);
         headImage = (CircularImage) findViewById(R.id.img_head);
         imgPagerView = (ImgPagerView) findViewById(R.id.ipv_item_img);
@@ -122,8 +139,12 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
         likeLabel = (TextView) findViewById(R.id.item_text_label_like);
         commentLabel = (TextView) findViewById(R.id.item_text_label_comment);
         shareUsers = (TextView) findViewById(R.id.text_recommend_user);
-        text_item_flag = (TextView) findViewById(R.id.text_item_flag);
         timeTextView = (TextView) findViewById(R.id.text_item_time);
+        moreBtn = (ImageView) findViewById(R.id.btn_more);
+        likeBtn = (ImageView) findViewById(R.id.btn_like);
+        shareBtn = (ImageView) findViewById(R.id.btn_recommend);
+        addCommentBtn = (ImageView) findViewById(R.id.btn_add_comment);
+        text_item_flag = (TextView) findViewById(R.id.text_item_flag);
         if(friendTrendsEntity != null){
             initView(friendTrendsEntity);
         }
@@ -132,11 +153,20 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
 
     private void initView(final FriendDynamicEntity entity){
         String avatar = entity.getAvatar();
+        timeTextView.setText(TimeUtil.getDisplayTime(entity.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
         headImage.setImageResource(R.drawable.ic_logo);
         if(!TextUtils.isEmpty(avatar)){
             ImageLoader.getInstance().displayImage(entity.getAvatar(), headImage);
         }
-        timeTextView.setText(TimeUtil.getDisplayTime(entity.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
+        headImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int userID = Integer.valueOf(entity.getUserId());
+                if(Global.getUserId() != userID){
+                    IntentUtil.goProfileActivity(FriendDynamicDetailActivity.this, userID);
+                }
+            }
+        });
         List<PicEntity> picLists = entity.getPic();
         List<String> picStrings = new ArrayList<>();
         if(picLists!=null){
@@ -145,31 +175,42 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
             }
         }
         imgPagerView.notifyData(picStrings);
-        titleTextView.setText(entity.getArea());
-        contentTextView.setText(entity.getAssociated_price()+"RMB");
+        if(!TextUtils.isEmpty(entity.getAssociated_shop_name())&&!"0".equals(entity.getAssociated_shop_name())){
+            titleTextView.setText(entity.getAssociated_shop_name());
+        }else{
+            titleTextView.setText("111");
+            shopNameLayout.setVisibility(View.INVISIBLE);
+        }
+        if(!TextUtils.isEmpty(entity.getAssociated_price())&&!"0".equals(entity.getAssociated_price())){
+            contentTextView.setText(entity.getAssociated_price()+"RMB");
+        }else{
+            contentTextView.setText(entity.getAssociated_price()+"RMB");
+            contentTextView.setVisibility(View.INVISIBLE);
+        }
+
         nameTextView.setText(entity.getNickName());
         descriptionTextView.setText(entity.getDescription());
-        LinearLayoutManager manager1 = new LinearLayoutManager(this);
+        LinearLayoutManager manager1 = new LinearLayoutManager(FriendDynamicDetailActivity.this);
         manager1.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRecyclerView.setLayoutManager(manager1);
-        List<UserInfoEntity> lickUser = entity.getPraiseUsers() != null ? entity.getPraiseUsers() : new ArrayList<UserInfoEntity>();
-        mRecyclerView.setAdapter(new RecyclerView1Adapter(this,lickUser));
-        likeLabel.setText(String.format("%d位已喜欢",lickUser.size()));
+        final List<UserInfoEntity> lickUser = entity.getPraiseUsers() != null ? entity.getPraiseUsers() : new ArrayList<UserInfoEntity>();
+        mRecyclerView.setAdapter(new RecyclerView1Adapter(FriendDynamicDetailActivity.this, lickUser));
+        likeLabel.setText(String.format("%d位已喜欢", lickUser.size()));
 
 //        LinearLayoutManager manager2 = new LinearLayoutManager(mContext);
 //        manager2.setOrientation(LinearLayoutManager.VERTICAL);
-//        holder.mCommentRecyclerView.setLayoutManager(manager2);
+//        mCommentRecyclerView.setLayoutManager(manager2);
         final List<CommentEntity> commentEntityList = entity.getComment()!= null ? entity.getComment() : new ArrayList<CommentEntity>();
         commentLabel.setText(String.format("%d条评论",commentEntityList.size()));
         if(commentEntityList.size()<=2){
-            mCommentRecyclerView.setAdapter(new CommentAdapter(this, commentEntityList));
+            mCommentRecyclerView.setAdapter(new CommentAdapter(FriendDynamicDetailActivity.this, commentEntityList));
             showAllCommentBtn.setVisibility(View.GONE);
         }else{
             List<CommentEntity> commentEntities = new ArrayList<>(2);
             for(int i = 0; i<2; i++){
                 commentEntities.add(commentEntityList.get(i));
             }
-            mCommentRecyclerView.setAdapter(new CommentAdapter(this, commentEntities));
+            mCommentRecyclerView.setAdapter(new CommentAdapter(FriendDynamicDetailActivity.this, commentEntities));
             showAllCommentBtn.setVisibility(View.VISIBLE);
             showAllCommentBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -179,24 +220,111 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
                 }
             });
         }
-        List<String> shareUserLists = entity.getShare_user_nickname()!= null ? entity.getShare_user_nickname() : new ArrayList<String>();
-        if(shareUserLists.size()>0){
+        List<String> shareUsers = entity.getShare_user_nickname()!= null ? entity.getShare_user_nickname() : new ArrayList<String>();
+        if(shareUsers.size()>0){
             StringBuffer contentBuffer = new StringBuffer();
             contentBuffer.append("已有 ");
-            for(int i= 0; i< shareUserLists.size(); i++){
+            for(int i= 0; i< shareUsers.size(); i++){
                 if(i== 0){
-                    contentBuffer.append("@").append(shareUserLists.get(i));
+                    contentBuffer.append("@").append(shareUsers.get(i));
                 }else {
-                    contentBuffer.append("、@").append(shareUserLists.get(i));
+                    contentBuffer.append("、@").append(shareUsers.get(i));
                 }
             }
             contentBuffer.append(" 推荐");
-            shareUsers.setText(contentBuffer);
-            shareUsers.setVisibility(View.VISIBLE);
+            this.shareUsers.setText(contentBuffer);
+            this.shareUsers.setVisibility(View.VISIBLE);
         }else {
-//            holder.shareUsers.setVisibility(View.GONE);
-            shareUsers.setText("暂无人推荐");
+//            shareUsers.setVisibility(View.GONE);
+            this.shareUsers.setText("暂无人推荐");
         }
+
+        moreBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("AAA", "moreBtn onClick");
+            }
+        });
+        if(entity.isHavePraise()){
+            likeBtn.setImageResource(R.drawable.ic_liked);
+        }else{
+            likeBtn.setImageResource(R.drawable.icon_add_like);
+        }
+        likeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("AAA","likeBtn onClick");
+                showProgressDialog();
+                HttpClientUtil.Dynamic.dynamicDoPraise(entity.getReleaseId(), entity.isHaveFavorite() ? 2 : 1, new AbsHttpResultHandler() {
+                    @Override
+                    public void onSuccess(int resultCode, String desc, Object data) {
+                        entity.setHavePraise(!entity.isHavePraise());
+                        if(entity.isHavePraise()){
+                            likeBtn.setImageResource(R.drawable.ic_liked);
+                            lickUser.add(Global.getUserInfo());
+                        }else{
+                            likeBtn.setImageResource(R.drawable.icon_add_like);
+                            Iterator<UserInfoEntity> iterator = lickUser.iterator();
+                            while (iterator.hasNext()){
+                                UserInfoEntity entity1 = iterator.next();
+                                if(entity1.getUserId()==Global.getUserId()){
+                                    iterator.remove();
+                                }
+                            }
+                        }
+                        likeLabel.setText(String.format("%d位已喜欢", lickUser.size()));
+                        closeProgressDialog();
+                        ToastUtil.showToast(FriendDynamicDetailActivity.this, "成功");
+                    }
+
+                    @Override
+                    public void onFailure(int resultCode, String desc) {
+                        closeProgressDialog();
+                        ToastUtil.showToast(FriendDynamicDetailActivity.this, "失败" + desc);
+                    }
+                });
+            }
+        });
+        shareBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("AAA","shareLayout onClick");
+//                if(actionListener!=null){
+                    ShareSdkUtil.showShare(FriendDynamicDetailActivity.this, entity.getDynamicId());
+//                    actionListener.dynamicDoFaavorite(entity, new AbsHttpResultHandler() {
+//                        @Override
+//                        public void onSuccess(int resultCode, String desc, Object data) {
+//                            entity.setHavePraise(!entity.isHavePraise());
+//                            if(entity.isHavePraise()){
+//                                likeBtn.setImageResource(R.drawable.ic_liked);
+//                                lickUser.add(Global.getUserInfo());
+//                            }else{
+//                                likeBtn.setImageResource(R.drawable.icon_add_like);
+//                                Iterator<UserInfoEntity> iterator = lickUser.iterator();
+//                                while (iterator.hasNext()){
+//                                    UserInfoEntity entity1 = iterator.next();
+//                                    if(entity1.getUserId()==Global.getUserId()){
+//                                        iterator.remove();
+//                                    }
+//                                }
+//                            }
+//                            likeLabel.setText(String.format("%d位已喜欢",lickUser.size()));
+//                            mRecyclerView.getAdapter().notifyDataSetChanged();
+//                        }
+//                        @Override
+//                        public void onFailure(int resultCode, String desc) {
+//
+//                        }
+//                    });
+                }
+//            }
+        });
+        addCommentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("AAA", "addCommentLayout onClick");
+            }
+        });
 
         switch (friendTrendsEntity.getReleaseType()){
             case 1:
