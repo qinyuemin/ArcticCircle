@@ -81,6 +81,7 @@
                     android:text="点评"/>
             </RelativeLayout>
             <ImageView
+                android:id="@+id/btn_more"
                 android:layout_width="20dp"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_tips_more"/>
@@ -164,7 +165,8 @@
                 android:id="@+id/item_text_label_like"
                 android:text="14位已喜欢"/>
             <ImageView
-                android:layout_width="14dp"
+                android:id="@+id/btn_like"
+                android:layout_width="30dp"
                 android:layout_height="14dp"
                 android:src="@drawable/icon_add_like"
                 android:layout_alignParentRight="true"/>
@@ -198,10 +200,10 @@
                 android:id="@+id/item_text_label_comment"
                 android:text="156条评论"/>
             <ImageView
-                android:layout_width="14dp"
+                android:layout_width="30dp"
                 android:layout_height="14dp"
                 android:src="@drawable/icon_add_comment"
-                android:id="@+id/item_btn_add_comment"
+                android:id="@+id/btn_add_comment"
                 android:layout_alignParentRight="true"/>
         </RelativeLayout>
         <View
@@ -243,10 +245,10 @@
                 android:textColor="@color/gray_title"
                 android:text="推荐一下吧"/>
             <ImageView
-                android:layout_width="14dp"
+                android:layout_width="30dp"
                 android:layout_height="14dp"
                 android:src="@drawable/icon_share"
-                android:id="@+id/item_btn_recommend"
+                android:id="@+id/btn_recommend"
                 android:layout_alignParentRight="true"/>
         </RelativeLayout>
         <View

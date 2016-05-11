@@ -11,10 +11,14 @@ import android.view.ViewGroup;
 
 import com.xiaoma.beiji.R;
 import com.xiaoma.beiji.adapter.RecyclerViewAdapter;
+import com.xiaoma.beiji.controls.acinterface.IActionInterFace;
+import com.xiaoma.beiji.controls.dialog.CommonDialogsInBase;
 import com.xiaoma.beiji.entity.FriendDynamicEntity;
 import com.xiaoma.beiji.entity.PicEntity;
 import com.xiaoma.beiji.entity.Thing;
+import com.xiaoma.beiji.network.AbsHttpResultHandler;
 import com.xiaoma.beiji.network.HttpClientUtil;
+import com.xiaoma.beiji.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +29,11 @@ import java.util.List;
  * Time         : 15:09
  * Description  :
  */
-public class InfoDetailsFragment extends Fragment {
+public class InfoDetailsFragment extends Fragment implements IActionInterFace {
     private RecyclerView mRecyclerView;
     private List<FriendDynamicEntity> dynamicEntities;
     private RecyclerViewAdapter adapter;
+    protected CommonDialogsInBase commonDialogsInBase = new CommonDialogsInBase();
 
     private void initDate(){
         if(dynamicEntities == null){
@@ -39,7 +44,7 @@ public class InfoDetailsFragment extends Fragment {
     public void setList(List list){
         this.dynamicEntities = list;
         if(mRecyclerView!=null){
-            adapter = new RecyclerViewAdapter(getActivity(), dynamicEntities);
+            adapter = new RecyclerViewAdapter(getActivity(), dynamicEntities,this);
             mRecyclerView.setAdapter(adapter);
         }
     }
@@ -56,9 +61,52 @@ public class InfoDetailsFragment extends Fragment {
 
         mRecyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_layout_list, container, false);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mRecyclerView.getContext()));
-        adapter = new RecyclerViewAdapter(getActivity(), dynamicEntities);
+        adapter = new RecyclerViewAdapter(getActivity(), dynamicEntities,this);
         mRecyclerView.setAdapter(adapter);
         return mRecyclerView;
     }
 
+    @Override
+    public void dynamicDoPraise(FriendDynamicEntity entity, final AbsHttpResultHandler handler) {
+        showProgressDialog();
+        HttpClientUtil.Dynamic.dynamicDoPraise(entity.getReleaseId(), entity.isHaveFavorite() ? 2 : 1, new AbsHttpResultHandler() {
+            @Override
+            public void onSuccess(int resultCode, String desc, Object data) {
+                handler.onSuccess(resultCode,desc,data);
+                closeProgressDialog();
+                ToastUtil.showToast(getContext(), "成功");
+            }
+
+            @Override
+            public void onFailure(int resultCode, String desc) {
+                handler.onFailure(resultCode, desc);
+                closeProgressDialog();
+                ToastUtil.showToast(getContext(), "失败" + desc);
+            }
+        });
+    }
+
+
+    @Override
+    public void dynamicDoFavorite(FriendDynamicEntity entity, AbsHttpResultHandler handler) {
+
+    }
+
+    @Override
+    public void dynamicDoShare(FriendDynamicEntity entity, AbsHttpResultHandler handler) {
+
+    }
+
+    @Override
+    public void dynamicMore(FriendDynamicEntity entity) {
+
+    }
+
+    protected void showProgressDialog() {
+        commonDialogsInBase.showProgressDialog(getActivity(),false,null);
+    }
+
+    protected void closeProgressDialog() {
+        commonDialogsInBase.closeProgressDialog();
+    }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,8 @@ import com.xiaoma.beiji.adapter.RecyclerView1Adapter;
 import com.xiaoma.beiji.adapter.RecyclerViewAdapter;
 import com.xiaoma.beiji.base.SimpleFragment;
 import com.xiaoma.beiji.common.Global;
+import com.xiaoma.beiji.controls.acinterface.IActionInterFace;
+import com.xiaoma.beiji.controls.dialog.CommonDialogsInBase;
 import com.xiaoma.beiji.controls.view.CircularImage;
 import com.xiaoma.beiji.controls.view.ExpandListView;
 import com.xiaoma.beiji.controls.view.ImgPagerView;
@@ -36,12 +39,13 @@ import com.xiaoma.beiji.util.IntentUtil;
 import com.xiaoma.beiji.util.ToastUtil;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Created by zhangqibo on 2016/3/29.
  */
-public class FindFragment extends SimpleFragment{
+public class FindFragment extends SimpleFragment implements IActionInterFace {
 
     private RecyclerView recyclerView;
     private List findEntityList;
@@ -118,7 +122,7 @@ public class FindFragment extends SimpleFragment{
                         findEntityList.add(entity1);
                     }
                 }
-                recyclerView.setAdapter(new Adapter(getContext(), findEntityList));
+                recyclerView.setAdapter(new Adapter(getContext(), findEntityList,FindFragment.this));
             }
 
             @Override
@@ -126,6 +130,50 @@ public class FindFragment extends SimpleFragment{
                 ToastUtil.showToast(getContext(),desc);
             }
         });
+
+    }
+
+    protected CommonDialogsInBase commonDialogsInBase = new CommonDialogsInBase();
+    protected void showProgressDialog() {
+        commonDialogsInBase.showProgressDialog(getActivity(), false, null);
+    }
+
+    protected void closeProgressDialog() {
+        commonDialogsInBase.closeProgressDialog();
+    }
+
+    @Override
+    public void dynamicDoPraise(FriendDynamicEntity entity, final AbsHttpResultHandler handler) {
+        showProgressDialog();
+        HttpClientUtil.Dynamic.dynamicDoPraise(entity.getReleaseId(), entity.isHaveFavorite() ? 2 : 1, new AbsHttpResultHandler() {
+            @Override
+            public void onSuccess(int resultCode, String desc, Object data) {
+                handler.onSuccess(resultCode,desc,data);
+                closeProgressDialog();
+                ToastUtil.showToast(getContext(), "成功");
+            }
+
+            @Override
+            public void onFailure(int resultCode, String desc) {
+                handler.onFailure(resultCode, desc);
+                closeProgressDialog();
+                ToastUtil.showToast(getContext(), "失败" + desc);
+            }
+        });
+    }
+
+    @Override
+    public void dynamicDoFavorite(FriendDynamicEntity entity, AbsHttpResultHandler handler) {
+
+    }
+
+    @Override
+    public void dynamicDoShare(FriendDynamicEntity entity, AbsHttpResultHandler handler) {
+
+    }
+
+    @Override
+    public void dynamicMore(FriendDynamicEntity entity) {
 
     }
 
@@ -217,6 +265,11 @@ public class FindFragment extends SimpleFragment{
         public TextView commentLabel;
         public TextView shareUsers;
 
+        public ImageView moreBtn;
+        public ImageView likeBtn;
+        public ImageView shareBtn;
+        public ImageView addCommentBtn;
+
         public DynamicViewHolder(View view) {
             super(view);
             rootView = view;
@@ -234,6 +287,10 @@ public class FindFragment extends SimpleFragment{
             commentLabel = (TextView) view.findViewById(R.id.item_text_label_comment);
             shareUsers = (TextView) view.findViewById(R.id.text_recommend_user);
             timeTextView = (TextView) view.findViewById(R.id.text_item_time);
+            moreBtn = (ImageView) view.findViewById(R.id.btn_more);
+            likeBtn = (ImageView) view.findViewById(R.id.btn_like);
+            shareBtn = (ImageView) view.findViewById(R.id.btn_recommend);
+            addCommentBtn = (ImageView) view.findViewById(R.id.btn_add_comment);
         }
     }
 
@@ -244,10 +301,12 @@ public class FindFragment extends SimpleFragment{
         private static final int TYPE_DYNAMIC = 2;
         private List mFindEntityList;
         private Context mContext;
+        private IActionInterFace actionListener;
 
-        public Adapter(Context mContex ,List mFindEntityList) {
+        public Adapter(Context mContex ,List mFindEntityList,IActionInterFace actionListener) {
             this.mFindEntityList = mFindEntityList;
             this.mContext = mContex;
+            this.actionListener = actionListener;
         }
 
         @Override
@@ -319,15 +378,33 @@ public class FindFragment extends SimpleFragment{
             }else if(list.size() == 1){
                 holder.userLayout1.setVisibility(View.VISIBLE);
                 holder.userLayout2.setVisibility(View.INVISIBLE);
-                UserInfoEntity userInfoEntity = list.get(0);
+                final UserInfoEntity userInfoEntity = list.get(0);
                 initDaren(userInfoEntity,holder.nikeName1,holder.headView1,holder.darenImg1,holder.labelView1,holder.desView1,holder.noticeView1);
+                holder.userLayout1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        IntentUtil.goProfileActivity(getActivity(), userInfoEntity.getUserId());
+                    }
+                });
             }else{
                 holder.userLayout1.setVisibility(View.VISIBLE);
                 holder.userLayout2.setVisibility(View.VISIBLE);
-                UserInfoEntity userInfoEntity = list.get(0);
-                UserInfoEntity userInfoEntity1 = list.get(1);
+                final UserInfoEntity userInfoEntity = list.get(0);
+                final UserInfoEntity userInfoEntity1 = list.get(1);
                 initDaren(userInfoEntity,holder.nikeName1,holder.headView1,holder.darenImg1,holder.labelView1,holder.desView1,holder.noticeView1);
                 initDaren(userInfoEntity1,holder.nikeName2,holder.headView2,holder.darenImg2,holder.labelView2,holder.desView2,holder.noticeView2);
+                holder.userLayout1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        IntentUtil.goProfileActivity(getActivity(), userInfoEntity.getUserId());
+                    }
+                });
+                holder.userLayout2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        IntentUtil.goProfileActivity(getActivity(), userInfoEntity1.getUserId());
+                    }
+                });
             }
         }
 
@@ -382,7 +459,7 @@ public class FindFragment extends SimpleFragment{
             LinearLayoutManager manager1 = new LinearLayoutManager(mContext);
             manager1.setOrientation(LinearLayoutManager.HORIZONTAL);
             holder.mRecyclerView.setLayoutManager(manager1);
-            List<UserInfoEntity> lickUser = entity.getPraiseUsers() != null ? entity.getPraiseUsers() : new ArrayList<UserInfoEntity>();
+            final List<UserInfoEntity> lickUser = entity.getPraiseUsers() != null ? entity.getPraiseUsers() : new ArrayList<UserInfoEntity>();
             holder.mRecyclerView.setAdapter(new RecyclerView1Adapter(mContext,lickUser));
             holder.likeLabel.setText(String.format("%d位已喜欢",lickUser.size()));
 
@@ -432,6 +509,63 @@ public class FindFragment extends SimpleFragment{
                 @Override
                 public void onClick(View v) {
                     IntentUtil.goFriendDynamicDetailActivity(mContext, entity);
+                }
+            });
+
+            holder.moreBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("AAA", "moreBtn onClick");
+                }
+            });
+            if(entity.isHavePraise()){
+                holder.likeBtn.setImageResource(R.drawable.ic_liked);
+            }else{
+                holder.likeBtn.setImageResource(R.drawable.icon_add_like);
+            }
+            holder.likeBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("AAA","likeBtn onClick");
+                    if(actionListener!=null){
+                        actionListener.dynamicDoPraise(entity, new AbsHttpResultHandler() {
+                            @Override
+                            public void onSuccess(int resultCode, String desc, Object data) {
+                                entity.setHavePraise(!entity.isHavePraise());
+                                if(entity.isHavePraise()){
+                                    holder.likeBtn.setImageResource(R.drawable.ic_liked);
+                                    lickUser.add(Global.getUserInfo());
+                                }else{
+                                    holder.likeBtn.setImageResource(R.drawable.icon_add_like);
+                                    Iterator<UserInfoEntity> iterator = lickUser.iterator();
+                                    while (iterator.hasNext()){
+                                        UserInfoEntity entity1 = iterator.next();
+                                        if(entity1.getUserId()==Global.getUserId()){
+                                            iterator.remove();
+                                        }
+                                    }
+                                }
+                                holder.likeLabel.setText(String.format("%d位已喜欢",lickUser.size()));
+                                holder.mRecyclerView.getAdapter().notifyDataSetChanged();
+                            }
+                            @Override
+                            public void onFailure(int resultCode, String desc) {
+
+                            }
+                        });
+                    }
+                }
+            });
+            holder.shareBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("AAA","shareLayout onClick");
+                }
+            });
+            holder.addCommentBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("AAA", "addCommentLayout onClick");
                 }
             });
             holder.rootView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));

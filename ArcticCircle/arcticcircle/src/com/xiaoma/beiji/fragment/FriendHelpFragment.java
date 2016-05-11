@@ -19,6 +19,8 @@ import com.xiaoma.beiji.adapter.FriendDynamicAdapter;
 import com.xiaoma.beiji.adapter.RecyclerViewAdapter;
 import com.xiaoma.beiji.base.SimpleFragment;
 import com.xiaoma.beiji.common.Global;
+import com.xiaoma.beiji.controls.acinterface.IActionInterFace;
+import com.xiaoma.beiji.controls.dialog.CommonDialogsInBase;
 import com.xiaoma.beiji.entity.FriendDynamicEntity;
 import com.xiaoma.beiji.network.AbsHttpResultHandler;
 import com.xiaoma.beiji.network.HttpClientUtil;
@@ -38,10 +40,11 @@ import java.util.List;
  *
  * @version 1.0.0
  */
-public class FriendHelpFragment extends SimpleFragment{
+public class FriendHelpFragment extends SimpleFragment implements IActionInterFace {
     private RecyclerView lstFriend;
     private RecyclerViewAdapter adapter;
     private List<FriendDynamicEntity> entities;
+
 
     private String lastKeyId = "";
 
@@ -57,7 +60,7 @@ public class FriendHelpFragment extends SimpleFragment{
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         lstFriend.setLayoutManager(layoutManager);
         entities = new ArrayList<>();
-        adapter = new RecyclerViewAdapter(getFragmentActivity(), entities);
+        adapter = new RecyclerViewAdapter(getFragmentActivity(), entities,this);
         lstFriend.setAdapter(adapter);
 //        lstFriend.setMode(PullToRefreshBase.Mode.BOTH);
 //        lstFriend.setOnItemClickListener(this);
@@ -135,5 +138,49 @@ public class FriendHelpFragment extends SimpleFragment{
             loadData();
             Global.setIsNeedRefreshIndex(false);
         }
+    }
+    protected CommonDialogsInBase commonDialogsInBase = new CommonDialogsInBase();
+    protected void showProgressDialog() {
+        commonDialogsInBase.showProgressDialog(getActivity(), false, null);
+    }
+
+    protected void closeProgressDialog() {
+        commonDialogsInBase.closeProgressDialog();
+    }
+
+    @Override
+    public void dynamicDoPraise(FriendDynamicEntity entity, final AbsHttpResultHandler handler) {
+        showProgressDialog();
+        HttpClientUtil.Dynamic.dynamicDoPraise(entity.getReleaseId(), entity.isHaveFavorite() ? 2 : 1, new AbsHttpResultHandler() {
+            @Override
+            public void onSuccess(int resultCode, String desc, Object data) {
+                handler.onSuccess(resultCode,desc,data);
+                closeProgressDialog();
+                ToastUtil.showToast(getContext(), "成功");
+            }
+
+            @Override
+            public void onFailure(int resultCode, String desc) {
+                handler.onFailure(resultCode, desc);
+                closeProgressDialog();
+                ToastUtil.showToast(getContext(), "失败" + desc);
+            }
+        });
+    }
+
+
+    @Override
+    public void dynamicDoFavorite(FriendDynamicEntity entity, AbsHttpResultHandler handler) {
+
+    }
+
+    @Override
+    public void dynamicDoShare(FriendDynamicEntity entity, AbsHttpResultHandler handler) {
+
+    }
+
+    @Override
+    public void dynamicMore(FriendDynamicEntity entity) {
+
     }
 }

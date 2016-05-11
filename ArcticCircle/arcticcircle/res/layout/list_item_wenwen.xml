@@ -80,6 +80,7 @@
                     android:text="发布求助"/>
             </RelativeLayout>
             <ImageView
+                android:id="@+id/btn_more"
                 android:layout_width="20dp"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_tips_more"/>
@@ -158,17 +159,18 @@
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:id="@+id/layout_like"
                 android:layout_weight="1">
                 <ImageView
                     android:layout_width="@dimen/dimen_15_dip"
                     android:layout_height="@dimen/dimen_15_dip"
                     android:src="@drawable/icon_add_like"
                     android:layout_centerInParent="true"
-                    android:id="@+id/item_btn_add_like"/>
+                    android:id="@+id/btn_like"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/item_btn_add_like"
+                    android:layout_toRightOf="@id/btn_like"
                     android:layout_marginLeft="4dp"
                     android:textSize="@dimen/text_size_20px"
                     android:textColor="@color/gray_title"
@@ -179,6 +181,7 @@
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:id="@+id/layout_add_comment"
                 android:layout_weight="1">
                 <ImageView
                     android:layout_width="@dimen/dimen_15_dip"
@@ -198,6 +201,7 @@
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:id="@+id/layout_recommend"
                 android:layout_weight="1">
                 <ImageView
                     android:layout_width="@dimen/dimen_15_dip"
