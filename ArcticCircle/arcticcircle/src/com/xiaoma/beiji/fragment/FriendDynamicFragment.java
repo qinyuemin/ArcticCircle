@@ -9,25 +9,25 @@ package com.xiaoma.beiji.fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import com.common.android.lib.controls.view.pulltorefresh.PullToRefreshBase;
-import com.common.android.lib.controls.view.pulltorefresh.PullToRefreshListView;
+
 import com.makeapp.javase.lang.StringUtil;
 import com.xiaoma.beiji.R;
-import com.xiaoma.beiji.adapter.FriendDynamicAdapter;
 import com.xiaoma.beiji.adapter.RecyclerViewAdapter;
 import com.xiaoma.beiji.base.SimpleFragment;
 import com.xiaoma.beiji.common.Global;
 import com.xiaoma.beiji.controls.acinterface.IActionInterFace;
+import com.xiaoma.beiji.controls.acinterface.ICommentInterface;
 import com.xiaoma.beiji.controls.dialog.CommonDialogsInBase;
+import com.xiaoma.beiji.controls.dialog.InputDialog;
+import com.xiaoma.beiji.entity.CommentEntity;
 import com.xiaoma.beiji.entity.FriendDynamicEntity;
 import com.xiaoma.beiji.network.AbsHttpResultHandler;
 import com.xiaoma.beiji.network.HttpClientUtil;
-import com.xiaoma.beiji.util.IntentUtil;
 import com.xiaoma.beiji.util.ToastUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -175,8 +175,34 @@ public class FriendDynamicFragment extends SimpleFragment implements IActionInte
     }
 
     @Override
-    public void dynamicDoShare(FriendDynamicEntity entity, AbsHttpResultHandler handler) {
+    public void dynamicDoComment(final FriendDynamicEntity entity, final ICommentInterface handler) {
+        commonDialogsInBase.showInputDialog(getActivity(), new InputDialog.InputCallBack() {
+            @Override
+            public void success(final String content) {
+                showProgressDialog();
+                HttpClientUtil.Dynamic.dynamicDoComment(entity.getReleaseId(), entity.getUserId(), content, new AbsHttpResultHandler() {
+                    @Override
+                    public void onSuccess(int resultCode, String desc, Object data) {
+                        closeProgressDialog();
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        String time = format.format(new Date());
+                        CommentEntity commentEntity = new CommentEntity();
+                        commentEntity.setCommentUserNickname(Global.getUserInfo().getNickname());
+                        commentEntity.setCommentUserAvatar(Global.getUserInfo().getAvatar());
+                        commentEntity.setCreateTime(time);
+                        commentEntity.setCommentContent(content);
+                        handler.success(commentEntity);
+                        ToastUtil.showToast(getContext(),"评论成功");
+                    }
 
+                    @Override
+                    public void onFailure(int resultCode, String desc) {
+                        closeProgressDialog();
+                        ToastUtil.showToast(getContext(), "评论失败"+desc);
+                    }
+                });
+            }
+        });
     }
 
     @Override

@@ -19,11 +19,12 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xiaoma.beiji.R;
 import com.xiaoma.beiji.adapter.CommentAdapter;
 import com.xiaoma.beiji.adapter.RecyclerView1Adapter;
-import com.xiaoma.beiji.adapter.RecyclerViewAdapter;
 import com.xiaoma.beiji.base.SimpleFragment;
 import com.xiaoma.beiji.common.Global;
 import com.xiaoma.beiji.controls.acinterface.IActionInterFace;
+import com.xiaoma.beiji.controls.acinterface.ICommentInterface;
 import com.xiaoma.beiji.controls.dialog.CommonDialogsInBase;
+import com.xiaoma.beiji.controls.dialog.InputDialog;
 import com.xiaoma.beiji.controls.view.CircularImage;
 import com.xiaoma.beiji.controls.view.ExpandListView;
 import com.xiaoma.beiji.controls.view.ImgPagerView;
@@ -38,7 +39,9 @@ import com.xiaoma.beiji.network.HttpClientUtil;
 import com.xiaoma.beiji.util.IntentUtil;
 import com.xiaoma.beiji.util.ToastUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -168,8 +171,34 @@ public class FindFragment extends SimpleFragment implements IActionInterFace {
     }
 
     @Override
-    public void dynamicDoShare(FriendDynamicEntity entity, AbsHttpResultHandler handler) {
+    public void dynamicDoComment(final FriendDynamicEntity entity, final ICommentInterface handler) {
+        commonDialogsInBase.showInputDialog(getActivity(), new InputDialog.InputCallBack() {
+            @Override
+            public void success(final String content) {
+                showProgressDialog();
+                HttpClientUtil.Dynamic.dynamicDoComment(entity.getReleaseId(), entity.getUserId(), content, new AbsHttpResultHandler() {
+                    @Override
+                    public void onSuccess(int resultCode, String desc, Object data) {
+                        closeProgressDialog();
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        String time = format.format(new Date());
+                        CommentEntity commentEntity = new CommentEntity();
+                        commentEntity.setCommentUserNickname(Global.getUserInfo().getNickname());
+                        commentEntity.setCommentUserAvatar(Global.getUserInfo().getAvatar());
+                        commentEntity.setCreateTime(time);
+                        commentEntity.setCommentContent(content);
+                        handler.success(commentEntity);
+                        ToastUtil.showToast(getContext(),"评论成功");
+                    }
 
+                    @Override
+                    public void onFailure(int resultCode, String desc) {
+                        closeProgressDialog();
+                        ToastUtil.showToast(getContext(), "评论失败"+desc);
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -566,6 +595,33 @@ public class FindFragment extends SimpleFragment implements IActionInterFace {
                 @Override
                 public void onClick(View v) {
                     Log.d("AAA", "addCommentLayout onClick");
+                    if(actionListener != null){
+                        actionListener.dynamicDoComment(entity, new ICommentInterface() {
+                            @Override
+                            public void success(CommentEntity entity) {
+                                commentEntityList.add(0,entity);
+                                holder.commentLabel.setText(String.format("%d条评论",commentEntityList.size()));
+                                if(commentEntityList.size()<=2){
+                                    holder.mCommentRecyclerView.setAdapter(new CommentAdapter(mContext, commentEntityList));
+                                    holder.showAllCommentBtn.setVisibility(View.GONE);
+                                }else{
+                                    List<CommentEntity> commentEntities = new ArrayList<>(2);
+                                    for(int i = 0; i<2; i++){
+                                        commentEntities.add(commentEntityList.get(i));
+                                    }
+                                    holder.mCommentRecyclerView.setAdapter(new CommentAdapter(mContext, commentEntities));
+                                    holder.showAllCommentBtn.setVisibility(View.VISIBLE);
+                                    holder.showAllCommentBtn.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            holder.mCommentRecyclerView.setAdapter(new CommentAdapter(mContext, commentEntityList));
+                                            holder.showAllCommentBtn.setVisibility(View.GONE);
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
                 }
             });
             holder.rootView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));

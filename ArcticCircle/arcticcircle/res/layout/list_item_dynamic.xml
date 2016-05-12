@@ -89,7 +89,7 @@
         <RelativeLayout
             android:layout_margin="4dp"
             android:layout_width="match_parent"
-            android:layout_height="140dp"
+            android:layout_height="180dp"
             android:background="@color/gray_1">
             <com.xiaoma.beiji.controls.view.ImgPagerView
                 android:layout_width="fill_parent"
@@ -218,6 +218,7 @@
             android:layout_marginTop="7dp"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
+            android:dividerHeight="1px"
             android:id="@+id/item_recyclerView_comment"
             android:layout_width="match_parent"
             android:layout_height="match_parent">

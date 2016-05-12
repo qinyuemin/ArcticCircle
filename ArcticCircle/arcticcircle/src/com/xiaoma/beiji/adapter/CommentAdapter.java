@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.common.android.lib.base.BaseActivity;
+import com.common.android.lib.util.TimeUtil;
 import com.makeapp.android.util.TextViewUtil;
 import com.makeapp.javase.lang.StringUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -67,7 +68,7 @@ public class CommentAdapter extends BaseAdapter{
             ImageLoader.getInstance().displayImage(avatar, holder.imgHead);
         }
         holder.nameText.setText(commentEntity.getCommentUserNickname());
-        holder.timeText.setText(commentEntity.getCreateTimeTitle());
+        holder.timeText.setText(TimeUtil.getDisplayTime(commentEntity.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
 
         String content = commentEntity.getCommentContent();
         String toUserNickName = commentEntity.getToUserNickName();

@@ -88,7 +88,8 @@
         <RelativeLayout
             android:layout_margin="4dp"
             android:layout_width="match_parent"
-            android:layout_height="140dp">
+            android:background="@color/gray_divider"
+            android:layout_height="180dp">
             <com.xiaoma.beiji.controls.view.ImgPagerView
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"

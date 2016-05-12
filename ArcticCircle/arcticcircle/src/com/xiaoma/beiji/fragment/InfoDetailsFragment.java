@@ -1,5 +1,7 @@
 package com.xiaoma.beiji.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,16 +13,20 @@ import android.view.ViewGroup;
 
 import com.xiaoma.beiji.R;
 import com.xiaoma.beiji.adapter.RecyclerViewAdapter;
+import com.xiaoma.beiji.common.Global;
 import com.xiaoma.beiji.controls.acinterface.IActionInterFace;
+import com.xiaoma.beiji.controls.acinterface.ICommentInterface;
 import com.xiaoma.beiji.controls.dialog.CommonDialogsInBase;
+import com.xiaoma.beiji.controls.dialog.InputDialog;
+import com.xiaoma.beiji.entity.CommentEntity;
 import com.xiaoma.beiji.entity.FriendDynamicEntity;
-import com.xiaoma.beiji.entity.PicEntity;
-import com.xiaoma.beiji.entity.Thing;
 import com.xiaoma.beiji.network.AbsHttpResultHandler;
 import com.xiaoma.beiji.network.HttpClientUtil;
 import com.xiaoma.beiji.util.ToastUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,6 +40,7 @@ public class InfoDetailsFragment extends Fragment implements IActionInterFace {
     private List<FriendDynamicEntity> dynamicEntities;
     private RecyclerViewAdapter adapter;
     protected CommonDialogsInBase commonDialogsInBase = new CommonDialogsInBase();
+    private static final int REQUEST_CODE_COMMENT = 0;
 
     private void initDate(){
         if(dynamicEntities == null){
@@ -72,7 +79,7 @@ public class InfoDetailsFragment extends Fragment implements IActionInterFace {
         HttpClientUtil.Dynamic.dynamicDoPraise(entity.getReleaseId(), entity.isHaveFavorite() ? 2 : 1, new AbsHttpResultHandler() {
             @Override
             public void onSuccess(int resultCode, String desc, Object data) {
-                handler.onSuccess(resultCode,desc,data);
+                handler.onSuccess(resultCode, desc, data);
                 closeProgressDialog();
                 ToastUtil.showToast(getContext(), "成功");
             }
@@ -93,8 +100,34 @@ public class InfoDetailsFragment extends Fragment implements IActionInterFace {
     }
 
     @Override
-    public void dynamicDoShare(FriendDynamicEntity entity, AbsHttpResultHandler handler) {
+    public void dynamicDoComment(final FriendDynamicEntity entity, final ICommentInterface handler) {
+        commonDialogsInBase.showInputDialog(getActivity(), new InputDialog.InputCallBack() {
+            @Override
+            public void success(final String content) {
+                showProgressDialog();
+                HttpClientUtil.Dynamic.dynamicDoComment(entity.getReleaseId(), entity.getUserId(), content, new AbsHttpResultHandler() {
+                    @Override
+                    public void onSuccess(int resultCode, String desc, Object data) {
+                        closeProgressDialog();
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        String time = format.format(new Date());
+                        CommentEntity commentEntity = new CommentEntity();
+                        commentEntity.setCommentUserNickname(Global.getUserInfo().getNickname());
+                        commentEntity.setCommentUserAvatar(Global.getUserInfo().getAvatar());
+                        commentEntity.setCreateTime(time);
+                        commentEntity.setCommentContent(content);
+                        handler.success(commentEntity);
+                        ToastUtil.showToast(getContext(),"评论成功");
+                    }
 
+                    @Override
+                    public void onFailure(int resultCode, String desc) {
+                        closeProgressDialog();
+                        ToastUtil.showToast(getContext(), "评论失败"+desc);
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -105,6 +138,7 @@ public class InfoDetailsFragment extends Fragment implements IActionInterFace {
     protected void showProgressDialog() {
         commonDialogsInBase.showProgressDialog(getActivity(),false,null);
     }
+
 
     protected void closeProgressDialog() {
         commonDialogsInBase.closeProgressDialog();

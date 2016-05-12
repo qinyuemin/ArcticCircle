@@ -8,7 +8,7 @@
     <android.support.v4.view.ViewPager
             android:id="@+id/ad_viewpager"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_120_dip"/>
+            android:layout_height="match_parent"/>
     <com.common.android.lib.controls.view.indicator.IconPageIndicator
             android:id="@+id/ad_indicator"
             android:layout_height="wrap_content"

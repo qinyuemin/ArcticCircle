@@ -19,6 +19,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xiaoma.beiji.R;
 import com.xiaoma.beiji.common.Global;
 import com.xiaoma.beiji.controls.acinterface.IActionInterFace;
+import com.xiaoma.beiji.controls.acinterface.ICommentInterface;
 import com.xiaoma.beiji.controls.sharesdk.ShareSdkUtil;
 import com.xiaoma.beiji.controls.view.CircularImage;
 import com.xiaoma.beiji.controls.view.ExpandListView;
@@ -30,7 +31,9 @@ import com.xiaoma.beiji.entity.PicEntity;
 import com.xiaoma.beiji.entity.UserInfoEntity;
 import com.xiaoma.beiji.network.AbsHttpResultHandler;
 import com.xiaoma.beiji.util.IntentUtil;
+import com.xiaoma.beiji.util.ToastUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -231,6 +234,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             @Override
             public void onClick(View v) {
                 Log.d("AAA", "addCommentLayout onClick");
+                if(actionListener != null){
+                    actionListener.dynamicDoComment(entity, new ICommentInterface() {
+                        @Override
+                        public void success(CommentEntity entity) {
+
+                        }
+                    });
+                }
             }
         });
 
@@ -379,6 +390,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             @Override
             public void onClick(View v) {
                 Log.d("AAA", "addCommentLayout onClick");
+                if(actionListener != null){
+                    actionListener.dynamicDoComment(entity, new ICommentInterface() {
+                        @Override
+                        public void success(CommentEntity entity) {
+                        }
+                    });
+                }
             }
         });
     }
@@ -470,7 +488,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 //            holder.shareUsers.setVisibility(View.GONE);
             holder.shareUsers.setText("暂无人推荐");
         }
-
         holder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -559,6 +576,33 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             @Override
             public void onClick(View v) {
                 Log.d("AAA","addCommentLayout onClick");
+                if(actionListener != null){
+                    actionListener.dynamicDoComment(entity, new ICommentInterface() {
+                        @Override
+                        public void success(CommentEntity entity) {
+                            commentEntityList.add(0,entity);
+                            holder.commentLabel.setText(String.format("%d条评论",commentEntityList.size()));
+                            if(commentEntityList.size()<=2){
+                                holder.mCommentRecyclerView.setAdapter(new CommentAdapter(mContext, commentEntityList));
+                                holder.showAllCommentBtn.setVisibility(View.GONE);
+                            }else{
+                                List<CommentEntity> commentEntities = new ArrayList<>(2);
+                                for(int i = 0; i<2; i++){
+                                    commentEntities.add(commentEntityList.get(i));
+                                }
+                                holder.mCommentRecyclerView.setAdapter(new CommentAdapter(mContext, commentEntities));
+                                holder.showAllCommentBtn.setVisibility(View.VISIBLE);
+                                holder.showAllCommentBtn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        holder.mCommentRecyclerView.setAdapter(new CommentAdapter(mContext, commentEntityList));
+                                        holder.showAllCommentBtn.setVisibility(View.GONE);
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
             }
         });
         holder.rootView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));

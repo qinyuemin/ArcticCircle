@@ -25,7 +25,9 @@ import com.xiaoma.beiji.adapter.CommentAdapter;
 import com.xiaoma.beiji.adapter.RecyclerView1Adapter;
 import com.xiaoma.beiji.base.SimpleBaseActivity;
 import com.xiaoma.beiji.common.Global;
+import com.xiaoma.beiji.controls.acinterface.ICommentInterface;
 import com.xiaoma.beiji.controls.dialog.CommonDialogsInBase;
+import com.xiaoma.beiji.controls.dialog.InputDialog;
 import com.xiaoma.beiji.controls.sharesdk.ShareSdkUtil;
 import com.xiaoma.beiji.controls.view.CircularImage;
 import com.xiaoma.beiji.controls.view.ExpandListView;
@@ -41,7 +43,9 @@ import com.xiaoma.beiji.util.CommUtil;
 import com.xiaoma.beiji.util.IntentUtil;
 import com.xiaoma.beiji.util.ToastUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -149,6 +153,36 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
             initView(friendTrendsEntity);
         }
 
+    }
+
+    public void dynamicDoComment(final FriendDynamicEntity entity, final ICommentInterface handler) {
+        commonDialogsInBase.showInputDialog(FriendDynamicDetailActivity.this, new InputDialog.InputCallBack() {
+            @Override
+            public void success(final String content) {
+                showProgressDialog();
+                HttpClientUtil.Dynamic.dynamicDoComment(entity.getReleaseId(), entity.getUserId(), content, new AbsHttpResultHandler() {
+                    @Override
+                    public void onSuccess(int resultCode, String desc, Object data) {
+                        closeProgressDialog();
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        String time = format.format(new Date());
+                        CommentEntity commentEntity = new CommentEntity();
+                        commentEntity.setCommentUserNickname(Global.getUserInfo().getNickname());
+                        commentEntity.setCommentUserAvatar(Global.getUserInfo().getAvatar());
+                        commentEntity.setCreateTime(time);
+                        commentEntity.setCommentContent(content);
+                        handler.success(commentEntity);
+                        ToastUtil.showToast(FriendDynamicDetailActivity.this,"评论成功");
+                    }
+
+                    @Override
+                    public void onFailure(int resultCode, String desc) {
+                        closeProgressDialog();
+                        ToastUtil.showToast(FriendDynamicDetailActivity.this, "评论失败"+desc);
+                    }
+                });
+            }
+        });
     }
 
     private void initView(final FriendDynamicEntity entity){
@@ -272,6 +306,7 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
                                 }
                             }
                         }
+                        mRecyclerView.setAdapter(new RecyclerView1Adapter(FriendDynamicDetailActivity.this, lickUser));
                         likeLabel.setText(String.format("%d位已喜欢", lickUser.size()));
                         closeProgressDialog();
                         ToastUtil.showToast(FriendDynamicDetailActivity.this, "成功");
@@ -323,7 +358,33 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
             @Override
             public void onClick(View v) {
                 Log.d("AAA", "addCommentLayout onClick");
-            }
+                dynamicDoComment(entity, new ICommentInterface() {
+                        @Override
+                        public void success(CommentEntity entity) {
+                            commentEntityList.add(0,entity);
+                            commentLabel.setText(String.format("%d条评论",commentEntityList.size()));
+                            if(commentEntityList.size()<=2){
+                                mCommentRecyclerView.setAdapter(new CommentAdapter(FriendDynamicDetailActivity.this, commentEntityList));
+                                showAllCommentBtn.setVisibility(View.GONE);
+                            }else{
+                                List<CommentEntity> commentEntities = new ArrayList<>(2);
+                                for(int i = 0; i<2; i++){
+                                    commentEntities.add(commentEntityList.get(i));
+                                }
+                                mCommentRecyclerView.setAdapter(new CommentAdapter(FriendDynamicDetailActivity.this, commentEntities));
+                                showAllCommentBtn.setVisibility(View.VISIBLE);
+                                showAllCommentBtn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        mCommentRecyclerView.setAdapter(new CommentAdapter(FriendDynamicDetailActivity.this, commentEntityList));
+                                        showAllCommentBtn.setVisibility(View.GONE);
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+
         });
 
         switch (friendTrendsEntity.getReleaseType()){
