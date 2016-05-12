@@ -319,6 +319,7 @@ public class FindFragment extends SimpleFragment implements IActionInterFace {
         public ImgPagerView imgPagerView;
         public TextView nameTextView;
         public TextView titleTextView;
+        public LinearLayout shopNameLayout;
         public TextView contentTextView;
         public RecyclerView mRecyclerView;
         public ImageView addComment;
@@ -338,6 +339,7 @@ public class FindFragment extends SimpleFragment implements IActionInterFace {
             super(view);
             rootView = view;
             titleTextView = (TextView) view.findViewById(R.id.text_photo_title);
+            shopNameLayout = (LinearLayout) view.findViewById(R.id.layout_shop_name);
             contentTextView = (TextView) view.findViewById(R.id.text_photo_content);
             mRecyclerView = (RecyclerView) view.findViewById(R.id.item_recyclerView_lick);
             addComment = (ImageView) view.findViewById(R.id.item_btn_add_comment);
@@ -516,8 +518,18 @@ public class FindFragment extends SimpleFragment implements IActionInterFace {
                 }
             }
             holder.imgPagerView.notifyData(picStrings);
-            holder.titleTextView.setText(entity.getArea());
-            holder.contentTextView.setText(entity.getAssociated_price()+"RMB");
+            if(!TextUtils.isEmpty(entity.getAssociated_shop_name())&&!"0".equals(entity.getAssociated_shop_name())){
+                holder.titleTextView.setText(entity.getAssociated_shop_name());
+            }else{
+                holder.titleTextView.setText("111");
+                holder.shopNameLayout.setVisibility(View.INVISIBLE);
+            }
+            if(!TextUtils.isEmpty(entity.getAssociated_price())&&!"0".equals(entity.getAssociated_price())){
+                holder.contentTextView.setText(entity.getAssociated_price()+"RMB");
+            }else{
+                holder.contentTextView.setText(entity.getAssociated_price()+"RMB");
+                holder. contentTextView.setVisibility(View.INVISIBLE);
+            }
             holder.nameTextView.setText(entity.getNickName());
             holder.descriptionTextView.setText(entity.getDescription());
             LinearLayoutManager manager1 = new LinearLayoutManager(mContext);
