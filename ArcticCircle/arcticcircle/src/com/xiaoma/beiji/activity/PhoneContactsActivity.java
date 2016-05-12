@@ -227,12 +227,13 @@ public class PhoneContactsActivity extends SimpleBaseActivity {
                             @Override
                             public void onSuccess(int resultCode, String desc, Object data) {
                                 userInfoEntity.setIs_attention(isAttention?"1":"2");
+                                ToastUtil.showToast(PhoneContactsActivity.this, isAttention? "关注成功":"取消关注成功");
                                 notifyDataSetChanged();
                             }
 
                             @Override
                             public void onFailure(int resultCode, String desc) {
-
+                                ToastUtil.showToast(PhoneContactsActivity.this, isAttention? "关注失败"+desc:"取消关注失败"+desc);
                             }
                         });
                     }else{
@@ -244,7 +245,7 @@ public class PhoneContactsActivity extends SimpleBaseActivity {
                         }else{
                             attendList.remove(userInfoEntity);
                         }
-
+                        ToastUtil.showToast(PhoneContactsActivity.this, isAttention? "预关注成功":"取消预关注成功");
                     }
 
 

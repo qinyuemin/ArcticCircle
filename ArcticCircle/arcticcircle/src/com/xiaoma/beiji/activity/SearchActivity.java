@@ -40,7 +40,7 @@ public class SearchActivity extends SimpleBaseActivity implements View.OnClickLi
     private FragmentManager fragmentManager;
     private FragmentTransaction fmt;
 
-    private SearchShopFragment searchShopFragment;
+//    private SearchShopFragment searchShopFragment;
     private SearchFriendFragment searchFriendFragment;
     private InfoDetailsFragment infoDetailsFragment;
 
@@ -73,7 +73,7 @@ public class SearchActivity extends SimpleBaseActivity implements View.OnClickLi
             }
         });
         fragmentManager = getSupportFragmentManager();
-        searchShopFragment = new SearchShopFragment();
+//        searchShopFragment = new SearchShopFragment();
         searchFriendFragment = new SearchFriendFragment();
         infoDetailsFragment = new InfoDetailsFragment();
 //        dataList.add(new Title("热门店铺"));
@@ -107,8 +107,7 @@ public class SearchActivity extends SimpleBaseActivity implements View.OnClickLi
         switch (tag){
 //            case DIANPU:
             case HAOYOU:
-                searchShopFragment.setList(dataList);
-                fragment = searchShopFragment;
+                fragment = searchFriendFragment;
                 searchUser();
                 break;
             case DONGTAI:
@@ -174,7 +173,7 @@ public class SearchActivity extends SimpleBaseActivity implements View.OnClickLi
                     ToastUtil.showToast(SearchActivity.this,"暂未搜索到好友");
                 }else{
                     for(UserInfoEntity entity: list){
-                        HttpClientUtil.logger(entity.toString());
+                        HttpClientUtil.logger("user-->"+entity.toString());
                         dataList.add(entity);
                     }
                     searchFriendFragment.setList(dataList);

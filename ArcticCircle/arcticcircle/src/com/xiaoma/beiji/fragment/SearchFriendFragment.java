@@ -1,6 +1,7 @@
 package com.xiaoma.beiji.fragment;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,7 +27,9 @@ import com.xiaoma.beiji.entity.HotShop;
 import com.xiaoma.beiji.entity.ShopEntity;
 import com.xiaoma.beiji.entity.Title;
 import com.xiaoma.beiji.entity.UserInfoEntity;
+import com.xiaoma.beiji.network.AbsHttpResultHandler;
 import com.xiaoma.beiji.network.HttpClientUtil;
+import com.xiaoma.beiji.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +42,7 @@ public class SearchFriendFragment extends Fragment{
 
     private View rootView;
     private RecyclerView mRecyclerView;
-    private List<Object> list;
+    private List<Object> list = new ArrayList<>();
     private RecyclerView.Adapter adapter;
 
     @Nullable
@@ -69,11 +73,18 @@ public class SearchFriendFragment extends Fragment{
 
     public void setList(List<Object> list) {
         this.list = list;
+        if(mRecyclerView!=null){
+            adapter = new SearchShopAdpter(getActivity(), list);
+            mRecyclerView.setAdapter(adapter);
+        }
     }
 
 
 
-    class SearchShopAdpter extends RecyclerView.Adapter<ShopViewHolder>{
+    class SearchShopAdpter extends RecyclerView.Adapter{
+
+        private  final int TYPE_SHOP = 0;
+        private  final int TYPE_FRIEND = 1;
 
         private Context context;
         private List<Object> list;
@@ -84,44 +95,69 @@ public class SearchFriendFragment extends Fragment{
         }
 
         @Override
-        public ShopViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View v = LayoutInflater.from(context).inflate(R.layout.item_search_shop,null);
-            return new ShopViewHolder(v);
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view;
+            switch (viewType){
+                case TYPE_FRIEND:
+                    view = LayoutInflater.from(context).inflate(R.layout.item_contacts,null);
+                    return new FriendHolder(view);
+                default:
+                    view = LayoutInflater.from(context).inflate(R.layout.item_contacts,null);
+                    return new FriendHolder(view);
+            }
+//            View v = LayoutInflater.from(context).inflate(R.layout.item_search_shop,null);
+//            return new ShopViewHolder(v);
         }
 
         @Override
-        public void onBindViewHolder(ShopViewHolder holder, int position) {
+        public int getItemViewType(int position) {
             Object o = list.get(position);
-            holder.layout_title.setVisibility(View.GONE);
-            holder.layout_tuijian.setVisibility(View.GONE);
-            holder.layout_shop.setVisibility(View.GONE);
-            if(o instanceof Title){
-                Title title = (Title) o;
-                holder.layout_title.setVisibility(View.VISIBLE);
-                holder.title.setText(title.getTitleString());
-            }else if(o instanceof HotShop){
-                HotShop hotShop = (HotShop) o;
-                List<ShopEntity> list = hotShop.getList();
-                if(list!=null){
-                    holder.layout_tuijian.setVisibility(View.VISIBLE);
-                    holder.hotShopName1.setText(list.get(0).getShowName());
-                    holder.hotShopName2.setText(list.get(1).getShowName());
-                }
-            }else if(o instanceof FriendEntity){
-                FriendEntity friendEntity = (FriendEntity) o;
-                holder.layout_shop.setVisibility(View.VISIBLE);
-                if(StringUtil.isValid(friendEntity.getAvatar())){
-                    ImageLoader.getInstance().displayImage(friendEntity.getAvatar(), holder.headImage);
-                }
-                holder.itemShopName.setText(friendEntity.getNickname());
-            }else if(o instanceof UserInfoEntity){
-                UserInfoEntity userInfoEntity = (UserInfoEntity) o;
-                holder.layout_shop.setVisibility(View.VISIBLE);
-                if(StringUtil.isValid(userInfoEntity.getAvatar())){
-                    ImageLoader.getInstance().displayImage(userInfoEntity.getAvatar(), holder.headImage);
-                }
-                holder.itemShopName.setText(userInfoEntity.getNickname());
+            if(o instanceof UserInfoEntity) {
+                return TYPE_FRIEND;
             }
+            return TYPE_FRIEND;
+        }
+
+        @Override
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            Object o = list.get(position);
+            if(o instanceof UserInfoEntity){
+                UserInfoEntity entity = (UserInfoEntity) o;
+                FriendHolder friendHolder = (FriendHolder) holder;
+                initFriendHolder(entity,friendHolder);
+
+            }
+//            Object o = list.get(position);
+//            holder.layout_title.setVisibility(View.GONE);
+//            holder.layout_tuijian.setVisibility(View.GONE);
+//            holder.layout_shop.setVisibility(View.GONE);
+//            if(o instanceof Title){
+//                Title title = (Title) o;
+//                holder.layout_title.setVisibility(View.VISIBLE);
+//                holder.title.setText(title.getTitleString());
+//            }else if(o instanceof HotShop){
+//                HotShop hotShop = (HotShop) o;
+//                List<ShopEntity> list = hotShop.getList();
+//                if(list!=null){
+//                    holder.layout_tuijian.setVisibility(View.VISIBLE);
+//                    holder.hotShopName1.setText(list.get(0).getShowName());
+//                    holder.hotShopName2.setText(list.get(1).getShowName());
+//                }
+//            }else if(o instanceof FriendEntity){
+//                FriendEntity friendEntity = (FriendEntity) o;
+//                holder.layout_shop.setVisibility(View.VISIBLE);
+//                if(StringUtil.isValid(friendEntity.getAvatar())){
+//                    ImageLoader.getInstance().displayImage(friendEntity.getAvatar(), holder.headImage);
+//                }
+//                holder.itemShopName.setText(friendEntity.getNickname());
+//            }else if(o instanceof UserInfoEntity){
+//                UserInfoEntity userInfoEntity = (UserInfoEntity) o;
+//                holder.layout_shop.setVisibility(View.VISIBLE);
+//                if(StringUtil.isValid(userInfoEntity.getAvatar())){
+//                    ImageLoader.getInstance().displayImage(userInfoEntity.getAvatar(), holder.headImage);
+//                }
+//                holder.itemShopName.setText(userInfoEntity.getNickname());
+//            }
         }
 
         @Override
@@ -160,6 +196,60 @@ public class SearchFriendFragment extends Fragment{
         TextView itemShopName;
 
         CircularImage headImage;
+    }
+
+    class FriendHolder extends RecyclerView.ViewHolder{
+        private CircularImage headView;
+        private TextView nameText;
+        private TextView descText;
+        private ImageView imageView;
+
+        public FriendHolder(View itemView) {
+            super(itemView);
+            headView = (CircularImage) itemView.findViewById(R.id.img_head);
+            nameText = (TextView) itemView.findViewById(R.id.text_item_name);
+            descText = (TextView) itemView.findViewById(R.id.text_description);
+            imageView = (ImageView) itemView.findViewById(R.id.item_add);
+            itemView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        }
+    }
+
+    void initFriendHolder(UserInfoEntity entity,final FriendHolder holder){
+        final UserInfoEntity userInfoEntity = entity;
+        holder.nameText.setText(userInfoEntity.getNickname());
+        if(!"1".equals(userInfoEntity.getIs_attention())){
+            holder.imageView.setImageResource(R.drawable.ic_publish);
+        }else{
+            holder.imageView.setImageDrawable(null);
+        }
+        if(StringUtil.isValid(userInfoEntity.getAvatar())){
+            ImageLoader.getInstance().displayImage(userInfoEntity.getAvatar(), holder.headView);
+        }
+        holder.descText.setText(userInfoEntity.getProfile());
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final boolean isAttention = !"1".equals(userInfoEntity.getIs_attention());
+                HttpClientUtil.Friend.friendAttention(isAttention, userInfoEntity.getUserId(), new AbsHttpResultHandler() {
+                    @Override
+                    public void onSuccess(int resultCode, String desc, Object data) {
+                        userInfoEntity.setIs_attention(isAttention ? "1" : "2");
+                        if(isAttention){
+                            holder.imageView.setImageDrawable(null);
+                            ToastUtil.showToast(getContext(), "关注成功");
+                        }else{
+                            holder.imageView.setImageResource(R.drawable.ic_publish);
+                            ToastUtil.showToast(getContext(),"取消关注成功");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int resultCode, String desc) {
+
+                    }
+                });
+            }
+        });
     }
 
 }
