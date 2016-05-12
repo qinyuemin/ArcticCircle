@@ -1,6 +1,7 @@
 package com.xiaoma.beiji.fragment;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -12,6 +13,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.chanven.lib.cptr.PtrClassicFrameLayout;
+import com.chanven.lib.cptr.PtrDefaultHandler;
+import com.chanven.lib.cptr.PtrFrameLayout;
+import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
+import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
 import com.common.android.lib.util.TimeUtil;
 import com.makeapp.android.util.TextViewUtil;
 import com.makeapp.android.util.ViewUtil;
@@ -51,7 +57,9 @@ import java.util.List;
 public class FindFragment extends SimpleFragment implements IActionInterFace {
 
     private RecyclerView recyclerView;
-    private List findEntityList;
+    private List findEntityList = new ArrayList<>();;
+    private PtrClassicFrameLayout ptrClassicFrameLayout;
+    RecyclerAdapterWithHF adapter;
 
     protected void setTitleControlsInfo(View v) {
         TextViewUtil.setText(v, R.id.title_bar_title_txt, "发现");
@@ -67,44 +75,41 @@ public class FindFragment extends SimpleFragment implements IActionInterFace {
     protected void initComponents(View v) {
         setTitleControlsInfo(v);
         recyclerView = (RecyclerView) v.findViewById(R.id.find_list);
+
+        PtrFrameLayout.DEBUG = true;
+        ptrClassicFrameLayout = (PtrClassicFrameLayout) v.findViewById(R.id.test_recycler_view_frame);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
+        adapter = new RecyclerAdapterWithHF(new Adapter(getContext(), findEntityList,FindFragment.this));
+        recyclerView.setAdapter(adapter);
+        ptrClassicFrameLayout.disableWhenHorizontalMove(true);
+//        ptrClassicFrameLayout.postDelayed(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                ptrClassicFrameLayout.autoRefresh(true);
+//            }
+//        }, 150);
+
+        ptrClassicFrameLayout.setPtrHandler(new PtrDefaultHandler() {
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                    loadData();
+            }
+        });
+
+        ptrClassicFrameLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+
+            @Override
+            public void loadMore() {
+                loadMoreDate();
+            }
+        });
     }
 
-    @Override
-    protected void loadData() {
-
-//        Title title1 = new Title();
-//        title1.setTitle("推荐达人");
-//        Title title2 = new Title();
-//        title2.setTitle("推荐列表");
-//
-//        findEntityList = new ArrayList<>();
-//        findEntityList.add(title1);
-//        List<UserInfoEntity> list = new ArrayList<>(2);
-//        list.add(new UserInfoEntity());
-//        list.add(new UserInfoEntity());
-//        FindEntity findEntity = new FindEntity();
-//        findEntity.setEntities(list);
-//        findEntityList.add(findEntity);
-//        findEntityList.add(title2);
-//        for(int i=0; i<18; i++){
-//            FriendDynamicEntity thing = new FriendDynamicEntity();
-//            thing.setTitle("第" + i + "个");
-//            thing.setContent("这是第" + i + "个动态");
-//            List<PicEntity> picEntities = new ArrayList<>();
-//            PicEntity picEntity = new PicEntity();
-//            picEntity.setPicUrl("http://i6.265g.com/images/201501/201501301413233383.jpg");
-//            picEntities.add(picEntity);
-//            thing.setPic(picEntities);
-//            List<String> items = new ArrayList<>();
-//            for(int j=0; j<18; j++){
-//                items.add("第" + j + "个朋友");
-//            }
-//            thing.setShare_user_nickname(items);
-//            findEntityList.add(thing);
-//        }
+    private void prepareDate(){
         HttpClientUtil.squreList(new AbsHttpResultHandler<SqureEntity>() {
             @Override
             public void onSuccess(int resultCode, String desc, SqureEntity data) {
@@ -114,10 +119,10 @@ public class FindFragment extends SimpleFragment implements IActionInterFace {
                 title1.setTitle("推荐达人");
                 Title title2 = new Title();
                 title2.setTitle("推荐列表");
-                findEntityList = new ArrayList<>();
+                findEntityList.clear();
                 findEntityList.add(title1);
                 FindEntity entity = new FindEntity();
-                entity.setEntities(userInfoEntities!=null?userInfoEntities:new ArrayList<UserInfoEntity>());
+                entity.setEntities(userInfoEntities != null ? userInfoEntities : new ArrayList<UserInfoEntity>());
                 findEntityList.add(entity);
                 findEntityList.add(title2);
                 if(dynamicEntities!=null){
@@ -125,15 +130,45 @@ public class FindFragment extends SimpleFragment implements IActionInterFace {
                         findEntityList.add(entity1);
                     }
                 }
-                recyclerView.setAdapter(new Adapter(getContext(), findEntityList,FindFragment.this));
+                ptrClassicFrameLayout.autoRefresh(true);
+                ptrClassicFrameLayout.refreshComplete();
+                ptrClassicFrameLayout.setLoadMoreEnable(true);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(int resultCode, String desc) {
                 ToastUtil.showToast(getContext(),desc);
+                ptrClassicFrameLayout.refreshComplete();
             }
         });
+    }
 
+    private void loadMoreDate(){
+        HttpClientUtil.squreList(new AbsHttpResultHandler<SqureEntity>() {
+            @Override
+            public void onSuccess(int resultCode, String desc, SqureEntity data) {
+                List<FriendDynamicEntity> dynamicEntities = data.getDynamicEntities();
+                if(dynamicEntities!=null){
+                    for(FriendDynamicEntity entity1:dynamicEntities){
+                        findEntityList.add(entity1);
+                    }
+                }
+                adapter.notifyDataSetChanged();
+                ptrClassicFrameLayout.refreshComplete();
+            }
+
+            @Override
+            public void onFailure(int resultCode, String desc) {
+                ptrClassicFrameLayout.refreshComplete();
+                ToastUtil.showToast(getContext(),desc);
+            }
+        });
+    }
+
+    @Override
+    protected void loadData() {
+        prepareDate();
     }
 
     protected CommonDialogsInBase commonDialogsInBase = new CommonDialogsInBase();
