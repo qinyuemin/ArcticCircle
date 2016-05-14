@@ -62,7 +62,7 @@ public class UrlConstants {
     public static final String USER_GET_DYNAMIC_COMMENTS = "User.get_dynamic_comments";
     public static final String USER_GET_SHOP_COMMENTS = "User.get_shop_comments";
     public static final String USER_HOME_DYNAMIC = "User.home_dynamic";
-    public static final String USER_HOME_FAVORITE = "User.home_dynamic";
+    public static final String USER_HOME_FAVORITE = "User.home_favorite";
     public static final String USER_FRIEND_HOME_DYNAMIC = "User.friend_home_dynamic";
     public static final String USER_FRIEND_HOME_FAVORITE = "User.friend_home_favorite";
 
