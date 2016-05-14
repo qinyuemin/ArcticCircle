@@ -106,7 +106,7 @@ public class IMChattingMsgAdapter extends LLBaseAdapter<IMXMPPMessageEntity>{
     class ViewHolderMsg {
         // 发送者身份相关
         public ImageView img_avatar;
-        public TextView tv_nick_name;
+//        public TextView tv_nick_name;
         // 文本
         public TextView tv_content;
         public TextView tv_time;
@@ -116,7 +116,7 @@ public class IMChattingMsgAdapter extends LLBaseAdapter<IMXMPPMessageEntity>{
 
         public void initHolderView(View contentView) {
             img_avatar = (ImageView) contentView.findViewById(R.id.img_chat_avatar);
-            tv_nick_name = (TextView) contentView.findViewById(R.id.tv_nick_name);
+//            tv_nick_name = (TextView) contentView.findViewById(R.id.tv_nick_name);
             tv_time = (TextView) contentView.findViewById(R.id.tv_send_time);
             progressBar_sending = (ProgressBar) contentView.findViewById(R.id.progress_sending);
             img_failed = (ImageView) contentView.findViewById(R.id.img_failed);
@@ -138,7 +138,7 @@ public class IMChattingMsgAdapter extends LLBaseAdapter<IMXMPPMessageEntity>{
             }
             ImageLoader.getInstance().displayImage(avatarUrl,img_avatar,ImageLoaderUtil.getDefaultAvatarOption());
 
-            tv_nick_name.setText(nickname);
+//            tv_nick_name.setText(nickname);
             tv_content.setText(msgEntity.getContent());
 
             if (isTimeVisible(tv_time, position)) {

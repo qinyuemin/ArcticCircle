@@ -29,6 +29,7 @@ import com.xiaoma.beiji.entity.Title;
 import com.xiaoma.beiji.entity.UserInfoEntity;
 import com.xiaoma.beiji.network.AbsHttpResultHandler;
 import com.xiaoma.beiji.network.HttpClientUtil;
+import com.xiaoma.beiji.util.IntentUtil;
 import com.xiaoma.beiji.util.ToastUtil;
 
 import java.util.ArrayList;
@@ -166,37 +167,33 @@ public class SearchFriendFragment extends Fragment{
         }
     }
 
-    class ShopViewHolder extends RecyclerView.ViewHolder{
-
-        ShopViewHolder(View view){
-            super(view);
-            layout_title = (LinearLayout) view.findViewById(R.id.item_layout_title);
-            title = (TextView) view.findViewById(R.id.item_text_title);
-
-            layout_tuijian = (LinearLayout) view.findViewById(R.id.item_layout_tuijian);
-            hotShopName1 = (TextView) view.findViewById(R.id.item_hot_shopname1);
-            hotShopName2 = (TextView) view.findViewById(R.id.item_hot_shopname2);
-
-            layout_shop = (LinearLayout) view.findViewById(R.id.item_layout_shop);
-            itemShopName = (TextView) view.findViewById(R.id.text_item_shop_name);
-            headImage = (CircularImage) view.findViewById(R.id.img_head);
-        }
-
-        LinearLayout layout_title;
-        TextView title;
-
-        LinearLayout layout_tuijian;
-        TextView hotShopName1;
-//        TextView HotShopTuijian1;
-
-        TextView hotShopName2;
-//        TextView HotShopTuijian2;
-
-        LinearLayout layout_shop;
-        TextView itemShopName;
-
-        CircularImage headImage;
-    }
+//    class ShopViewHolder extends RecyclerView.ViewHolder{
+//
+//        ShopViewHolder(View view){
+//            super(view);
+//            layout_title = (LinearLayout) view.findViewById(R.id.item_layout_title);
+//            title = (TextView) view.findViewById(R.id.item_text_title);
+//
+//            layout_tuijian = (LinearLayout) view.findViewById(R.id.item_layout_tuijian);
+//            hotShopName1 = (TextView) view.findViewById(R.id.item_hot_shopname1);
+//            hotShopName2 = (TextView) view.findViewById(R.id.item_hot_shopname2);
+//
+//            layout_shop = (LinearLayout) view.findViewById(R.id.item_layout_shop);
+//            itemShopName = (TextView) view.findViewById(R.id.text_item_shop_name);
+//            headImage = (CircularImage) view.findViewById(R.id.img_head);
+//        }
+//
+//        LinearLayout layout_title;
+//        TextView title;
+//
+//        LinearLayout layout_tuijian;
+//        TextView hotShopName1;
+//        TextView hotShopName2;
+//        LinearLayout layout_shop;
+//        TextView itemShopName;
+//
+//        CircularImage headImage;
+//    }
 
     class FriendHolder extends RecyclerView.ViewHolder{
         private CircularImage headView;
@@ -214,7 +211,7 @@ public class SearchFriendFragment extends Fragment{
         }
     }
 
-    void initFriendHolder(UserInfoEntity entity,final FriendHolder holder){
+    void initFriendHolder(final UserInfoEntity entity,final FriendHolder holder){
         final UserInfoEntity userInfoEntity = entity;
         holder.nameText.setText(userInfoEntity.getNickname());
         if(!"1".equals(userInfoEntity.getIs_attention())){
@@ -225,7 +222,8 @@ public class SearchFriendFragment extends Fragment{
         if(StringUtil.isValid(userInfoEntity.getAvatar())){
             ImageLoader.getInstance().displayImage(userInfoEntity.getAvatar(), holder.headView);
         }
-        holder.descText.setText(userInfoEntity.getProfile());
+        holder.descText.setText("粉丝数："+ userInfoEntity.getAttention_num());
+        holder.imageView.setVisibility(View.GONE);
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -234,12 +232,12 @@ public class SearchFriendFragment extends Fragment{
                     @Override
                     public void onSuccess(int resultCode, String desc, Object data) {
                         userInfoEntity.setIs_attention(isAttention ? "1" : "2");
-                        if(isAttention){
+                        if (isAttention) {
                             holder.imageView.setImageDrawable(null);
                             ToastUtil.showToast(getContext(), "关注成功");
-                        }else{
+                        } else {
                             holder.imageView.setImageResource(R.drawable.ic_publish);
-                            ToastUtil.showToast(getContext(),"取消关注成功");
+                            ToastUtil.showToast(getContext(), "取消关注成功");
                         }
                     }
 
@@ -248,6 +246,12 @@ public class SearchFriendFragment extends Fragment{
 
                     }
                 });
+            }
+        });
+        holder.headView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentUtil.goProfileActivity(getActivity(),entity.getUserId());
             }
         });
     }

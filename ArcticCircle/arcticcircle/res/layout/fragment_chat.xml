@@ -12,7 +12,7 @@
               android:id="@+id/lst_chat"
               android:background="@color/transparent"
               android:divider="@color/color_line"
-              android:dividerHeight="1dp"
+              android:dividerHeight="1px"
               android:cacheColorHint="@color/bg_main"
     />
     <!--<ListView android:layout_width="fill_parent"-->
