@@ -5,15 +5,14 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.makeapp.android.util.ImageViewUtil;
+import com.chanven.lib.cptr.PtrDefaultHandler;
+import com.chanven.lib.cptr.PtrFrameLayout;
+import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 import com.makeapp.android.util.TextViewUtil;
 import com.makeapp.javase.lang.StringUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -43,9 +42,13 @@ public class MyProfileFragment extends Fragment{
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
 
-    private InfoDetailsFragment dynamicFragment;
-    private InfoDetailsFragment seekHelpFragment;
-    private InfoDetailsFragment shouCangFragment;
+    private FriendDynamicListFragment dynamicFragment;
+    private FriendDynamicListFragment seekHelpFragment;
+    private FriendDynamicListFragment shouCangFragment;
+
+    private List<FriendDynamicEntity> dynamicEntities = new ArrayList<>();
+    private List<FriendDynamicEntity> seekHelpEntities = new ArrayList<>();
+    private List<FriendDynamicEntity> favoriteEntities = new ArrayList<>();
 
     private TextView leftLabel;
     private TextView rightLabel;
@@ -63,6 +66,8 @@ public class MyProfileFragment extends Fragment{
         userInfoEntity = Global.getUserInfo();
         initComponents(rootView);
         loadMyDynamic();
+        loadMySeekHelp();
+        loadMyFavorite();
         return  rootView;
     }
 
@@ -122,9 +127,9 @@ public class MyProfileFragment extends Fragment{
         mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(2)));
         //初始化ViewPager的数据集
         List<Fragment> fragments = new ArrayList<>();
-        dynamicFragment = new InfoDetailsFragment();
-        seekHelpFragment = new InfoDetailsFragment();
-        shouCangFragment = new InfoDetailsFragment();
+        dynamicFragment = new FriendDynamicListFragment();
+        seekHelpFragment = new FriendDynamicListFragment();
+        shouCangFragment = new FriendDynamicListFragment();
         fragments.add(dynamicFragment);
         fragments.add(seekHelpFragment);
         fragments.add(shouCangFragment);
@@ -167,67 +172,184 @@ public class MyProfileFragment extends Fragment{
             }
         });
 
-//        recyclerView = (RecyclerView) rootView.findViewById(R.id.freinds_recycler_view);
-//        LinearLayoutManager manager = new LinearLayoutManager(getContext());
-//        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
-//        recyclerView.setLayoutManager(manager);
-//        List<String> items = new ArrayList<>();
-//        for(int j=0; j<18; j++){
-//            items.add("第" + j + "个子元素");
-//        }
-//        recyclerView.setAdapter(new RecyclerView1Adapter(getContext(),items));
+        dynamicFragment.setPtrHandlerListener(new PtrDefaultHandler() {
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                loadMyDynamic();
+            }
+
+        });
+        dynamicFragment.setPtrLoadMore(new OnLoadMoreListener() {
+            @Override
+            public void loadMore() {
+                loadMyDynamicMore();
+            }
+        });
+
+        seekHelpFragment.setPtrHandlerListener(new PtrDefaultHandler() {
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                loadMySeekHelp();
+            }
+
+        });
+        seekHelpFragment.setPtrLoadMore(new OnLoadMoreListener() {
+            @Override
+            public void loadMore() {
+                loadMySeekHelpMore();
+            }
+        });
+
+        shouCangFragment.setPtrHandlerListener(new PtrDefaultHandler() {
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                loadMyFavorite();
+            }
+
+        });
+        shouCangFragment.setPtrLoadMore(new OnLoadMoreListener() {
+            @Override
+            public void loadMore() {
+                loadMyFavoriteMore();
+            }
+        });
     }
 
     private void bindDataToView(){
         initInfo();
     }
 
-    private void loadMyDynamic(){
-        HttpClientUtil.User.userHomeDynamic(1,new AbsHttpResultHandler<UserInfoEntity>() {
-            @Override
-            public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
-                    userInfoEntity = data;
-                    bindDataToView();
-                    dynamicFragment.setList(data.getFriendDynamicEntities());
-                    tabs[0].setmCount(data.getFriendDynamicEntities().size()+"");
-            }
-
-            @Override
-            public void onFailure(int resultCode, String desc) {
-                ToastUtil.showToast(getContext(),desc);
-            }
-        });
-        HttpClientUtil.User.userHomeDynamic(2, new AbsHttpResultHandler<UserInfoEntity>() {
+    private void loadMySeekHelp(){
+        HttpClientUtil.User.userHomeDynamic(2, "", new AbsHttpResultHandler<UserInfoEntity>() {
             @Override
             public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
                 userInfoEntity = data;
+                seekHelpEntities.clear();
+                seekHelpEntities.addAll(data.getFriendDynamicEntities());
                 bindDataToView();
-                seekHelpFragment.setList(data.getFriendDynamicEntities());
-                tabs[1].setmCount(data.getFriendDynamicEntities().size() + "");
-            }
-
-            @Override
-            public void onFailure(int resultCode, String desc) {
-                ToastUtil.showToast(getContext(),desc);
-            }
-        });
-
-        HttpClientUtil.User.homeFavoriteDynamic(1, 1, new AbsHttpResultHandler<UserInfoEntity>() {
-            @Override
-            public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
-                userInfoEntity = data;
-                bindDataToView();
-                List<FriendDynamicEntity> favoriteList = data.getFriendFavoriteEntities();
-                if (favoriteList == null) {
-                    favoriteList = new ArrayList<FriendDynamicEntity>();
-                }
-                shouCangFragment.setList(favoriteList);
-                tabs[2].setmCount(favoriteList.size() + "");
+                seekHelpFragment.loadSuccess(seekHelpEntities);
+                tabs[1].setmCount(seekHelpEntities.size()+"");
             }
 
             @Override
             public void onFailure(int resultCode, String desc) {
                 ToastUtil.showToast(getContext(), desc);
+                seekHelpFragment.loadFaile();
+            }
+        });
+    }
+    private void loadMySeekHelpMore(){
+        String lastID = "";
+        if(seekHelpEntities.size()>1){
+            lastID = seekHelpEntities.get(seekHelpEntities.size()-1).getReleaseId();
+        }
+        HttpClientUtil.User.userHomeDynamic(2, lastID, new AbsHttpResultHandler<UserInfoEntity>() {
+            @Override
+            public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
+                userInfoEntity = data;
+                seekHelpEntities.addAll(data.getFriendDynamicEntities());
+                bindDataToView();
+                seekHelpFragment.loadMore(true, true);
+                tabs[1].setmCount(seekHelpEntities.size()+"");
+            }
+
+            @Override
+            public void onFailure(int resultCode, String desc) {
+                ToastUtil.showToast(getContext(), desc);
+                seekHelpFragment.loadMore(false, true);
+            }
+        });
+    }
+
+    private void loadMyFavoriteMore(){
+        String lastID = "";
+        if(favoriteEntities.size()>1){
+            lastID = favoriteEntities.get(favoriteEntities.size()-1).getReleaseId();
+        }
+        HttpClientUtil.User.homeFavoriteDynamic(1, 1, lastID, new AbsHttpResultHandler<UserInfoEntity>() {
+            @Override
+            public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
+                userInfoEntity = data;
+                if(data.getFriendFavoriteEntities()!=null){
+                    favoriteEntities.addAll(data.getFriendFavoriteEntities());
+                }
+                bindDataToView();
+                shouCangFragment.loadMore(true, true);
+                tabs[2].setmCount(data.getFavorite_num());
+            }
+
+            @Override
+            public void onFailure(int resultCode, String desc) {
+                ToastUtil.showToast(getContext(), desc);
+                shouCangFragment.loadMore(false, true);
+            }
+        });
+    }
+
+    private void loadMyFavorite(){
+        HttpClientUtil.User.homeFavoriteDynamic(1, 1, "", new AbsHttpResultHandler<UserInfoEntity>() {
+            @Override
+            public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
+                userInfoEntity = data;
+                favoriteEntities.clear();
+                if (data.getFriendFavoriteEntities() != null) {
+                    favoriteEntities.addAll(data.getFriendFavoriteEntities());
+                }
+                bindDataToView();
+                shouCangFragment.loadSuccess(favoriteEntities);
+                tabs[2].setmCount(data.getFavorite_num());
+            }
+
+            @Override
+            public void onFailure(int resultCode, String desc) {
+                ToastUtil.showToast(getContext(), desc);
+                shouCangFragment.loadFaile();
+            }
+        });
+    }
+
+    private void loadMyDynamicMore(){
+        String lastID = "";
+        if(dynamicEntities.size()>1){
+            lastID = dynamicEntities.get(dynamicEntities.size()-1).getReleaseId();
+        }
+        HttpClientUtil.User.userHomeDynamic(1, lastID, new AbsHttpResultHandler<UserInfoEntity>() {
+            @Override
+            public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
+                userInfoEntity = data;
+                dynamicEntities.addAll(data.getFriendDynamicEntities());
+                bindDataToView();
+                dynamicFragment.loadMore(true, true);
+                tabs[0].setmCount(dynamicEntities.size()+"");
+            }
+
+            @Override
+            public void onFailure(int resultCode, String desc) {
+                ToastUtil.showToast(getContext(), desc);
+                dynamicFragment.loadFaile();
+                dynamicFragment.loadMore(false, true);
+            }
+        });
+    }
+    private void loadMyDynamic(){
+        HttpClientUtil.User.userHomeDynamic(1,"", new AbsHttpResultHandler<UserInfoEntity>() {
+            @Override
+            public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
+                userInfoEntity = data;
+                dynamicEntities.clear();
+                dynamicEntities.addAll(data.getFriendDynamicEntities());
+                bindDataToView();
+                dynamicFragment.loadSuccess(dynamicEntities);
+                tabs[0].setmCount(dynamicEntities.size()+"");
+            }
+
+            @Override
+            public void onFailure(int resultCode, String desc) {
+                ToastUtil.showToast(getContext(), desc);
+                dynamicFragment.loadFaile();
             }
         });
     }
@@ -241,9 +363,4 @@ public class MyProfileFragment extends Fragment{
         TextViewUtil.setText(rootView,R.id.text_uesr_label,userInfoEntity.getLabel());
         TextViewUtil.setText(rootView, R.id.text_uesr_label_all, userInfoEntity.getProfile());
     }
-
-    private void attention(){
-
-    }
-
 }

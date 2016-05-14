@@ -13,13 +13,15 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.chanven.lib.cptr.PtrDefaultHandler;
+import com.chanven.lib.cptr.PtrFrameLayout;
+import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 import com.xiaoma.beiji.R;
 import com.xiaoma.beiji.base.SimpleBaseActivity;
 import com.xiaoma.beiji.entity.FriendDynamicEntity;
 import com.xiaoma.beiji.entity.UserInfoEntity;
-import com.xiaoma.beiji.fragment.InfoDetailsFragment;
+import com.xiaoma.beiji.fragment.FriendDynamicListFragment;
 import com.xiaoma.beiji.fragment.SearchFriendFragment;
-import com.xiaoma.beiji.fragment.SearchShopFragment;
 import com.xiaoma.beiji.network.AbsHttpResultHandler;
 import com.xiaoma.beiji.network.HttpClientUtil;
 import com.xiaoma.beiji.util.ToastUtil;
@@ -42,15 +44,14 @@ public class SearchActivity extends SimpleBaseActivity implements View.OnClickLi
 
 //    private SearchShopFragment searchShopFragment;
     private SearchFriendFragment searchFriendFragment;
-    private InfoDetailsFragment infoDetailsFragment;
+    private FriendDynamicListFragment infoDetailsFragment;
+    private List<FriendDynamicEntity> dynamicEntities = new ArrayList<>();
 
     private EditText searchEdit;
 
-    private List<Object> dataList = new ArrayList<>();
+    private List<UserInfoEntity> dataList = new ArrayList<>();
 
     private Spinner spinner;
-//    private List<String> data_list;
-//    private ArrayAdapter<String> arr_adapter;
 
     @Override
     protected String getActivityTitle() {
@@ -73,26 +74,22 @@ public class SearchActivity extends SimpleBaseActivity implements View.OnClickLi
             }
         });
         fragmentManager = getSupportFragmentManager();
-//        searchShopFragment = new SearchShopFragment();
         searchFriendFragment = new SearchFriendFragment();
-        infoDetailsFragment = new InfoDetailsFragment();
-//        dataList.add(new Title("热门店铺"));
-//        List<ShopEntity> hotShops = new ArrayList<>();
-//        ShopEntity shopEntity1 = new ShopEntity();
-//        shopEntity1.setShowName("推荐1");
-//        ShopEntity shopEntity2 = new ShopEntity();
-//        shopEntity2.setShowName("推荐2");
-//        hotShops.add(shopEntity1);
-//        hotShops.add(shopEntity2);
-//        HotShop hotShop = new HotShop(hotShops);
-//        dataList.add(hotShop);
-//        dataList.add(new Title("已收藏店铺"));
-//        for(int i=0; i<20; i++){
-//            ShopEntity shopEntity = new ShopEntity();
-//            shopEntity.setShowName("收藏"+i);
-//            dataList.add(shopEntity);
-//        }
+        infoDetailsFragment = new FriendDynamicListFragment();
+        infoDetailsFragment.setPtrHandlerListener(new PtrDefaultHandler() {
 
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                searchDynamic();
+            }
+
+        });
+        infoDetailsFragment.setPtrLoadMore(new OnLoadMoreListener() {
+            @Override
+            public void loadMore() {
+                searchDynamicNextPage();
+            }
+        });
     }
 
 
@@ -129,9 +126,7 @@ public class SearchActivity extends SimpleBaseActivity implements View.OnClickLi
 
     private void searchDynamic(){
         String keywords = searchEdit.getText().toString().trim();
-        HttpClientUtil.Search.searchDynamic(keywords, new AbsHttpResultHandler<FriendDynamicEntity>() {
-
-
+        HttpClientUtil.Search.searchDynamic(keywords, "", new AbsHttpResultHandler<FriendDynamicEntity>() {
             @Override
             public void onSuccess(int resultCode, String desc, FriendDynamicEntity data) {
 
@@ -139,22 +134,51 @@ public class SearchActivity extends SimpleBaseActivity implements View.OnClickLi
 
             @Override
             public void onSuccess(int resultCode, String desc, List<FriendDynamicEntity> list) {
-//                for(FriendDynamicEntity entity: dataList){
-//                    HttpClientUtil.logger(entity.toString());
-//                }
-                if(list==null||list.size()<=0){
-                    ToastUtil.showToast(SearchActivity.this,"暂未搜索到动态");
-                }else{
-                    infoDetailsFragment.setList(list);
+                dynamicEntities.clear();
+                if (list == null || list.size() <= 0) {
+                    ToastUtil.showToast(SearchActivity.this, "暂未搜索到动态");
+                    infoDetailsFragment.loadFaile();
+                } else {
+                    dynamicEntities.addAll(list);
+                    infoDetailsFragment.loadSuccess(dynamicEntities);
                 }
 
             }
 
             @Override
             public void onFailure(int resultCode, String desc) {
-                ToastUtil.showToast(SearchActivity.this,desc);
+                ToastUtil.showToast(SearchActivity.this, desc);
+                infoDetailsFragment.loadFaile();
             }
         });
+    }
+
+    private void searchDynamicNextPage(){
+        String keywords = searchEdit.getText().toString().trim();
+        if(dynamicEntities.size()>0){
+            String lastId = dynamicEntities.get(dataList.size()-1).getReleaseId();
+                    HttpClientUtil.Search.searchDynamic(keywords, lastId ,new AbsHttpResultHandler<FriendDynamicEntity>() {
+                        @Override
+                        public void onSuccess(int resultCode, String desc, FriendDynamicEntity data) {
+
+                        }
+                        @Override
+                        public void onSuccess(int resultCode, String desc, List<FriendDynamicEntity> list) {
+                            if(list==null||list.size()<=0){
+                                infoDetailsFragment.loadMore(true,false);
+                            }else{
+                                dynamicEntities.addAll(list);
+                                infoDetailsFragment.loadMore(true,false);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(int resultCode, String desc) {
+                            ToastUtil.showToast(SearchActivity.this,desc);
+                            infoDetailsFragment.loadFaile();
+                        }
+                    });
+        }
     }
 
     private void searchUser(){

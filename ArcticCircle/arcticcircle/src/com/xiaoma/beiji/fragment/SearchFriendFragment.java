@@ -43,7 +43,7 @@ public class SearchFriendFragment extends Fragment{
 
     private View rootView;
     private RecyclerView mRecyclerView;
-    private List<Object> list = new ArrayList<>();
+    private List<UserInfoEntity> list = new ArrayList<>();
     private RecyclerView.Adapter adapter;
 
     @Nullable
@@ -68,11 +68,11 @@ public class SearchFriendFragment extends Fragment{
         adapter.notifyDataSetChanged();
     }
 
-    public List<Object> getList() {
+    public List<UserInfoEntity> getList() {
         return list;
     }
 
-    public void setList(List<Object> list) {
+    public void setList(List<UserInfoEntity> list) {
         this.list = list;
         if(mRecyclerView!=null){
             adapter = new SearchShopAdpter(getActivity(), list);
@@ -88,9 +88,9 @@ public class SearchFriendFragment extends Fragment{
         private  final int TYPE_FRIEND = 1;
 
         private Context context;
-        private List<Object> list;
+        private List<UserInfoEntity> list;
 
-        public SearchShopAdpter(Context context, List<Object> list) {
+        public SearchShopAdpter(Context context, List<UserInfoEntity> list) {
             this.context = context;
             this.list = list;
         }

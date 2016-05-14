@@ -15,6 +15,9 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.chanven.lib.cptr.PtrDefaultHandler;
+import com.chanven.lib.cptr.PtrFrameLayout;
+import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 import com.makeapp.android.util.TextViewUtil;
 import com.makeapp.javase.lang.StringUtil;
 import com.makeapp.javase.util.DataUtil;
@@ -27,7 +30,7 @@ import com.xiaoma.beiji.controls.view.MyTabLayoutItem;
 import com.xiaoma.beiji.entity.CommonFriends;
 import com.xiaoma.beiji.entity.FriendDynamicEntity;
 import com.xiaoma.beiji.entity.UserInfoEntity;
-import com.xiaoma.beiji.fragment.InfoDetailsFragment;
+import com.xiaoma.beiji.fragment.FriendDynamicListFragment;
 import com.xiaoma.beiji.network.AbsHttpResultHandler;
 import com.xiaoma.beiji.network.HttpClientUtil;
 import com.xiaoma.beiji.util.IntentUtil;
@@ -44,8 +47,11 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
 
-    private InfoDetailsFragment dynamicFragment;
-    private InfoDetailsFragment favoriteFragment;
+    private FriendDynamicListFragment dynamicFragment;
+    private FriendDynamicListFragment favoriteFragment;
+
+    private List<FriendDynamicEntity> dynamicEntities = new ArrayList<>();
+    private List<FriendDynamicEntity> favoriteEntities =  new ArrayList<>();
 
     private CircularImage headView;
     private UserInfoEntity userInfoEntity;
@@ -135,8 +141,8 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
         mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(1)));
         //初始化ViewPager的数据集
         List<Fragment> fragments = new ArrayList<>();
-        dynamicFragment = new InfoDetailsFragment();
-        favoriteFragment = new InfoDetailsFragment();
+        dynamicFragment = new FriendDynamicListFragment();
+        favoriteFragment = new FriendDynamicListFragment();
         fragments.add(dynamicFragment);
         fragments.add(favoriteFragment);
         //创建ViewPager的adapter
@@ -189,47 +195,116 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
 //            items.add("第" + j + "个子元素");
 //        }
 //        recyclerView.setAdapter(new RecyclerView1Adapter(getContext(),items));
+        dynamicFragment.setPtrHandlerListener(new PtrDefaultHandler() {
 
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                loadDynamic(friendId);
+            }
+
+        });
+        dynamicFragment.setPtrLoadMore(new OnLoadMoreListener() {
+            @Override
+            public void loadMore() {
+                loadDynamicMore(friendId);
+            }
+        });
+
+        favoriteFragment.setPtrHandlerListener(new PtrDefaultHandler() {
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                loadFavorite(friendId);
+            }
+
+        });
+        favoriteFragment.setPtrLoadMore(new OnLoadMoreListener() {
+            @Override
+            public void loadMore() {
+                loadFavoriteMore(friendId);
+            }
+        });
     }
 
     private void loadDynamic(int friendId){
-
-        HttpClientUtil.User.friendHomeDynamic(1, friendId, new AbsHttpResultHandler<UserInfoEntity>() {
+        HttpClientUtil.User.friendHomeDynamic(1, friendId, "",new AbsHttpResultHandler<UserInfoEntity>() {
             @Override
             public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
                 userInfoEntity = data;
-//                initInfo();
-                tabs[0].setmCount(data.getFriendDynamicEntities().size() + "");
-                dynamicFragment.setList(data.getFriendDynamicEntities());
+                dynamicEntities.clear();
+                initInfo();
+                dynamicEntities.addAll(data.getFriendDynamicEntities());
+                tabs[0].setmCount(data.getDynamic_num());
+                dynamicFragment.loadSuccess(dynamicEntities);
             }
 
             @Override
             public void onFailure(int resultCode, String desc) {
                 ToastUtil.showToast(ProfileActivity.this, desc);
+                dynamicFragment.loadFaile();
+            }
+        });
+    }
+
+    private void loadDynamicMore(int friendId){
+        String lastId = "";
+        if(dynamicEntities.size()>=1){
+            lastId = dynamicEntities.get(0).getReleaseId();
+        }
+        HttpClientUtil.User.friendHomeDynamic(1, friendId, lastId,new AbsHttpResultHandler<UserInfoEntity>() {
+            @Override
+            public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
+                userInfoEntity = data;
+                initInfo();
+                dynamicEntities.addAll(data.getFriendDynamicEntities());
+                tabs[0].setmCount(data.getDynamic_num());
+                dynamicFragment.loadMore(true, true);
+            }
+
+            @Override
+            public void onFailure(int resultCode, String desc) {
+                ToastUtil.showToast(ProfileActivity.this, desc);
+                dynamicFragment.loadMore(false, true);
             }
         });
     }
 
     private void loadFavorite(int friendId){
-
-        HttpClientUtil.User.friendFavoriteDynamic(1, 1, friendId, new AbsHttpResultHandler<UserInfoEntity>() {
+        HttpClientUtil.User.friendFavoriteDynamic(1, 1, friendId, "", new AbsHttpResultHandler<UserInfoEntity>() {
             @Override
             public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
                 userInfoEntity = data;
+                favoriteEntities.clear();
                 initInfo();
-                if (data.getFriendFavoriteEntities() != null) {
-                    tabs[1].setmCount(data.getFriendFavoriteEntities().size() + "");
-                    favoriteFragment.setList(data.getFriendFavoriteEntities());
-                } else {
-                    tabs[1].setmCount("0");
-                    favoriteFragment.setList(new ArrayList());
-                }
-
+                favoriteEntities.addAll(data.getFriendFavoriteEntities());
+                tabs[1].setmCount(data.getFavorite_num());
+                favoriteFragment.loadSuccess(favoriteEntities);
             }
 
             @Override
             public void onFailure(int resultCode, String desc) {
+                favoriteFragment.loadFaile();
+            }
+        });
+    }
+    private void loadFavoriteMore(int friendId){
+        String lastId = "";
+        if(favoriteEntities.size()>=1){
+            lastId = favoriteEntities.get(0).getReleaseId();
+        }
+        HttpClientUtil.User.friendFavoriteDynamic(1, 1, friendId,lastId, new AbsHttpResultHandler<UserInfoEntity>() {
+            @Override
+            public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
+                userInfoEntity = data;
+                initInfo();
+                favoriteEntities.addAll(data.getFriendFavoriteEntities());
+                tabs[1].setmCount(data.getFavorite_num());
+                favoriteFragment.loadMore(true,true);
+            }
 
+            @Override
+            public void onFailure(int resultCode, String desc) {
+                favoriteFragment.loadMore(false, true);
             }
         });
     }

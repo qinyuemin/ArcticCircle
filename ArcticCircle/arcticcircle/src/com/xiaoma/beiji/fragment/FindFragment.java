@@ -78,7 +78,6 @@ public class FindFragment extends SimpleFragment implements IActionInterFace {
         setTitleControlsInfo(v);
         recyclerView = (RecyclerView) v.findViewById(R.id.find_list);
 
-        PtrFrameLayout.DEBUG = true;
         ptrClassicFrameLayout = (PtrClassicFrameLayout) v.findViewById(R.id.test_recycler_view_frame);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -132,7 +131,7 @@ public class FindFragment extends SimpleFragment implements IActionInterFace {
                         findEntityList.add(entity1);
                     }
                 }
-                ptrClassicFrameLayout.autoRefresh(true);
+//                ptrClassicFrameLayout.autoRefresh(true);
                 ptrClassicFrameLayout.refreshComplete();
                 ptrClassicFrameLayout.setLoadMoreEnable(true);
                 adapter.notifyDataSetChanged();

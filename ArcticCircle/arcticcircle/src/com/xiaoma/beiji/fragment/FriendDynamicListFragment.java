@@ -11,6 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chanven.lib.cptr.PtrClassicFrameLayout;
+import com.chanven.lib.cptr.PtrDefaultHandler;
+import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
+import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
 import com.xiaoma.beiji.R;
 import com.xiaoma.beiji.adapter.RecyclerViewAdapter;
 import com.xiaoma.beiji.common.Global;
@@ -37,10 +41,13 @@ import java.util.List;
  * Time         : 15:09
  * Description  :
  */
-public class InfoDetailsFragment extends Fragment implements IActionInterFace {
+public class FriendDynamicListFragment extends Fragment implements IActionInterFace {
     private RecyclerView mRecyclerView;
+    private PtrClassicFrameLayout ptrClassicFrameLayout;
+    private PtrDefaultHandler ptrDefaultHandler;
+    private OnLoadMoreListener loadMoreListener;
     private List<FriendDynamicEntity> dynamicEntities;
-    private RecyclerViewAdapter adapter;
+    private RecyclerAdapterWithHF adapter;
     protected CommonDialogsInBase commonDialogsInBase = new CommonDialogsInBase();
     private static final int REQUEST_CODE_COMMENT = 0;
 
@@ -50,11 +57,34 @@ public class InfoDetailsFragment extends Fragment implements IActionInterFace {
         }
     }
 
-    public void setList(List list){
+    public void loadSuccess(List<FriendDynamicEntity> list){
         this.dynamicEntities = list;
         if(mRecyclerView!=null){
-            adapter = new RecyclerViewAdapter(getActivity(), dynamicEntities,this);
+            adapter = new RecyclerAdapterWithHF(new RecyclerViewAdapter(getActivity(), dynamicEntities,this));
             mRecyclerView.setAdapter(adapter);
+        }
+        if(ptrClassicFrameLayout!=null){
+            ptrClassicFrameLayout.refreshComplete();
+            if(list.size()>0){
+                ptrClassicFrameLayout.setLoadMoreEnable(true);
+            }
+        }
+
+    }
+
+    public void loadFaile(){
+        if(ptrClassicFrameLayout!=null) {
+            ptrClassicFrameLayout.refreshComplete();
+        }
+    }
+
+    public void loadMore(boolean isSuccess,boolean haMore){
+        if(isSuccess){
+            adapter.notifyDataSetChanged();
+        }
+        if(ptrClassicFrameLayout!=null) {
+            ptrClassicFrameLayout.loadMoreComplete(haMore);
+            ptrClassicFrameLayout.setLoadMoreEnable(true);
         }
     }
 
@@ -67,12 +97,20 @@ public class InfoDetailsFragment extends Fragment implements IActionInterFace {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        mRecyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_layout_list, container, false);
+        ptrClassicFrameLayout = (PtrClassicFrameLayout) inflater.inflate(R.layout.fragment_layout_list, container, false);
+        mRecyclerView = (RecyclerView)ptrClassicFrameLayout.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mRecyclerView.getContext()));
-        adapter = new RecyclerViewAdapter(getActivity(), dynamicEntities,this);
+        adapter = new RecyclerAdapterWithHF(new RecyclerViewAdapter(getActivity(), dynamicEntities,this));
         mRecyclerView.setAdapter(adapter);
-        return mRecyclerView;
+        ptrClassicFrameLayout.disableWhenHorizontalMove(true);
+        ptrClassicFrameLayout.setPtrHandler(ptrDefaultHandler);
+        ptrClassicFrameLayout.setOnLoadMoreListener(loadMoreListener);
+        if(dynamicEntities.size()>0){
+            ptrClassicFrameLayout.setLoadMoreEnable(true);
+        }else{
+            ptrClassicFrameLayout.setLoadMoreEnable(false);
+        }
+        return ptrClassicFrameLayout;
     }
 
     @Override
@@ -254,11 +292,24 @@ public class InfoDetailsFragment extends Fragment implements IActionInterFace {
 
 
     protected void showProgressDialog() {
-        commonDialogsInBase.showProgressDialog(getActivity(),true,null);
+        commonDialogsInBase.showProgressDialog(getActivity(), true, null);
     }
 
+    public void setPtrHandlerListener(PtrDefaultHandler ptrDefaultHandler){
+        this.ptrDefaultHandler = ptrDefaultHandler;
+        if(ptrClassicFrameLayout != null){
+            ptrClassicFrameLayout.setPtrHandler(ptrDefaultHandler);
+        }
+    }
+    public void setPtrLoadMore(OnLoadMoreListener loadMoreListener){
+        this.loadMoreListener = loadMoreListener;
+        if(ptrClassicFrameLayout != null){
+            ptrClassicFrameLayout.setOnLoadMoreListener(loadMoreListener);
+        }
+    }
 
     protected void closeProgressDialog() {
         commonDialogsInBase.closeProgressDialog();
     }
+
 }
