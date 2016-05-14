@@ -591,7 +591,7 @@ public class FindFragment extends SimpleFragment implements IActionInterFace {
             }
         }
 
-        private void initDaren(UserInfoEntity userInfoEntity, TextView nikeName,CircularImage headView,ImageView darenView,TextView labelView,TextView desView,TextView noticeView){
+        private void initDaren(final UserInfoEntity userInfoEntity, TextView nikeName,CircularImage headView,ImageView darenView,TextView labelView,TextView desView,final TextView noticeView){
             nikeName.setText(userInfoEntity.getNickname());
             if(!TextUtils.isEmpty(userInfoEntity.getAvatar())){
                 ImageLoader.getInstance().displayImage(userInfoEntity.getAvatar(), headView);
@@ -608,8 +608,33 @@ public class FindFragment extends SimpleFragment implements IActionInterFace {
             if("1".equals(userInfoEntity.getIs_attention())){
                 noticeView.setText("已关注");
             }else{
-                noticeView.setText("关注Ta");
+                noticeView.setText("关注TA");
             }
+            noticeView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final boolean isAttention = !"1".equals(userInfoEntity.getIs_attention());
+                    HttpClientUtil.Friend.friendAttention(isAttention, userInfoEntity.getUserId(), new AbsHttpResultHandler() {
+                        @Override
+                        public void onSuccess(int resultCode, String desc, Object data) {
+                            if (isAttention) {
+                                ToastUtil.showToast(getActivity(), "关注成功");
+                                userInfoEntity.setIs_attention("1");
+                                noticeView.setText("已关注");
+                            } else {
+                                ToastUtil.showToast(getActivity(), "取消关注成功");
+                                userInfoEntity.setIs_attention("0");
+                                noticeView.setText("关注TA");
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(int resultCode, String desc) {
+                            ToastUtil.showToast(getActivity(), desc);
+                        }
+                    });
+                }
+            });
         }
         private void initDynamicViewHolder(final DynamicViewHolder holder,final FriendDynamicEntity entity){
             String avatar = entity.getAvatar();

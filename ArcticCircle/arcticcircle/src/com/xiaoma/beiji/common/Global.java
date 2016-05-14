@@ -57,9 +57,9 @@ public class Global {
             SharedPreferencesUtil.setSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_SESSION, entity.getUserSession());
             SharedPreferencesUtil.setSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_AVATAR, entity.getAvatar());
             SharedPreferencesUtil.setSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_GENDER, entity.getGender());
-            SharedPreferencesUtil.setSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_GENDER, entity.getGender());
-            SharedPreferencesUtil.setSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_GENDER, entity.getGender());
-            SharedPreferencesUtil.setSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_GENDER, entity.getGender());
+            SharedPreferencesUtil.setSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_LABLE, entity.getLabel());
+            SharedPreferencesUtil.setSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_ADDRESS, entity.getAddress());
+            SharedPreferencesUtil.setSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_PROFILE, entity.getProfile());
             SharedPreferencesUtil.setSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_LAST_LOGIN_TIME, entity.getLastLoginTime());
             SharedPreferencesUtil.setSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_SESSION_EXPIRE_TIME, entity.getSessionExpireTime());
             SharedPreferencesUtil.setSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_IS_ENABLED, entity.getIsEnabled());
