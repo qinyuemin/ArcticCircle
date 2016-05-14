@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
 import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
+import com.makeapp.android.util.ImageViewUtil;
 import com.makeapp.android.util.TextViewUtil;
 import com.makeapp.javase.lang.StringUtil;
 import com.makeapp.javase.util.DataUtil;
@@ -65,6 +66,7 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
     private Switch hidemeToHeFriendsSwitch;
     private Switch addBlackSwitch;
 
+
     MyTabLayoutItem[] tabs;
     private int friendId;
 
@@ -90,9 +92,9 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
         findViewById(R.id.btn_account_setting).setVisibility(View.GONE);
         headView = (CircularImage) findViewById(R.id.img_user_head);
         commonFriendsLabel = (TextView) findViewById(R.id.text_commfriend_label);
-        hidemeSwitch = (Switch) findViewById(R.id.switch_hide_me_to_he);
-        hidemeToHeFriendsSwitch = (Switch) findViewById(R.id.switch_hide_me_to_his_friend);
-        addBlackSwitch = (Switch) findViewById(R.id.switch_add_to_black);
+//        hidemeSwitch = (Switch) findViewById(R.id.switch_hide_me_to_he);
+//        hidemeToHeFriendsSwitch = (Switch) findViewById(R.id.switch_hide_me_to_his_friend);
+//        addBlackSwitch = (Switch) findViewById(R.id.switch_add_to_black);
         commonFriendsRecyclerView = (RecyclerView) findViewById(R.id.freinds_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -100,6 +102,8 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
 //        commonFriendsRecyclerView.setAdapter(new RecyclerView1Adapter(this,new ArrayList<UserInfoEntity>()));
         leftLabel = (TextView) findViewById(R.id.text_left_label);
         rightLabel = (TextView) findViewById(R.id.text_right_label);
+        findViewById(R.id.text_left_label_num).setVisibility(View.GONE);
+        findViewById(R.id.text_right_label_num).setVisibility(View.GONE);
         leftLabel.setOnClickListener(this);
         rightLabel.setOnClickListener(this);
         hidemeSwitch = (Switch) findViewById(R.id.switch_hide_me_to_he);
@@ -227,7 +231,7 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
     }
 
     private void loadDynamic(int friendId){
-        HttpClientUtil.User.friendHomeDynamic(1, friendId, "",new AbsHttpResultHandler<UserInfoEntity>() {
+        HttpClientUtil.User.friendHomeDynamic(1, friendId, "", new AbsHttpResultHandler<UserInfoEntity>() {
             @Override
             public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
                 userInfoEntity = data;
@@ -251,7 +255,7 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
         if(dynamicEntities.size()>=1){
             lastId = dynamicEntities.get(0).getReleaseId();
         }
-        HttpClientUtil.User.friendHomeDynamic(1, friendId, lastId,new AbsHttpResultHandler<UserInfoEntity>() {
+        HttpClientUtil.User.friendHomeDynamic(1, friendId, lastId, new AbsHttpResultHandler<UserInfoEntity>() {
             @Override
             public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
                 userInfoEntity = data;
@@ -292,14 +296,14 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
         if(favoriteEntities.size()>=1){
             lastId = favoriteEntities.get(0).getReleaseId();
         }
-        HttpClientUtil.User.friendFavoriteDynamic(1, 1, friendId,lastId, new AbsHttpResultHandler<UserInfoEntity>() {
+        HttpClientUtil.User.friendFavoriteDynamic(1, 1, friendId, lastId, new AbsHttpResultHandler<UserInfoEntity>() {
             @Override
             public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
                 userInfoEntity = data;
                 initInfo();
                 favoriteEntities.addAll(data.getFriendFavoriteEntities());
                 tabs[1].setmCount(data.getFavorite_num());
-                favoriteFragment.loadMore(true,true);
+                favoriteFragment.loadMore(true, true);
             }
 
             @Override
@@ -344,6 +348,11 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
         TextViewUtil.setText(this, R.id.text_user_address, userInfoEntity.getAddress());
         TextViewUtil.setText(this, R.id.text_uesr_label, userInfoEntity.getLabel());
         TextViewUtil.setText(this, R.id.text_uesr_label_all, userInfoEntity.getProfile());
+        if("1".equals(userInfoEntity.getGender())){
+            ImageViewUtil.setImageSrcId(this, R.id.image_gender, R.drawable.icon_nan);
+        }else{
+            ImageViewUtil.setImageSrcId(this,R.id.image_gender,R.drawable.icon_nv);
+        }
     }
 
     private void attention(final boolean isAttention){
@@ -411,7 +420,7 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
                 }
                 break;
             case R.id.text_left_label:
-                IntentUtil.goChattingActivity(this,userInfoEntity);
+                IntentUtil.goChattingActivity(this, userInfoEntity);
                 break;
             case R.id.btn_back:
                 finish();

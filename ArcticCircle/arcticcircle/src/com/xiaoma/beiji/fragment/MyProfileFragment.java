@@ -8,11 +8,13 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
 import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
+import com.makeapp.android.util.ImageViewUtil;
 import com.makeapp.android.util.TextViewUtil;
 import com.makeapp.javase.lang.StringUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -42,6 +44,7 @@ public class MyProfileFragment extends Fragment{
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
 
+
     private FriendDynamicListFragment dynamicFragment;
     private FriendDynamicListFragment seekHelpFragment;
     private FriendDynamicListFragment shouCangFragment;
@@ -52,6 +55,7 @@ public class MyProfileFragment extends Fragment{
 
     private TextView leftLabel;
     private TextView rightLabel;
+
 
     private CircularImage headView;
 
@@ -360,7 +364,28 @@ public class MyProfileFragment extends Fragment{
             ImageLoader.getInstance().displayImage(userInfoEntity.getAvatar(), headView);
         }
         TextViewUtil.setText(rootView,R.id.text_user_address,userInfoEntity.getAddress());
-        TextViewUtil.setText(rootView,R.id.text_uesr_label,userInfoEntity.getLabel());
+        TextViewUtil.setText(rootView, R.id.text_uesr_label, userInfoEntity.getLabel());
         TextViewUtil.setText(rootView, R.id.text_uesr_label_all, userInfoEntity.getProfile());
+        if("1".equals(userInfoEntity.getGender())){
+            ImageViewUtil.setImageSrcId(rootView,R.id.image_gender,R.drawable.icon_nan);
+        }else{
+            ImageViewUtil.setImageSrcId(rootView,R.id.image_gender,R.drawable.icon_nv);
+        }
+        TextViewUtil.setText(rootView, R.id.text_left_label_num, userInfoEntity.getAttention_friend_num());
+        TextViewUtil.setText(rootView, R.id.text_right_label_num, userInfoEntity.getAttention_user_num());
+        TextViewUtil.setViewOnClickListener(rootView, R.id.text_left_label_num, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        TextViewUtil.setViewOnClickListener(rootView, R.id.text_right_label_num, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
 }

@@ -157,7 +157,7 @@ public class UserInfoEntity extends ContactEntity implements Serializable {
     }
 
     public void setAttention_user_num(String attention_user_num) {
-        this.attention_user_num = attention_user_num;
+        this.attention_friend_num = attention_user_num;
     }
 
     public String getAttention_friend_num() {
