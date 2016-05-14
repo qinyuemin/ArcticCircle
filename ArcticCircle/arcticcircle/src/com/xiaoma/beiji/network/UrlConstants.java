@@ -81,6 +81,9 @@ public class UrlConstants {
     public static final String DYNAMIC_DO_PRAISE = "Dynamic.do_praise";
     public static final String DYNAMIC_DO_SHARE = "Dynamic.do_share";
     public static final String DYNAMIC_DO_FAVORITE = "Dynamic.do_favorite";
+    public static final String DYNAMIC_DO_DELETE = "Dynamic.do_del";
+    public static final String DYNAMIC_DO_REPORT = "Dynamic.do_report";
+    public static final String DYNAMIC_DO_SHIELD = "Dynamic.do_shield";
     public static final String DYNAMIC_FAVORITE_LIST = "Dynamic.favorite_list";
     public static final String DYNAMIC_DO_COMMENT = "Dynamic.do_comment";
     public static final String DYNAMIC_RELEASE_DYNAMIC = "Dynamic.release_dynamic";

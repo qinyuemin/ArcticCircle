@@ -5,8 +5,8 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/dimen_15_dip"
                 android:paddingRight="@dimen/dimen_15_dip"
-                android:paddingTop="7dp"
-                android:paddingBottom="7dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
                 android:gravity="center_vertical"
                 android:background="@color/white"
         >

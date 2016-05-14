@@ -26,6 +26,8 @@ import com.xiaoma.beiji.adapter.RecyclerView1Adapter;
 import com.xiaoma.beiji.base.SimpleBaseActivity;
 import com.xiaoma.beiji.common.Global;
 import com.xiaoma.beiji.controls.acinterface.ICommentInterface;
+import com.xiaoma.beiji.controls.acinterface.IDomoreInterface;
+import com.xiaoma.beiji.controls.dialog.ActionSheetDialog;
 import com.xiaoma.beiji.controls.dialog.CommonDialogsInBase;
 import com.xiaoma.beiji.controls.dialog.InputDialog;
 import com.xiaoma.beiji.controls.sharesdk.ShareSdkUtil;
@@ -101,7 +103,7 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
     }
     protected CommonDialogsInBase commonDialogsInBase = new CommonDialogsInBase();
     protected void showProgressDialog() {
-        commonDialogsInBase.showProgressDialog(this,false,null);
+        commonDialogsInBase.showProgressDialog(this,true,null);
     }
 
     protected void closeProgressDialog() {
@@ -124,7 +126,7 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
         super.setTitleControlsInfo();
         ViewUtil.setViewVisibility(this, R.id.title_bar_right_img, View.VISIBLE);
         ImageViewUtil.setImageSrcId(this, R.id.title_bar_right_img, R.drawable.ic_share);
-        ViewUtil.setViewOnClickListener(this,R.id.title_bar_right_layout,this);
+        ViewUtil.setViewOnClickListener(this, R.id.title_bar_right_layout, this);
     }
 
     @Override
@@ -153,6 +155,125 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
             initView(friendTrendsEntity);
         }
 
+    }
+
+    public void dynamicMore(final FriendDynamicEntity entity, final IDomoreInterface callBack) {
+        try{
+            final List<String> items = new ArrayList<>();
+            if(Global.getUserId() == Integer.valueOf(entity.getUserId())){
+                items.add(IDomoreInterface.TYPE_DELETE);
+                items.add(IDomoreInterface.TYPE_JUBAO);
+            }else{
+                items.add(IDomoreInterface.TYPE_PINGBI);
+                items.add(IDomoreInterface.TYPE_JUBAO);
+                items.add(IDomoreInterface.TYPE_SHOUCANG);
+            }
+            commonDialogsInBase.showChooseDialog(FriendDynamicDetailActivity.this, items, new ActionSheetDialog.OnSheetItemClickListener() {
+                @Override
+                public void onClick(int which) {
+                    String opreate = items.get(which-1);
+                    switch (opreate){
+                        case IDomoreInterface.TYPE_DELETE:
+                            deleteDynamic(entity,callBack);
+                            break;
+                        case IDomoreInterface.TYPE_SHOUCANG:
+                            doFavorite(entity,callBack);
+                            break;
+                        case IDomoreInterface.TYPE_PINGBI:
+                            hideDynamic(entity,callBack);
+                            break;
+                        case IDomoreInterface.TYPE_JUBAO:
+                            reportDynamic(entity,callBack);
+                            break;
+                    }
+                }
+            });
+        }catch (Exception e){
+
+        }
+    }
+
+    private void doFavorite(final FriendDynamicEntity entity,final IDomoreInterface callBack){
+//        int type = entity.isHaveFavorite()?2:1;
+        showProgressDialog();
+        HttpClientUtil.Dynamic.dynamicDoFavorite(entity.getReleaseId(), 1, new AbsHttpResultHandler() {
+            @Override
+            public void onSuccess(int resultCode, String desc, Object data) {
+                callBack.success(entity, IDomoreInterface.TYPE_SHOUCANG);
+                ToastUtil.showToast(FriendDynamicDetailActivity.this, "收藏成功");
+                closeProgressDialog();
+            }
+
+            @Override
+            public void onFailure(int resultCode, String desc) {
+                closeProgressDialog();
+                ToastUtil.showToast(FriendDynamicDetailActivity.this, "收藏失败" + desc);
+            }
+        });
+    }
+
+    private void deleteDynamic(final FriendDynamicEntity entity,final IDomoreInterface callBack){
+        showProgressDialog();
+        HttpClientUtil.Dynamic.dynamicDoDelete(entity.getReleaseId(), new AbsHttpResultHandler() {
+            @Override
+            public void onSuccess(int resultCode, String desc, Object data) {
+                callBack.success(entity, IDomoreInterface.TYPE_DELETE);
+                ToastUtil.showToast(FriendDynamicDetailActivity.this, "删除成功");
+                closeProgressDialog();
+            }
+
+            @Override
+            public void onSuccess(int resultCode, String desc, List data) {
+                super.onSuccess(resultCode, desc, data);
+                callBack.success(entity, IDomoreInterface.TYPE_DELETE);
+                ToastUtil.showToast(FriendDynamicDetailActivity.this, "删除成功");
+                closeProgressDialog();
+            }
+
+            @Override
+            public void onFailure(int resultCode, String desc) {
+                closeProgressDialog();
+                ToastUtil.showToast(FriendDynamicDetailActivity.this, "删除失败" + desc);
+            }
+        });
+    }
+
+    private void reportDynamic(final FriendDynamicEntity entity,final IDomoreInterface callBack){
+        if(Global.getUserId() == Integer.valueOf(entity.getUserId())) //自己不能举报自己吧
+            return;
+        showProgressDialog();
+        HttpClientUtil.Dynamic.dynamicDoReport(entity.getReleaseId(), new AbsHttpResultHandler() {
+            @Override
+            public void onSuccess(int resultCode, String desc, Object data) {
+                callBack.success(entity, IDomoreInterface.TYPE_JUBAO);
+                ToastUtil.showToast(FriendDynamicDetailActivity.this, "举报成功");
+                closeProgressDialog();
+            }
+
+            @Override
+            public void onFailure(int resultCode, String desc) {
+                closeProgressDialog();
+                ToastUtil.showToast(FriendDynamicDetailActivity.this, "举报失败" + desc);
+            }
+        });
+    }
+
+    private void hideDynamic(final FriendDynamicEntity entity,final IDomoreInterface callBack){
+        showProgressDialog();
+        HttpClientUtil.Dynamic.dynamicDoShield(entity.getReleaseId(), new AbsHttpResultHandler() {
+            @Override
+            public void onSuccess(int resultCode, String desc, Object data) {
+                callBack.success(entity, IDomoreInterface.TYPE_PINGBI);
+                ToastUtil.showToast(FriendDynamicDetailActivity.this, "屏蔽成功");
+                closeProgressDialog();
+            }
+
+            @Override
+            public void onFailure(int resultCode, String desc) {
+                closeProgressDialog();
+                ToastUtil.showToast(FriendDynamicDetailActivity.this, "屏蔽失败"+desc);
+            }
+        });
     }
 
     public void dynamicDoComment(final FriendDynamicEntity entity, final ICommentInterface handler) {
@@ -277,6 +398,25 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
             @Override
             public void onClick(View v) {
                 Log.d("AAA", "moreBtn onClick");
+                dynamicMore(entity, new IDomoreInterface() {
+                    @Override
+                    public void success(FriendDynamicEntity entity, String type) {
+                        switch (type) {
+                            case IDomoreInterface.TYPE_DELETE:
+//                                mFindEntityList.remove(entity);
+//                                notifyDataSetChanged();
+                                break;
+                            case IDomoreInterface.TYPE_PINGBI:
+//                                mFindEntityList.remove(entity);
+//                                notifyDataSetChanged();
+                                break;
+                            case IDomoreInterface.TYPE_SHOUCANG:
+                                break;
+                            case IDomoreInterface.TYPE_JUBAO:
+                                break;
+                        }
+                    }
+                });
             }
         });
         if(entity.isHavePraise()){

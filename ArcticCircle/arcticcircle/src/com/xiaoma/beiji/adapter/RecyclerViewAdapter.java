@@ -20,6 +20,7 @@ import com.xiaoma.beiji.R;
 import com.xiaoma.beiji.common.Global;
 import com.xiaoma.beiji.controls.acinterface.IActionInterFace;
 import com.xiaoma.beiji.controls.acinterface.ICommentInterface;
+import com.xiaoma.beiji.controls.acinterface.IDomoreInterface;
 import com.xiaoma.beiji.controls.sharesdk.ShareSdkUtil;
 import com.xiaoma.beiji.controls.view.CircularImage;
 import com.xiaoma.beiji.controls.view.ExpandListView;
@@ -184,6 +185,27 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             @Override
             public void onClick(View v) {
                 Log.d("AAA","moreBtn onClick");
+                if(actionListener != null){
+                    actionListener.dynamicMore(entity, new IDomoreInterface() {
+                        @Override
+                        public void success(FriendDynamicEntity entity, String type) {
+                            switch (type){
+                                case IDomoreInterface.TYPE_DELETE:
+                                    list.remove(entity);
+                                    notifyDataSetChanged();
+                                    break;
+                                case IDomoreInterface.TYPE_PINGBI:
+                                    list.remove(entity);
+                                    notifyDataSetChanged();
+                                    break;
+                                case IDomoreInterface.TYPE_SHOUCANG:
+                                    break;
+                                case IDomoreInterface.TYPE_JUBAO:
+                                    break;
+                            }
+                        }
+                    });
+                }
             }
         });
         if(entity.isHavePraise()){
@@ -341,6 +363,27 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             @Override
             public void onClick(View v) {
                 Log.d("AAA","moreBtn onClick");
+                if(actionListener != null){
+                    actionListener.dynamicMore(entity, new IDomoreInterface() {
+                        @Override
+                        public void success(FriendDynamicEntity entity, String type) {
+                            switch (type){
+                                case IDomoreInterface.TYPE_DELETE:
+                                    list.remove(entity);
+                                    notifyDataSetChanged();
+                                    break;
+                                case IDomoreInterface.TYPE_PINGBI:
+                                    list.remove(entity);
+                                    notifyDataSetChanged();
+                                    break;
+                                case IDomoreInterface.TYPE_SHOUCANG:
+                                    break;
+                                case IDomoreInterface.TYPE_JUBAO:
+                                    break;
+                            }
+                        }
+                    });
+                }
             }
         });
         if(entity.isHavePraise()){
@@ -498,6 +541,27 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             @Override
             public void onClick(View v) {
                 Log.d("AAA","moreBtn onClick");
+                if(actionListener != null){
+                    actionListener.dynamicMore(entity, new IDomoreInterface() {
+                        @Override
+                        public void success(FriendDynamicEntity entity, String type) {
+                            switch (type){
+                                case IDomoreInterface.TYPE_DELETE:
+                                    list.remove(entity);
+                                    notifyDataSetChanged();
+                                    break;
+                                case IDomoreInterface.TYPE_PINGBI:
+                                    list.remove(entity);
+                                    notifyDataSetChanged();
+                                    break;
+                                case IDomoreInterface.TYPE_SHOUCANG:
+                                    break;
+                                case IDomoreInterface.TYPE_JUBAO:
+                                    break;
+                            }
+                        }
+                    });
+                }
             }
         });
         if(entity.isHavePraise()){

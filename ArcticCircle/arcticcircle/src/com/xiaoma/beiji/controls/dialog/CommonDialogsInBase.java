@@ -3,6 +3,8 @@ package com.xiaoma.beiji.controls.dialog;
 import android.app.Activity;
 import android.content.DialogInterface;
 
+import java.util.List;
+
 /**
  * Created by zhangqibo on 2016/5/11.
  */
@@ -39,5 +41,14 @@ public class CommonDialogsInBase {
         if (!inputDialog.isShowing()) {
             inputDialog.show();
         }
+    }
+
+    public void showChooseDialog(Activity activity,List<String> items,ActionSheetDialog.OnSheetItemClickListener listener){
+        ActionSheetDialog dialog =  new ActionSheetDialog(activity).builder();
+        dialog.setCancelable(true).setCanceledOnTouchOutside(true);
+        for(String str : items){
+            dialog.addSheetItem(str, ActionSheetDialog.SheetItemColor.Gray,listener);
+        }
+        dialog.show();
     }
 }

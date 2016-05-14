@@ -559,7 +559,48 @@ public class HttpClientUtil {
             params.put("user_session", Global.getUserSession());
             params.put("release_id", releaseId);
             params.put("favorite_type", type);
-            executeAction(UrlConstants.DYNAMIC_DO_FAVORITE, Boolean.class, params, handler);
+            executeAction(UrlConstants.DYNAMIC_DO_FAVORITE, Object.class, params, handler);
+        }
+
+        /**
+         * 动态举报
+         * user_id                         # 用户ID
+         * release_id                      # 动态发布ID
+         */
+        public static void dynamicDoReport(String releaseId,  AbsHttpResultHandler handler) {
+            Map<String, Object> params = new HashMap<>();
+            params.put("user_id", Global.getUserId());
+            params.put("user_session", Global.getUserSession());
+            params.put("release_id", releaseId);
+            params.put("report_type", "1");
+            executeAction(UrlConstants.DYNAMIC_DO_REPORT, Object.class, params, handler);
+        }
+
+        /**
+         * 动态屏蔽
+         * user_id                         # 用户ID
+         * release_id                      # 动态发布ID
+         */
+        public static void dynamicDoShield(String releaseId,  AbsHttpResultHandler handler) {
+            Map<String, Object> params = new HashMap<>();
+            params.put("user_id", Global.getUserId());
+            params.put("user_session", Global.getUserSession());
+            params.put("release_id", releaseId);
+            params.put("shield_type", "1");
+            executeAction(UrlConstants.DYNAMIC_DO_SHIELD, Object.class, params, handler);
+        }
+
+        /**
+         * 动态删除
+         * user_id                         # 用户ID
+         * release_id                      # 动态发布ID
+         */
+        public static void dynamicDoDelete(String releaseId,  AbsHttpResultHandler handler) {
+            Map<String, Object> params = new HashMap<>();
+            params.put("user_id", Global.getUserId());
+            params.put("user_session", Global.getUserSession());
+            params.put("release_id", releaseId);
+            executeAction(UrlConstants.DYNAMIC_DO_DELETE, Object.class, params, handler);
         }
 
         /**
