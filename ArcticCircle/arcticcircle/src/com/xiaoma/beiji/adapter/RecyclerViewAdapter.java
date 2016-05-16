@@ -52,14 +52,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     //1 用户动态 2 用户求助  3 用户推荐店铺 4 店铺推广 5 朋友加入 6 转发点评 7长文 8转发长文
 
-    private static final int TYPE_DIANPING = 1;
-    private static final int TYPE_WENWEN = 2;
-    private static final int TYPE_TUIJIAN_SHOP = 3;
-    private static final int TYPE_GUANGGAO  = 4;
-    private static final int TYPE_FRIEND_JOIN  = 5;
-    private static final int TYPE_ZHUANFA_DIANPING = 6;
-    private static final int TYPE_CHANGWEN = 7;
-    private static final int TYPE_ZHUANFA_CHANGWEN  = 8;
+    public static final int TYPE_DIANPING = 1;
+    public static final int TYPE_WENWEN = 2;
+    public static final int TYPE_TUIJIAN_SHOP = 3;
+    public static final int TYPE_GUANGGAO  = 4;
+    public static final int TYPE_FRIEND_JOIN  = 5;
+    public static final int TYPE_ZHUANFA_DIANPING = 6;
+    public static final int TYPE_CHANGWEN = 7;
+    public static final int TYPE_ZHUANFA_CHANGWEN  = 8;
 
 //    private static final int TYPE_TUIJIAN_PINGLUN  = 7;
 
@@ -147,6 +147,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private void initWenWenViewHolder(final WenWenViewHolder holder,final FriendDynamicEntity entity){
+        holder.flagText.setText(entity.getReleaseTypeTitle());
         if(StringUtil.isValid(entity.getAvatar())){
             ImageLoader.getInstance().displayImage(entity.getAvatar(), holder.headImage);
         }
@@ -172,7 +173,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         final List<UserInfoEntity> lickUser = entity.getPraiseUsers() != null ? entity.getPraiseUsers() : new ArrayList<UserInfoEntity>();
         holder.likeLabel.setText(String.format("%d", lickUser.size()));
 
-        List<String> shareUsers = entity.getShare_user_nickname()!= null ? entity.getShare_user_nickname() : new ArrayList<String>();
+        final List<String> shareUsers = entity.getShare_user_nickname()!= null ? entity.getShare_user_nickname() : new ArrayList<String>();
         holder.shareLabel.setText(String.format("%d", shareUsers.size()));
         holder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -250,6 +251,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             @Override
             public void onClick(View v) {
                 Log.d("AAA", "shareLayout onClick");
+                actionListener.dynamicDoShare(entity, new AbsHttpResultHandler() {
+                    @Override
+                    public void onSuccess(int resultCode, String desc, Object data) {
+                        shareUsers.add(Global.getUserInfo().getNickname());
+                        holder.shareLabel.setText(String.format("%d", shareUsers.size()));
+                    }
+
+                    @Override
+                    public void onFailure(int resultCode, String desc) {
+
+                    }
+                });
             }
         });
         holder.addCommentLayout.setOnClickListener(new View.OnClickListener() {
@@ -310,6 +323,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
     private void initArticleViewHolder(final ArticleViewHolder holder,final FriendDynamicEntity entity){
+        holder.flagText.setText(entity.getReleaseTypeTitle());
         if(StringUtil.isValid(entity.getAvatar())){
             ImageLoader.getInstance().displayImage(entity.getAvatar(), holder.headImage);
         }
@@ -339,7 +353,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         final List<UserInfoEntity> lickUser = entity.getPraiseUsers() != null ? entity.getPraiseUsers() : new ArrayList<UserInfoEntity>();
         holder.likeLabel.setText(String.format("%d",lickUser.size()));
 
-        List<String> shareUsers = entity.getShare_user_nickname()!= null ? entity.getShare_user_nickname() : new ArrayList<String>();
+        final List<String> shareUsers = entity.getShare_user_nickname()!= null ? entity.getShare_user_nickname() : new ArrayList<String>();
         holder.shareLabel.setText(String.format("%d",shareUsers.size()));
         if(shareUsers.size()>0){
             StringBuffer contentBuffer = new StringBuffer();
@@ -427,6 +441,33 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             @Override
             public void onClick(View v) {
                 Log.d("AAA", "shareLayout onClick");
+                actionListener.dynamicDoShare(entity, new AbsHttpResultHandler() {
+                    @Override
+                    public void onSuccess(int resultCode, String desc, Object data) {
+                        shareUsers.add(Global.getUserInfo().getNickname());
+                        if(shareUsers.size()>0){
+                            StringBuffer contentBuffer = new StringBuffer();
+                            contentBuffer.append("已有");
+                            for(int i= 0; i< shareUsers.size(); i++){
+                                if(i== 0){
+                                    contentBuffer.append("@").append(shareUsers.get(i));
+                                }else {
+                                    contentBuffer.append("、@").append(shareUsers.get(i));
+                                }
+                            }
+                            contentBuffer.append("推荐");
+                            holder.shareUsers.setText(contentBuffer);
+                            holder.shareUsers.setVisibility(View.VISIBLE);
+                        }else {
+                            holder.shareUsers.setVisibility(View.GONE);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int resultCode, String desc) {
+
+                    }
+                });
             }
         });
         holder.addCommentLayout.setOnClickListener(new View.OnClickListener() {
@@ -445,6 +486,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private void initDynamicViewHolder(final DynamicViewHolder holder,final FriendDynamicEntity entity){
+        holder.flagText.setText(entity.getReleaseTypeTitle());
         String avatar = entity.getAvatar();
         holder.timeTextView.setText(TimeUtil.getDisplayTime(entity.getCreateTime(),"yyyy-MM-dd HH:mm:ss"));
         holder.headImage.setImageResource(R.drawable.ic_logo);
@@ -513,7 +555,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             });
         }
-        List<String> shareUsers = entity.getShare_user_nickname()!= null ? entity.getShare_user_nickname() : new ArrayList<String>();
+        final List<String> shareUsers = entity.getShare_user_nickname()!= null ? entity.getShare_user_nickname() : new ArrayList<String>();
         if(shareUsers.size()>0){
             StringBuffer contentBuffer = new StringBuffer();
             contentBuffer.append("已有 ");
@@ -607,7 +649,35 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             public void onClick(View v) {
                 Log.d("AAA","shareLayout onClick");
                 if(actionListener!=null){
-                    ShareSdkUtil.showShare(mContext, entity.getDynamicId());
+                    actionListener.dynamicDoShare(entity, new AbsHttpResultHandler() {
+                        @Override
+                        public void onSuccess(int resultCode, String desc, Object data) {
+                            shareUsers.add(Global.getUserInfo().getNickname());
+                            if(shareUsers.size()>0){
+                                StringBuffer contentBuffer = new StringBuffer();
+                                contentBuffer.append("已有 ");
+                                for(int i= 0; i< shareUsers.size(); i++){
+                                    if(i== 0){
+                                        contentBuffer.append("@").append(shareUsers.get(i));
+                                    }else {
+                                        contentBuffer.append("、@").append(shareUsers.get(i));
+                                    }
+                                }
+                                contentBuffer.append(" 推荐");
+                                holder.shareUsers.setText(contentBuffer);
+                                holder.shareUsers.setVisibility(View.VISIBLE);
+                            }else {
+//            holder.shareUsers.setVisibility(View.GONE);
+                                holder.shareUsers.setText("暂无人推荐");
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(int resultCode, String desc) {
+
+                        }
+                    });
+//                    ShareSdkUtil.showShare(mContext, entity.getDynamicId());
 //                    actionListener.dynamicDoFaavorite(entity, new AbsHttpResultHandler() {
 //                        @Override
 //                        public void onSuccess(int resultCode, String desc, Object data) {
@@ -697,6 +767,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public TextView commentLabel;
         public TextView shareUsers;
         public TextView timeTextView;
+        public TextView flagText;
 
         public ImageView moreBtn;
         public ImageView likeBtn;
@@ -724,6 +795,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             likeBtn = (ImageView) view.findViewById(R.id.btn_like);
             shareBtn = (ImageView) view.findViewById(R.id.btn_recommend);
             addCommentBtn = (ImageView) view.findViewById(R.id.btn_add_comment);
+            flagText = (TextView) view.findViewById(R.id.text_item_flag);
         }
     }
 
@@ -740,12 +812,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public TextView shareLabel;
         public TextView shareUsers;
         public TextView timeTextView;
-
+        public TextView flagText;
         public ImageView moreBtn;
         public ImageView likeBtn;
         public RelativeLayout likeLayout;
         public RelativeLayout shareLayout;
         public RelativeLayout addCommentLayout;
+
 
         public ArticleViewHolder(View view) {
             super(view);
@@ -765,6 +838,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             likeLayout = (RelativeLayout) view.findViewById(R.id.layout_like);
             shareLayout = (RelativeLayout) view.findViewById(R.id.layout_recommend);
             addCommentLayout = (RelativeLayout) view.findViewById(R.id.layout_add_comment);
+            flagText = (TextView) view.findViewById(R.id.text_item_flag);
         }
     }
 
@@ -808,7 +882,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public TextView likeLabel;
         public TextView shareLabel;
         public TextView timeTextView;
-
+        public TextView flagText;
         public ImageView moreBtn;
         public ImageView likeBtn;
         public RelativeLayout likeLayout;
@@ -834,7 +908,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             likeLayout = (RelativeLayout) view.findViewById(R.id.layout_like);
             shareLayout = (RelativeLayout) view.findViewById(R.id.layout_recommend);
             addCommentLayout = (RelativeLayout) view.findViewById(R.id.layout_add_comment);
-
+            flagText = (TextView) view.findViewById(R.id.text_item_flag);
         }
     }
 

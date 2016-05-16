@@ -339,7 +339,7 @@ public class FriendDynamicAdapter extends BaseAdapter {
 //                        AdapterViewUtil.startScale(activity, view, txtA, llAction, imgA);
 //                    }
 //
-//                    HttpClientUtil.Dynamic.dynamicDoFavorite(entity.getReleaseId(), entity.isHaveFavorite() ? 2 : 1, new AbsHttpResultHandler() {
+//                    HttpClientUtil.Dynamic.dynamicDoShare(entity.getReleaseId(), entity.isHaveFavorite() ? 2 : 1, new AbsHttpResultHandler() {
 //                        @Override
 //                        public void onSuccess(int resultCode, String desc, Object data) {
 //                            entity.setHaveFavorite(!entity.isHaveFavorite());
@@ -527,7 +527,7 @@ public class FriendDynamicAdapter extends BaseAdapter {
 //                        AdapterViewUtil.startScale(activity, view, txtA, llAction, imgA);
 //                    }
 //
-//                    HttpClientUtil.Dynamic.dynamicDoFavorite(entity.getReleaseId(), entity.isHaveFavorite() ? 2 : 1, new AbsHttpResultHandler() {
+//                    HttpClientUtil.Dynamic.dynamicDoShare(entity.getReleaseId(), entity.isHaveFavorite() ? 2 : 1, new AbsHttpResultHandler() {
 //                        @Override
 //                        public void onSuccess(int resultCode, String desc, Object data) {
 //                            entity.setHaveFavorite(!entity.isHaveFavorite());

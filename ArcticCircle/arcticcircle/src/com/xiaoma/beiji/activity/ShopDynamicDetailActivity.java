@@ -172,7 +172,7 @@ public class ShopDynamicDetailActivity extends SimpleBaseActivity implements Vie
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.txt_collect:
-//                HttpClientUtil.Dynamic.dynamicDoFavorite(releaseId, friendTrendsEntity.isHaveFavorite() ? 2 : 1, new AbsHttpResultHandler() {
+//                HttpClientUtil.Dynamic.dynamicDoShare(releaseId, friendTrendsEntity.isHaveFavorite() ? 2 : 1, new AbsHttpResultHandler() {
 //                    @Override
 //                    public void onSuccess(int resultCode, String desc, Object data) {
 //                        friendTrendsEntity.setHaveFavorite(!friendTrendsEntity.isHaveFavorite());

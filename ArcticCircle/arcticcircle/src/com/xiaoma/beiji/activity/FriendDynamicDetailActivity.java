@@ -306,6 +306,9 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
         });
     }
 
+    private void doShare(AbsHttpResultHandler absHttpResultHandler){
+        commonDialogsInBase.shoShareDialog(this,friendTrendsEntity,absHttpResultHandler);
+    }
     private void initView(final FriendDynamicEntity entity){
         String avatar = entity.getAvatar();
         timeTextView.setText(TimeUtil.getDisplayTime(entity.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
@@ -375,15 +378,15 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
                 }
             });
         }
-        List<String> shareUsers = entity.getShare_user_nickname()!= null ? entity.getShare_user_nickname() : new ArrayList<String>();
-        if(shareUsers.size()>0){
+        final  List<String> shareUsersList = entity.getShare_user_nickname()!= null ? entity.getShare_user_nickname() : new ArrayList<String>();
+        if(shareUsersList.size()>0){
             StringBuffer contentBuffer = new StringBuffer();
             contentBuffer.append("已有 ");
-            for(int i= 0; i< shareUsers.size(); i++){
+            for(int i= 0; i< shareUsersList.size(); i++){
                 if(i== 0){
-                    contentBuffer.append("@").append(shareUsers.get(i));
+                    contentBuffer.append("@").append(shareUsersList.get(i));
                 }else {
-                    contentBuffer.append("、@").append(shareUsers.get(i));
+                    contentBuffer.append("、@").append(shareUsersList.get(i));
                 }
             }
             contentBuffer.append(" 推荐");
@@ -464,8 +467,35 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
             @Override
             public void onClick(View v) {
                 Log.d("AAA","shareLayout onClick");
+                doShare(new AbsHttpResultHandler() {
+                    @Override
+                    public void onSuccess(int resultCode, String desc, Object data) {
+                        shareUsersList.add(Global.getUserInfo().getNickname());
+                        if(shareUsersList.size()>0){
+                            StringBuffer contentBuffer = new StringBuffer();
+                            contentBuffer.append("已有 ");
+                            for(int i= 0; i< shareUsersList.size(); i++){
+                                if(i== 0){
+                                    contentBuffer.append("@").append(shareUsersList.get(i));
+                                }else {
+                                    contentBuffer.append("、@").append(shareUsersList.get(i));
+                                }
+                            }
+                            contentBuffer.append(" 推荐");
+                            shareUsers.setText(contentBuffer);
+                            shareUsers.setVisibility(View.VISIBLE);
+                        }else {
+                            shareUsers.setText("暂无人推荐");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int resultCode, String desc) {
+
+                    }
+                });
 //                if(actionListener!=null){
-                    ShareSdkUtil.showShare(FriendDynamicDetailActivity.this, entity.getDynamicId());
+//                    ShareSdkUtil.showShare(FriendDynamicDetailActivity.this, entity.getDynamicId());
 //                    actionListener.dynamicDoFaavorite(entity, new AbsHttpResultHandler() {
 //                        @Override
 //                        public void onSuccess(int resultCode, String desc, Object data) {
@@ -565,7 +595,7 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
 //                    imgA.setImageResource(R.drawable.ic_collected);
 //                    AdapterViewUtil.startScale(this,view, txtA, llAction, imgA);
 //                }
-//                HttpClientUtil.Dynamic.dynamicDoFavorite(releaseId, friendTrendsEntity.isHaveFavorite() ? 2 : 1, new AbsHttpResultHandler() {
+//                HttpClientUtil.Dynamic.dynamicDoShare(releaseId, friendTrendsEntity.isHaveFavorite() ? 2 : 1, new AbsHttpResultHandler() {
 //                    @Override
 //                    public void onSuccess(int resultCode, String desc, Object data) {
 //                        friendTrendsEntity.setHaveFavorite(!friendTrendsEntity.isHaveFavorite());

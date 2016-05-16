@@ -206,8 +206,8 @@ public class FriendDynamicFragment extends SimpleFragment implements IActionInte
 
 
     @Override
-    public void dynamicDoFavorite(FriendDynamicEntity entity, AbsHttpResultHandler handler) {
-
+    public void dynamicDoShare(FriendDynamicEntity entity, AbsHttpResultHandler handler) {
+        commonDialogsInBase.shoShareDialog(getActivity(),entity,handler);
     }
 
     @Override

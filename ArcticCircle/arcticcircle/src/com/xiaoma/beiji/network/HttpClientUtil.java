@@ -546,7 +546,7 @@ public class HttpClientUtil {
             Map<String, Object> params = new HashMap<>();
             params.put("user_id", Global.getUserId());
             params.put("user_session", Global.getUserSession());
-            params.put("dynamic_id", dynamicId);
+            params.put("release_id", dynamicId);
             params.put("description", description);
             executeAction(UrlConstants.DYNAMIC_DO_SHARE, JSONObject.class, params, handler);
         }
