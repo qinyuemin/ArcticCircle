@@ -78,7 +78,7 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
     public TextView commentLabel;
     public TextView shareUsers;
     public TextView timeTextView;
-
+    public TextView flagText;
     public ImageView moreBtn;
     public ImageView likeBtn;
     public ImageView shareBtn;
@@ -89,16 +89,16 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
 
     @Override
     protected String getActivityTitle() {
-        String title = "";
-        switch (friendTrendsEntity.getReleaseType()){
-            case 1:
-                title = "点评详情";
-                break;
-            case 2:
-                title = "问问详情";
-                break;
-
-        }
+        String title = "详情";
+//        switch (friendTrendsEntity.getReleaseType()){
+//            case 1:
+//                title = "点评详情";
+//                break;
+//            case 2:
+//                title = "问问详情";
+//                break;
+//
+//        }
         return title;
     }
     protected CommonDialogsInBase commonDialogsInBase = new CommonDialogsInBase();
@@ -132,6 +132,7 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
     @Override
     protected void initComponents() {
         setTitleControlsInfo();
+        flagText = (TextView) findViewById(R.id.text_item_flag);
         titleTextView = (TextView) findViewById(R.id.text_photo_title);
         shopNameLayout = (LinearLayout) findViewById(R.id.layout_shop_name);
         contentTextView = (TextView) findViewById(R.id.text_photo_content);
@@ -310,6 +311,7 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
         commonDialogsInBase.shoShareDialog(this,friendTrendsEntity,absHttpResultHandler);
     }
     private void initView(final FriendDynamicEntity entity){
+        flagText.setText(entity.getReleaseTypeTitle());
         String avatar = entity.getAvatar();
         timeTextView.setText(TimeUtil.getDisplayTime(entity.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
         headImage.setImageResource(R.drawable.ic_logo);
