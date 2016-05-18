@@ -12,6 +12,7 @@ import com.makeapp.javase.util.DateUtil;
 import com.xiaoma.beiji.R;
 import com.xiaoma.beiji.base.SimpleBaseActivity;
 import com.xiaoma.beiji.common.AppConstants;
+import com.xiaoma.beiji.common.Global;
 import com.xiaoma.beiji.controls.view.imagechooser.ImageChooserGroupActivity;
 import com.xiaoma.beiji.entity.FileUploadResultEntity;
 import com.xiaoma.beiji.network.AbsHttpResultHandler;
@@ -91,6 +92,9 @@ public class AccountSettingActivity extends SimpleBaseActivity implements View.O
                 break;
 
             case R.id.layout_account_exit: //安全退出
+                Global.cleanUser();
+                IntentUtil.goUserLoginActivity(this);
+                finish();
                 break;
         }
     }

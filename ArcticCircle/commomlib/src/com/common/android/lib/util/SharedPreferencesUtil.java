@@ -41,7 +41,7 @@ public class SharedPreferencesUtil {
     }
 
     public static boolean getSettingBoolean(Context context, String prefName,String name) {
-        return getSettingBoolean(context,prefName, name, false);
+        return getSettingBoolean(context, prefName, name, false);
     }
 
     public static boolean getSettingBoolean(Context context, String prefName,String name, boolean defaultVal) {
@@ -62,6 +62,13 @@ public class SharedPreferencesUtil {
         SharedPreferences setting = context.getSharedPreferences(prefName, Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = setting.edit();
         editor.putString(name, value);
+        editor.commit();
+    }
+
+    public static void removeSetting(Context context, String prefName,String name) {
+        SharedPreferences setting = context.getSharedPreferences(prefName, Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = setting.edit();
+        editor.remove(name);
         editor.commit();
     }
 

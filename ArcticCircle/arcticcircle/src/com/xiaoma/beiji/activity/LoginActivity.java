@@ -6,12 +6,15 @@
  */
 package com.xiaoma.beiji.activity;
 
+import android.os.*;
+import android.os.Process;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -216,5 +219,16 @@ public class LoginActivity extends SimpleBaseActivity implements View.OnClickLis
                 ToastUtil.showToast(LoginActivity.this, "登录失败:" + desc);
             }
         });
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            System.exit(0);
+            android.os.Process.killProcess(Process.myPid());
+            return true;
+        }else{
+            return super.onKeyDown(keyCode,event);
+        }
     }
 }

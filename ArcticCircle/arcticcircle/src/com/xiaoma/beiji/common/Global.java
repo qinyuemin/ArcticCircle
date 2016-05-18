@@ -67,6 +67,25 @@ public class Global {
         }
     }
 
+    public static void cleanUser(){
+        userInfo = null;
+        Context context = BaseApplication.getInstance().getApplicationContext();
+        String prfName = AppConstants.SHARED_PREFERENCES_BASE_NAME;
+        SharedPreferencesUtil.removeSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_ID);
+        SharedPreferencesUtil.removeSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_NICKNAME);
+        SharedPreferencesUtil.removeSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_PHONE);
+        SharedPreferencesUtil.removeSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_SESSION);
+        SharedPreferencesUtil.removeSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_AVATAR);
+        SharedPreferencesUtil.removeSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_GENDER);
+        SharedPreferencesUtil.removeSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_LABLE);
+        SharedPreferencesUtil.removeSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_ADDRESS);
+        SharedPreferencesUtil.removeSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_PROFILE);
+        SharedPreferencesUtil.removeSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_LAST_LOGIN_TIME);
+        SharedPreferencesUtil.removeSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_SESSION_EXPIRE_TIME);
+        SharedPreferencesUtil.removeSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_IS_ENABLED);
+        SharedPreferencesUtil.removeSetting(context, prfName, AppConstants.SharedPreferencesConstant.SHARED_USER_CREATE_TIME);
+    }
+
     public static UserInfoEntity getUserInfo() {
         if (userInfo == null) {
             // 取
