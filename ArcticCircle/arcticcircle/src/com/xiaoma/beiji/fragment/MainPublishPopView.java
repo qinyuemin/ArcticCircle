@@ -35,7 +35,7 @@ public class MainPublishPopView extends PopupWindow implements View.OnClickListe
         switch (v.getId()){
             case R.id.publish_changwen:
 //                ToastUtil.showToast(context,"敬请期待");
-                IntentUtil.goTrendsPublishActivity((Activity) context, PublishActivity.PUBLISH_CHANGWEN);
+                IntentUtil.goTrendsPublishArticleActivity((Activity) context);
                 break;
             case R.id.publish_dianping:
                 IntentUtil.goTrendsPublishActivity((Activity) context,  PublishActivity.PUBLISH_DIANPING);

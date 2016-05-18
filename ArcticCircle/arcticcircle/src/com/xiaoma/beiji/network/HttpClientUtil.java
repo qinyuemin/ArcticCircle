@@ -1,5 +1,6 @@
 package com.xiaoma.beiji.network;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xiaoma.beiji.BuildConfig;
 import com.xiaoma.beiji.common.Global;
@@ -10,7 +11,6 @@ import com.loopj.android.http.RequestParams;
 import com.makeapp.javase.util.DateUtil;
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.StringEntity;
-import org.json.JSONArray;
 
 import java.io.*;
 import java.security.NoSuchAlgorithmException;
@@ -347,36 +347,39 @@ public class HttpClientUtil {
             executeAction(UrlConstants.USER_GET_DYNAMIC_COMMENTS, JSONObject.class, params, handler);
         }
 
-        public static void userHomeDynamic(int type,String  lastId, AbsHttpResultHandler handler) {
+        public static void userHomeDynamic(int type,String  lastId,String newestId ,AbsHttpResultHandler handler) {
             Map<String, Object> params = new HashMap<>();
             params.put("user_id", Global.getUserId());
             params.put("user_session", Global.getUserSession());
             params.put("release_type", type);
             params.put("last_release_id", lastId);
+            params.put("newest_release_id", newestId);
             executeAction(UrlConstants.USER_HOME_DYNAMIC, UserInfoEntity.class, params, handler);
         }
 
-        public static void friendHomeDynamic(int type, int friendId ,String  lastId, AbsHttpResultHandler handler) {
+        public static void friendHomeDynamic(int type, int friendId ,String  lastId,String newestId , AbsHttpResultHandler handler) {
             Map<String, Object> params = new HashMap<>();
             params.put("user_id", Global.getUserId());
             params.put("user_session", Global.getUserSession());
             params.put("friend_user_id", friendId);
             params.put("release_type", type);
             params.put("last_release_id", lastId);
+            params.put("newest_release_id", newestId);
             executeAction(UrlConstants.USER_FRIEND_HOME_DYNAMIC, UserInfoEntity.class, params, handler);
         }
 
-        public static void homeFavoriteDynamic(int release_type,int favorite_type, String  lastId, AbsHttpResultHandler handler) {
+        public static void homeFavoriteDynamic(int release_type,int favorite_type, String  lastId,String newestId , AbsHttpResultHandler handler) {
             Map<String, Object> params = new HashMap<>();
             params.put("user_id", Global.getUserId());
             params.put("user_session", Global.getUserSession());
             params.put("release_type", release_type);
             params.put("favorite_type", favorite_type);
             params.put("last_release_id", lastId);
+            params.put("newest_release_id", newestId);
             executeAction(UrlConstants.USER_HOME_FAVORITE, UserInfoEntity.class, params, handler);
         }
 
-        public static void friendFavoriteDynamic(int release_type,int favorite_type, int friendId , String  lastId, AbsHttpResultHandler handler) {
+        public static void friendFavoriteDynamic(int release_type,int favorite_type, int friendId , String  lastId,String newestId , AbsHttpResultHandler handler) {
             Map<String, Object> params = new HashMap<>();
             params.put("user_id", Global.getUserId());
             params.put("user_session", Global.getUserSession());
@@ -384,6 +387,7 @@ public class HttpClientUtil {
             params.put("release_type", release_type);
             params.put("favorite_type", favorite_type);
             params.put("last_release_id", lastId);
+            params.put("newest_release_id", newestId);
             executeAction(UrlConstants.USER_FRIEND_HOME_FAVORITE, UserInfoEntity.class, params, handler);
         }
 
@@ -709,15 +713,17 @@ public class HttpClientUtil {
         /**
          * 发布长文
          */
-        public static void dynamicReleasLongText(String title,String content, List<String> picList, AbsHttpResultHandler handler) {
-//            Map<String, Object> params = new HashMap<>();
-//            params.put("user_id", Global.getUserId());
-//            params.put("user_session", Global.getUserSession());
-//            params.put("dynamic_type", 2);
-//            params.put("area", "");// 放入地址
-//            params.put("content", dynamicContent);
-//            params.put("pic_list", picList);//todo 须检查特殊处理
-//            executeAction(UrlConstants.DYNAMIC_RELEASE_SEEK_HELPV2, null, params, handler);
+        public static void dynamicReleasLongText(String title,String content, JSONArray picList, AbsHttpResultHandler handler) {
+            Map<String, Object> params = new HashMap<>();
+            params.put("user_id", Global.getUserId());
+            params.put("user_session", Global.getUserSession());
+            params.put("area", "");// 放入地址
+            params.put("title", title);
+            params.put("content", content);
+            params.put("description", "");
+            params.put("dynamic_type",1);
+            params.put("pic_seq", picList);
+            executeAction(UrlConstants.DYNAMIC_RELEASE_DYNAMIC_LONG_TEXTV2, null, params, handler);
         }
     }
 
@@ -1016,12 +1022,13 @@ public class HttpClientUtil {
 
     public static class Search{
 
-        public static void searchDynamic(String searchContent,String lastId, AbsHttpResultHandler handler){
+        public static void searchDynamic(String searchContent,String lastId, String newestId,AbsHttpResultHandler handler){
             Map<String, Object> params = new HashMap<>();
             params.put("user_id", Global.getUserId());
             params.put("user_session", Global.getUserSession());
             params.put("key_words", searchContent);
             params.put("last_release_id", lastId);
+            params.put("newest_release_id", newestId);
             executeAction(UrlConstants.SEARCH_DYNAMIC, FriendDynamicEntity.class, params, handler);
         }
 

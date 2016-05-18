@@ -227,7 +227,7 @@ public class MyProfileFragment extends Fragment{
     }
 
     private void loadMySeekHelp(){
-        HttpClientUtil.User.userHomeDynamic(2, "", new AbsHttpResultHandler<UserInfoEntity>() {
+        HttpClientUtil.User.userHomeDynamic(2, "","", new AbsHttpResultHandler<UserInfoEntity>() {
             @Override
             public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
                 userInfoEntity = data;
@@ -246,11 +246,13 @@ public class MyProfileFragment extends Fragment{
         });
     }
     private void loadMySeekHelpMore(){
+        String newestId = "";
         String lastID = "";
         if(seekHelpEntities.size()>1){
             lastID = seekHelpEntities.get(seekHelpEntities.size()-1).getReleaseId();
+            newestId = seekHelpEntities.get(0).getReleaseId();
         }
-        HttpClientUtil.User.userHomeDynamic(2, lastID, new AbsHttpResultHandler<UserInfoEntity>() {
+        HttpClientUtil.User.userHomeDynamic(2, lastID, newestId,new AbsHttpResultHandler<UserInfoEntity>() {
             @Override
             public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
                 userInfoEntity = data;
@@ -270,10 +272,12 @@ public class MyProfileFragment extends Fragment{
 
     private void loadMyFavoriteMore(){
         String lastID = "";
+        String newesetId = "";
         if(favoriteEntities.size()>1){
             lastID = favoriteEntities.get(favoriteEntities.size()-1).getReleaseId();
+            newesetId = favoriteEntities.get(0).getReleaseId();
         }
-        HttpClientUtil.User.homeFavoriteDynamic(1, 1, lastID, new AbsHttpResultHandler<UserInfoEntity>() {
+        HttpClientUtil.User.homeFavoriteDynamic(1, 1, lastID, newesetId,new AbsHttpResultHandler<UserInfoEntity>() {
             @Override
             public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
                 userInfoEntity = data;
@@ -294,7 +298,7 @@ public class MyProfileFragment extends Fragment{
     }
 
     private void loadMyFavorite(){
-        HttpClientUtil.User.homeFavoriteDynamic(1, 1, "", new AbsHttpResultHandler<UserInfoEntity>() {
+        HttpClientUtil.User.homeFavoriteDynamic(1, 1, "", "",new AbsHttpResultHandler<UserInfoEntity>() {
             @Override
             public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
                 userInfoEntity = data;
@@ -317,10 +321,12 @@ public class MyProfileFragment extends Fragment{
 
     private void loadMyDynamicMore(){
         String lastID = "";
+        String newestId = "";
         if(dynamicEntities.size()>1){
             lastID = dynamicEntities.get(dynamicEntities.size()-1).getReleaseId();
+            newestId = dynamicEntities.get(0).getReleaseId();
         }
-        HttpClientUtil.User.userHomeDynamic(1, lastID, new AbsHttpResultHandler<UserInfoEntity>() {
+        HttpClientUtil.User.userHomeDynamic(1, lastID,newestId, new AbsHttpResultHandler<UserInfoEntity>() {
             @Override
             public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
                 userInfoEntity = data;
@@ -339,7 +345,7 @@ public class MyProfileFragment extends Fragment{
         });
     }
     private void loadMyDynamic(){
-        HttpClientUtil.User.userHomeDynamic(1,"", new AbsHttpResultHandler<UserInfoEntity>() {
+        HttpClientUtil.User.userHomeDynamic(1,"", "",new AbsHttpResultHandler<UserInfoEntity>() {
             @Override
             public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
                 userInfoEntity = data;

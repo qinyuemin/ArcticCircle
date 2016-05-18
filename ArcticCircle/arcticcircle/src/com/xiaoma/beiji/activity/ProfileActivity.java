@@ -231,7 +231,7 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
     }
 
     private void loadDynamic(int friendId){
-        HttpClientUtil.User.friendHomeDynamic(1, friendId, "", new AbsHttpResultHandler<UserInfoEntity>() {
+        HttpClientUtil.User.friendHomeDynamic(1, friendId, "", "",new AbsHttpResultHandler<UserInfoEntity>() {
             @Override
             public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
                 userInfoEntity = data;
@@ -252,10 +252,13 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
 
     private void loadDynamicMore(int friendId){
         String lastId = "";
+        String newestId = "";
         if(dynamicEntities.size()>=1){
-            lastId = dynamicEntities.get(0).getReleaseId();
+            lastId = dynamicEntities.get(dynamicEntities.size()-1).getReleaseId();
+            newestId = dynamicEntities.get(0).getReleaseId();
+
         }
-        HttpClientUtil.User.friendHomeDynamic(1, friendId, lastId, new AbsHttpResultHandler<UserInfoEntity>() {
+        HttpClientUtil.User.friendHomeDynamic(1, friendId, lastId, newestId,new AbsHttpResultHandler<UserInfoEntity>() {
             @Override
             public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
                 userInfoEntity = data;
@@ -274,7 +277,7 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
     }
 
     private void loadFavorite(int friendId){
-        HttpClientUtil.User.friendFavoriteDynamic(1, 1, friendId, "", new AbsHttpResultHandler<UserInfoEntity>() {
+        HttpClientUtil.User.friendFavoriteDynamic(1, 1, friendId, "","", new AbsHttpResultHandler<UserInfoEntity>() {
             @Override
             public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
                 userInfoEntity = data;
@@ -293,10 +296,13 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
     }
     private void loadFavoriteMore(int friendId){
         String lastId = "";
+        String newestId = "";
         if(favoriteEntities.size()>=1){
-            lastId = favoriteEntities.get(0).getReleaseId();
+            lastId = favoriteEntities.get(favoriteEntities.size()-1).getReleaseId();
+            newestId = favoriteEntities.get(0).getReleaseId();
+
         }
-        HttpClientUtil.User.friendFavoriteDynamic(1, 1, friendId, lastId, new AbsHttpResultHandler<UserInfoEntity>() {
+        HttpClientUtil.User.friendFavoriteDynamic(1, 1, friendId, lastId, newestId,new AbsHttpResultHandler<UserInfoEntity>() {
             @Override
             public void onSuccess(int resultCode, String desc, UserInfoEntity data) {
                 userInfoEntity = data;

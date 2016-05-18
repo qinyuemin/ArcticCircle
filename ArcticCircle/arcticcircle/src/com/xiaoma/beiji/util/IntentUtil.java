@@ -166,6 +166,12 @@ public class IntentUtil {
         activity.startActivity(intent);
     }
 
+    // 发布长文
+    public static void goTrendsPublishArticleActivity(Activity activity) {
+        Intent intent = new Intent(activity, PublishArticleActivity.class);
+        activity.startActivity(intent);
+    }
+
     // 扫描
     public static void goScanActivity(CircleFragment context) {
         Intent intent = new Intent();

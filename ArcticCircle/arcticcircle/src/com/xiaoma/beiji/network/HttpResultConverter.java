@@ -84,40 +84,29 @@ public class HttpResultConverter<T> extends BaseJsonHttpResponseHandler {
                 // 登录超时
                 BaseApplication.getInstance().sendBroadcast(new Intent(AppConstants.IntentActionConstant.ACTION_LOGIN_TIMEOUT));
             }
-
-            if (successStatus) {
-                T obj = null;
-                List<T> objList = null;
-                if (jsonObject.containsKey(RESPONSE_DATA)) {
-                    Object object = jsonObject.get(RESPONSE_DATA);
-                    if(object instanceof  JSONArray){
-                        JSONArray array = (JSONArray)object;
-                        objList = JSON.parseArray(array.toJSONString(), clazz);
-                        handler.onSuccess(errorCode, message, objList);
-                    }else if(object instanceof  JSONObject){
-                        JSONObject json = (JSONObject)object;
-                        obj = JSON.toJavaObject(json, clazz);
-                        handler.onSuccess(errorCode, message, obj);
-                    }else{
+            try {
+                if (successStatus) {
+                    T obj = null;
+                    List<T> objList = null;
+                    if (jsonObject.containsKey(RESPONSE_DATA)) {
+                        Object object = jsonObject.get(RESPONSE_DATA);
+                        if(object instanceof  JSONArray){
+                            JSONArray array = (JSONArray)object;
+                            objList = JSON.parseArray(array.toJSONString(), clazz);
+                            handler.onSuccess(errorCode, message, objList);
+                        }else if(object instanceof  JSONObject){
+                            JSONObject json = (JSONObject)object;
+                            obj = JSON.toJavaObject(json, clazz);
+                            handler.onSuccess(errorCode, message, obj);
+                        }else{
 //                        obj = clazz.newInstance();
-                        handler.onSuccess(errorCode, message, object);
+                            handler.onSuccess(errorCode, message, object);
+                        }
                     }
-//                    try {
-//                        JSONObject json = (JSONObject) object;
-//                        obj = JSON.toJavaObject(json, clazz);
-//                    } catch (Exception e) {
-////                    e.printStackTrace();
-//                        try {
-//                            JSONArray json = (JSONArray) object;
-//                            objList = JSON.parseArray(json.toJSONString(), clazz);
-//                        } catch (Exception e1) {
-//                            e1.printStackTrace();
-//                        }
-//                    }
-
-
+                } else {
+                    handler.onFailure(errorCode, message);
                 }
-            } else {
+            }catch (Exception e){
                 handler.onFailure(errorCode, message);
             }
 

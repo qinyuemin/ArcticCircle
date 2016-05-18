@@ -126,7 +126,7 @@ public class SearchActivity extends SimpleBaseActivity implements View.OnClickLi
 
     private void searchDynamic(){
         String keywords = searchEdit.getText().toString().trim();
-        HttpClientUtil.Search.searchDynamic(keywords, "", new AbsHttpResultHandler<FriendDynamicEntity>() {
+        HttpClientUtil.Search.searchDynamic(keywords, "", "",new AbsHttpResultHandler<FriendDynamicEntity>() {
             @Override
             public void onSuccess(int resultCode, String desc, FriendDynamicEntity data) {
 
@@ -156,8 +156,9 @@ public class SearchActivity extends SimpleBaseActivity implements View.OnClickLi
     private void searchDynamicNextPage(){
         String keywords = searchEdit.getText().toString().trim();
         if(dynamicEntities.size()>0){
-            String lastId = dynamicEntities.get(dataList.size()-1).getReleaseId();
-                    HttpClientUtil.Search.searchDynamic(keywords, lastId ,new AbsHttpResultHandler<FriendDynamicEntity>() {
+            String lastId = dynamicEntities.get(dynamicEntities.size()-1).getReleaseId();
+            String newestId = dynamicEntities.get(0).getReleaseId();
+                    HttpClientUtil.Search.searchDynamic(keywords, lastId ,newestId,new AbsHttpResultHandler<FriendDynamicEntity>() {
                         @Override
                         public void onSuccess(int resultCode, String desc, FriendDynamicEntity data) {
 
