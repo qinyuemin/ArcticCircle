@@ -445,20 +445,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     @Override
                     public void onSuccess(int resultCode, String desc, Object data) {
                         shareUsers.add(Global.getUserInfo().getNickname());
-                        if(shareUsers.size()>0){
+                        if (shareUsers.size() > 0) {
                             StringBuffer contentBuffer = new StringBuffer();
                             contentBuffer.append("已有");
-                            for(int i= 0; i< shareUsers.size(); i++){
-                                if(i== 0){
+                            for (int i = 0; i < shareUsers.size(); i++) {
+                                if (i == 0) {
                                     contentBuffer.append("@").append(shareUsers.get(i));
-                                }else {
+                                } else {
                                     contentBuffer.append("、@").append(shareUsers.get(i));
                                 }
                             }
                             contentBuffer.append("推荐");
                             holder.shareUsers.setText(contentBuffer);
                             holder.shareUsers.setVisibility(View.VISIBLE);
-                        }else {
+                        } else {
                             holder.shareUsers.setVisibility(View.GONE);
                         }
                     }
@@ -481,6 +481,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         }
                     });
                 }
+            }
+        });
+                holder.rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentUtil.goFriendArticleDetailActivity(mContext, entity);
             }
         });
     }
@@ -818,10 +824,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public RelativeLayout likeLayout;
         public RelativeLayout shareLayout;
         public RelativeLayout addCommentLayout;
-
+        public View rootView;
 
         public ArticleViewHolder(View view) {
             super(view);
+            rootView = view;
             titleTextView = (TextView) view.findViewById(R.id.text_photo_title);
             contentTextView = (TextView) view.findViewById(R.id.text_photo_content);
             addComment = (ImageView) view.findViewById(R.id.item_btn_add_comment);

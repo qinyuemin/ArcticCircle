@@ -108,14 +108,19 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/text_photo_title"
                     android:gravity="center_horizontal"
+                    android:textColor="@color/white"
+                    android:shadowColor="@color/gray_title"
+                    android:shadowDx="1"
+                    android:shadowDy="2"
+                    android:shadowRadius="2"
                     android:text="2.14情人节烂漫套餐"/>
-                <TextView
+                <!--<TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/text_photo_content"
                     android:layout_marginTop="5dp"
                     android:gravity="center_horizontal"
-                    android:text="256RMB"/>
+                    android:text="256RMB"/>-->
             </LinearLayout>
         </RelativeLayout>
         <com.xiaoma.beiji.controls.view.ShowMoreView

@@ -226,6 +226,13 @@ public class IntentUtil {
         }
     }
 
+    public static void goFriendArticleDetailActivity(Context activity, FriendDynamicEntity entity) {
+        Intent intent = new Intent();
+        intent.setClass(activity, ArticleDynamicDetailActivity.class);
+        intent.putExtra("entity", entity);
+        activity.startActivity(intent);
+    }
+
     public static void goFriendDynamicActivity(Activity activity, String releaseUserId, boolean b) {
         Intent intent = new Intent(activity, FriendDynamicActivity.class);
         intent.putExtra("releaseUserId",releaseUserId);

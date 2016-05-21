@@ -64,6 +64,9 @@
         <activity android:name=".activity.FriendDynamicDetailActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
+        <activity android:name=".activity.ArticleDynamicDetailActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
         <activity android:name=".activity.ChatReferralActivity" android:screenOrientation="portrait"
         />
         <activity android:name=".activity.ReferralFinishActivity" android:screenOrientation="portrait"

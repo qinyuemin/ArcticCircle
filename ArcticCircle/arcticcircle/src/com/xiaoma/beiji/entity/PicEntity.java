@@ -6,6 +6,8 @@
  */
 package com.xiaoma.beiji.entity;
 
+import android.graphics.Bitmap;
+
 import com.alibaba.fastjson.annotation.JSONField;
 
 import java.io.Serializable;
@@ -32,6 +34,10 @@ public class PicEntity implements Serializable{
     private String dynamicId;
     @JSONField (name = "pic_url")
     private String picUrl;
+    @JSONField(name = "pic_loc")
+    private int location;
+
+    private Bitmap bitmap;
 
     public String getPicId() {
         return picId;
@@ -55,5 +61,21 @@ public class PicEntity implements Serializable{
 
     public void setPicUrl(String picUrl) {
         this.picUrl = picUrl;
+    }
+
+    public int getLocation() {
+        return location;
+    }
+
+    public void setLocation(int location) {
+        this.location = location;
+    }
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 }
