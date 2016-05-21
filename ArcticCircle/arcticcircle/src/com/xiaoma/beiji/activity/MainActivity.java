@@ -20,6 +20,7 @@ import com.xiaoma.beiji.controls.view.BottomBarView.PageItem;
 import com.xiaoma.beiji.controls.view.VersionView;
 import com.xiaoma.beiji.database.TableMetadataDef;
 import com.xiaoma.beiji.entity.XmppUserEntity;
+import com.xiaoma.beiji.event.LogoutEvent;
 import com.xiaoma.beiji.fragment.CircleFragment;
 import com.xiaoma.beiji.fragment.FindFragment;
 import com.xiaoma.beiji.fragment.MineFragment;
@@ -38,6 +39,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 /**
  *
@@ -81,6 +84,7 @@ public class MainActivity extends SimpleBaseActivity implements BottomBarView.On
 
         super.onCreate(savedInstanceState);
 
+        EventBus.getDefault().register(this);
 
 
     }
@@ -290,5 +294,15 @@ public class MainActivity extends SimpleBaseActivity implements BottomBarView.On
             }
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    public void onEventMainThread(LogoutEvent event) {
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

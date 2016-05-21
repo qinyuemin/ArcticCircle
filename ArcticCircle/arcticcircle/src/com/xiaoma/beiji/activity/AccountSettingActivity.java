@@ -15,6 +15,7 @@ import com.xiaoma.beiji.common.AppConstants;
 import com.xiaoma.beiji.common.Global;
 import com.xiaoma.beiji.controls.view.imagechooser.ImageChooserGroupActivity;
 import com.xiaoma.beiji.entity.FileUploadResultEntity;
+import com.xiaoma.beiji.event.LogoutEvent;
 import com.xiaoma.beiji.network.AbsHttpResultHandler;
 import com.xiaoma.beiji.network.HttpClientUtil;
 import com.xiaoma.beiji.util.BitmapDecodeTool;
@@ -24,6 +25,8 @@ import com.xiaoma.beiji.util.ToastUtil;
 
 import java.io.File;
 import java.util.ArrayList;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by zhangqibo on 2016/5/2.
@@ -94,6 +97,7 @@ public class AccountSettingActivity extends SimpleBaseActivity implements View.O
             case R.id.layout_account_exit: //安全退出
                 Global.cleanUser();
                 IntentUtil.goUserLoginActivity(this);
+                EventBus.getDefault().post(new LogoutEvent());
                 finish();
                 break;
         }

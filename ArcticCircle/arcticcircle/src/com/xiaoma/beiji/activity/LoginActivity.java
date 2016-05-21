@@ -220,15 +220,4 @@ public class LoginActivity extends SimpleBaseActivity implements View.OnClickLis
             }
         });
     }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK){
-            System.exit(0);
-            android.os.Process.killProcess(Process.myPid());
-            return true;
-        }else{
-            return super.onKeyDown(keyCode,event);
-        }
-    }
 }
