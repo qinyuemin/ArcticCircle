@@ -75,7 +75,9 @@ public class PhoneContactsActivity extends SimpleBaseActivity {
         super.setTitleControlsInfo();
         isFromRegister = getIntent().getBooleanExtra("isFromRegister",false);
         ViewUtil.setViewVisibility(this, R.id.title_bar_left_sub_txt, View.GONE);
-        ViewUtil.setViewVisibility(this, R.id.title_bar_left_img, View.GONE);
+        if(isFromRegister) {
+            ViewUtil.setViewVisibility(this, R.id.title_bar_left_img, View.GONE);
+        }
 
         TextView txtRight = (TextView) findViewById(R.id.title_bar_right_txt);
         txtRight.setText("确定");
@@ -119,26 +121,26 @@ public class PhoneContactsActivity extends SimpleBaseActivity {
                             }
                         }
                     }
-                    if(displayList.size()>1){
+                    if (displayList.size() > 1) {
                         Collections.sort(displayList, new Comparator<UserInfoEntity>() {
                             @Override
                             public int compare(UserInfoEntity lhs, UserInfoEntity rhs) {
                                 try {
                                     int lhs_register = Integer.valueOf(lhs.getIs_register());
                                     int rhs_register = Integer.valueOf(rhs.getIs_register());
-                                    return  lhs_register - rhs_register;
-                                }catch (Exception e){
+                                    return lhs_register - rhs_register;
+                                } catch (Exception e) {
                                     return 0;
                                 }
                             }
                         });
                     }
 
-                }else{
+                } else {
                     displayList = new ArrayList<UserInfoEntity>();
                 }
 
-                recyclerView.setAdapter(new Adpter(PhoneContactsActivity.this,displayList));
+                recyclerView.setAdapter(new Adpter(PhoneContactsActivity.this, displayList));
             }
 
             @Override

@@ -96,9 +96,9 @@ public class ArticleDynamicDetailActivity extends BaseActivity implements View.O
     @Override
     protected void setTitleControlsInfo() {
         super.setTitleControlsInfo();
-        ViewUtil.setViewVisibility(this, R.id.title_bar_right_img, View.VISIBLE);
-        ImageViewUtil.setImageSrcId(this, R.id.title_bar_right_img, R.drawable.ic_share);
-        ViewUtil.setViewOnClickListener(this, R.id.title_bar_right_layout, this);
+//        ViewUtil.setViewVisibility(this, R.id.title_bar_right_img, View.VISIBLE);
+//        ImageViewUtil.setImageSrcId(this, R.id.title_bar_right_img, R.drawable.ic_share);
+//        ViewUtil.setViewOnClickListener(this, R.id.title_bar_right_layout, this);
     }
 
     @Override

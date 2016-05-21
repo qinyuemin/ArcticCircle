@@ -47,6 +47,7 @@ public class AccountSettingActivity extends SimpleBaseActivity implements View.O
 
     @Override
     protected void initComponents() {
+        setTitleControlsInfo();
         ViewUtil.setViewOnClickListener(this,R.id.layout_account_safe,this);
         ViewUtil.setViewOnClickListener(this,R.id.layout_account_profile,this);
         ViewUtil.setViewOnClickListener(this,R.id.layout_account_daren,this);
@@ -56,6 +57,7 @@ public class AccountSettingActivity extends SimpleBaseActivity implements View.O
         ViewUtil.setViewOnClickListener(this, R.id.layout_account_question, this);
         ViewUtil.setViewOnClickListener(this, R.id.layout_account_about, this);
         ViewUtil.setViewOnClickListener(this, R.id.layout_account_contact, this);
+        ViewUtil.setViewOnClickListener(this, R.id.layout_account_contact_list, this);
         ViewUtil.setViewOnClickListener(this, R.id.layout_account_clean, this);
 
         ViewUtil.setViewOnClickListener(this,R.id.layout_account_exit,this);
@@ -92,6 +94,9 @@ public class AccountSettingActivity extends SimpleBaseActivity implements View.O
                 IntentUtil.goCommentMeActivity(this);
                 break;
             case R.id.layout_account_clean: //清除缓存
+                break;
+            case R.id.layout_account_contact_list: //清除缓存
+                IntentUtil.goPhoneContactsActivity(this,false);
                 break;
 
             case R.id.layout_account_exit: //安全退出
