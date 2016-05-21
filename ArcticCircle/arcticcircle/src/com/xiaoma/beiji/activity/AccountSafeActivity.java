@@ -26,6 +26,7 @@ public class AccountSafeActivity extends SimpleBaseActivity {
 
     @Override
     protected void initComponents() {
+        setTitleControlsInfo();
         TextView phoneText = (TextView) findViewById(R.id.text_bindPhone);
         TextView idText = (TextView) findViewById(R.id.text_accountId);
         phoneText.setText(Global.getUserPhone());
