@@ -296,11 +296,7 @@ public class ArticleDynamicDetailActivity extends BaseActivity implements View.O
         holder.headImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int userID = Integer.valueOf(entity.getUserId());
-                if(Global.getUserId() != userID){
-                    IntentUtil.goProfileActivity(ArticleDynamicDetailActivity.this, userID);
-                }
-
+                IntentUtil.goProfileActivity(ArticleDynamicDetailActivity.this, entity.getUserId());
             }
         });
         List<PicEntity> picLists = entity.getPic();

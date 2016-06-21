@@ -11,9 +11,11 @@ import android.widget.TextView;
 import com.makeapp.javase.lang.StringUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xiaoma.beiji.R;
+import com.xiaoma.beiji.common.Global;
 import com.xiaoma.beiji.controls.view.CircularImage;
 import com.xiaoma.beiji.entity.Thing;
 import com.xiaoma.beiji.entity.UserInfoEntity;
+import com.xiaoma.beiji.util.IntentUtil;
 
 import java.util.List;
 
@@ -43,11 +45,16 @@ public class RecyclerView1Adapter extends RecyclerView.Adapter<RecyclerView1Adap
     @Override
     public void onBindViewHolder(RecyclerView1Adapter.ViewHolder holder, int position) {
 //        holder.titleTextView.setBackgroundColor(mContext.getResources().getColor(colors[position%(colors.length)]));
-        UserInfoEntity  entity = strings.get(position);
+        final UserInfoEntity  entity = strings.get(position);
         if (StringUtil.isValid(entity.getAvatar())) {
             ImageLoader.getInstance().displayImage(entity.getAvatar(), holder.mTextView);
         }
-
+        holder.mTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    IntentUtil.goProfileActivity(mContext,String.valueOf(entity.getUserId()));
+            }
+        });
     }
 
     @Override

@@ -251,7 +251,7 @@ public class SearchFriendFragment extends Fragment{
         holder.headView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IntentUtil.goProfileActivity(getActivity(),entity.getUserId());
+                IntentUtil.goProfileActivity(getActivity(),String.valueOf(entity.getUserId()));
             }
         });
     }

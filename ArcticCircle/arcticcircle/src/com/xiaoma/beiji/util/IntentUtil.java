@@ -86,11 +86,21 @@ public class IntentUtil {
         from.startActivity(intent);
     }
 
-    public static void goProfileActivity(Context from, int userId) {
-        Intent intent = new Intent();
-        intent.setClass(from, ProfileActivity.class);
-        intent.putExtra("user_id", userId);
-        from.startActivity(intent);
+    public static void goProfileActivity(Context from, String entityID) {
+        try{
+            Intent intent = new Intent();
+            int userID  = Integer.valueOf(entityID);
+            if(Global.getUserId() != userID){
+                intent.setClass(from, ProfileActivity.class);
+                intent.putExtra("user_id", userID);
+            }else{
+                intent = new Intent();
+                intent.setClass(from, MyProfileActivity.class);
+            }
+            from.startActivity(intent);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public static void goStartActivity(Activity activity) {

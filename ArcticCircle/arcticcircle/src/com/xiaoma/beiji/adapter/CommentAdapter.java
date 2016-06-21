@@ -16,6 +16,7 @@ import com.makeapp.android.util.TextViewUtil;
 import com.makeapp.javase.lang.StringUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xiaoma.beiji.R;
+import com.xiaoma.beiji.common.Global;
 import com.xiaoma.beiji.entity.CommentEntity;
 import com.xiaoma.beiji.util.IntentUtil;
 
@@ -80,12 +81,7 @@ public class CommentAdapter extends BaseAdapter{
         holder.imgHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try{
-                    IntentUtil.goProfileActivity(context,Integer.valueOf(commentEntity.getUserId()));
-                }catch (Exception e){
-
-                }
-
+                IntentUtil.goProfileActivity(context,commentEntity.getUserId());
             }
         });
         return convertView;

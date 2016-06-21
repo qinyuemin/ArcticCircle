@@ -78,7 +78,7 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
     public TextView commentLabel;
     public TextView shareUsers;
     public TextView timeTextView;
-    public TextView flagText;
+//    public TextView flagText;
     public ImageView moreBtn;
     public ImageView likeBtn;
     public ImageView shareBtn;
@@ -132,7 +132,7 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
     @Override
     protected void initComponents() {
         setTitleControlsInfo();
-        flagText = (TextView) findViewById(R.id.text_item_flag);
+//        flagText = (TextView) findViewById(R.id.text_item_flag);
         titleTextView = (TextView) findViewById(R.id.text_photo_title);
         shopNameLayout = (LinearLayout) findViewById(R.id.layout_shop_name);
         contentTextView = (TextView) findViewById(R.id.text_photo_content);
@@ -311,7 +311,7 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
         commonDialogsInBase.shoShareDialog(this,friendTrendsEntity,absHttpResultHandler);
     }
     private void initView(final FriendDynamicEntity entity){
-        flagText.setText(entity.getReleaseTypeTitle());
+        text_item_flag.setText(entity.getReleaseTypeTitle());
         String avatar = entity.getAvatar();
         timeTextView.setText(TimeUtil.getDisplayTime(entity.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
         headImage.setImageResource(R.drawable.ic_logo);
@@ -321,10 +321,7 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
         headImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int userID = Integer.valueOf(entity.getUserId());
-                if(Global.getUserId() != userID){
-                    IntentUtil.goProfileActivity(FriendDynamicDetailActivity.this, userID);
-                }
+                IntentUtil.goProfileActivity(FriendDynamicDetailActivity.this, entity.getUserId());
             }
         });
         List<PicEntity> picLists = entity.getPic();
@@ -559,16 +556,16 @@ public class FriendDynamicDetailActivity extends SimpleBaseActivity implements V
 
         });
 
-        switch (friendTrendsEntity.getReleaseType()){
-            case 1:
-                text_item_flag.setText("点评");
-                break;
-            case 2:
-                text_item_flag.setText("问问");
-                titleTextView.setVisibility(View.GONE);
-                contentTextView.setVisibility(View.GONE);
-                break;
-        }
+//        switch (friendTrendsEntity.getReleaseType()){
+//            case 1:
+//                text_item_flag.setText("点评");
+//                break;
+//            case 2:
+//                text_item_flag.setText("问问");
+//                titleTextView.setVisibility(View.GONE);
+//                contentTextView.setVisibility(View.GONE);
+//                break;
+//        }
     }
 
     @Override

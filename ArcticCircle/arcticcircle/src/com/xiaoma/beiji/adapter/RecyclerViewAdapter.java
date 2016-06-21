@@ -155,7 +155,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         holder.headImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IntentUtil.goProfileActivity(mContext,Integer.valueOf(entity.getUserId()));
+                IntentUtil.goProfileActivity(mContext, entity.getUserId());
             }
         });
         List<PicEntity> picLists = entity.getPic();
@@ -331,11 +331,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         holder.headImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int userID = Integer.valueOf(entity.getUserId());
-                if(Global.getUserId() != userID){
-                    IntentUtil.goProfileActivity(mContext,userID);
-                }
-
+            IntentUtil.goProfileActivity(mContext, entity.getUserId());
             }
         });
         List<PicEntity> picLists = entity.getPic();
@@ -502,10 +498,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         holder.headImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int userID = Integer.valueOf(entity.getUserId());
-                if(Global.getUserId() != userID){
-                    IntentUtil.goProfileActivity(mContext,userID);
-                }
+                IntentUtil.goProfileActivity(mContext, entity.getUserId());
             }
         });
         List<PicEntity> picLists = entity.getPic();
@@ -919,4 +912,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
+    private void handleUserClick(String userID){
+
+    }
 }

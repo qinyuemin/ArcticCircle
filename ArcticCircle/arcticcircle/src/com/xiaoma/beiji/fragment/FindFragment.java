@@ -520,7 +520,7 @@ public class FindFragment extends SimpleFragment implements IActionInterFace {
                 holder.userLayout1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        IntentUtil.goProfileActivity(getActivity(), userInfoEntity.getUserId());
+                        IntentUtil.goProfileActivity(getActivity(), String.valueOf(userInfoEntity.getUserId()));
                     }
                 });
             } else {
@@ -533,13 +533,13 @@ public class FindFragment extends SimpleFragment implements IActionInterFace {
                 holder.userLayout1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        IntentUtil.goProfileActivity(getActivity(), userInfoEntity.getUserId());
+                        IntentUtil.goProfileActivity(getActivity(), String.valueOf(userInfoEntity.getUserId()));
                     }
                 });
                 holder.userLayout2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        IntentUtil.goProfileActivity(getActivity(), userInfoEntity1.getUserId());
+                        IntentUtil.goProfileActivity(getActivity(), String.valueOf(userInfoEntity1.getUserId()));
                     }
                 });
             }
